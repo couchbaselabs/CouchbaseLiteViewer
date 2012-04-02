@@ -7,28 +7,40 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		278B0C6F152A64A900577747 /* DBDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 278B0C6D152A64A900577747 /* DBDocument.m */; };
+		278B0C72152A6B7C00577747 /* TouchDBDoc.icns in Resources */ = {isa = PBXBuildFile; fileRef = 278B0C71152A6B7C00577747 /* TouchDBDoc.icns */; };
 		27A8A777152A008200363704 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27A8A776152A008200363704 /* Cocoa.framework */; };
 		27A8A781152A008200363704 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 27A8A77F152A008200363704 /* InfoPlist.strings */; };
 		27A8A783152A008200363704 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A8A782152A008200363704 /* main.m */; };
 		27A8A787152A008200363704 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 27A8A785152A008200363704 /* Credits.rtf */; };
 		27A8A78A152A008200363704 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A8A789152A008200363704 /* AppDelegate.m */; };
 		27A8A78D152A008200363704 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27A8A78B152A008200363704 /* MainMenu.xib */; };
+		27A8A796152A015B00363704 /* Syncpoint.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27A8A795152A015B00363704 /* Syncpoint.framework */; };
+		27A8A79A152A01FF00363704 /* DBWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A8A798152A01FF00363704 /* DBWindowController.m */; };
+		27A8A79B152A01FF00363704 /* DBWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27A8A799152A01FF00363704 /* DBWindowController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		278B0C6C152A64A900577747 /* DBDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBDocument.h; sourceTree = "<group>"; };
+		278B0C6D152A64A900577747 /* DBDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBDocument.m; sourceTree = "<group>"; };
+		278B0C71152A6B7C00577747 /* TouchDBDoc.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = TouchDBDoc.icns; sourceTree = "<group>"; };
 		27A8A772152A008200363704 /* TouchDB Viewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TouchDB Viewer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		27A8A776152A008200363704 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		27A8A779152A008200363704 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		27A8A77A152A008200363704 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		27A8A77B152A008200363704 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		27A8A77E152A008200363704 /* TouchDB Viewer-Info.plist */ = {isa = PBXFileReference; path = "TouchDB Viewer-Info.plist"; sourceTree = "<group>"; };
+		27A8A77E152A008200363704 /* TouchDB Viewer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TouchDB Viewer-Info.plist"; sourceTree = "<group>"; };
 		27A8A780152A008200363704 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		27A8A782152A008200363704 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		27A8A784152A008200363704 /* TouchDB Viewer-Prefix.pch */ = {isa = PBXFileReference; path = "TouchDB Viewer-Prefix.pch"; sourceTree = "<group>"; };
+		27A8A784152A008200363704 /* TouchDB Viewer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TouchDB Viewer-Prefix.pch"; sourceTree = "<group>"; };
 		27A8A786152A008200363704 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		27A8A788152A008200363704 /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		27A8A788152A008200363704 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		27A8A789152A008200363704 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		27A8A78C152A008200363704 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		27A8A795152A015B00363704 /* Syncpoint.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Syncpoint.framework; path = ../Syncpoint/build/Syncpoint/Build/Products/Debug/Syncpoint.framework; sourceTree = "<group>"; };
+		27A8A797152A01FF00363704 /* DBWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBWindowController.h; sourceTree = "<group>"; };
+		27A8A798152A01FF00363704 /* DBWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBWindowController.m; sourceTree = "<group>"; };
+		27A8A799152A01FF00363704 /* DBWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DBWindowController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +48,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27A8A796152A015B00363704 /* Syncpoint.framework in Frameworks */,
 				27A8A777152A008200363704 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -63,6 +76,7 @@
 		27A8A775152A008200363704 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				27A8A795152A015B00363704 /* Syncpoint.framework */,
 				27A8A776152A008200363704 /* Cocoa.framework */,
 				27A8A778152A008200363704 /* Other Frameworks */,
 			);
@@ -86,6 +100,11 @@
 				27A8A789152A008200363704 /* AppDelegate.m */,
 				27A8A78B152A008200363704 /* MainMenu.xib */,
 				27A8A77D152A008200363704 /* Supporting Files */,
+				27A8A797152A01FF00363704 /* DBWindowController.h */,
+				27A8A798152A01FF00363704 /* DBWindowController.m */,
+				27A8A799152A01FF00363704 /* DBWindowController.xib */,
+				278B0C6C152A64A900577747 /* DBDocument.h */,
+				278B0C6D152A64A900577747 /* DBDocument.m */,
 			);
 			path = "TouchDB Viewer";
 			sourceTree = "<group>";
@@ -93,6 +112,7 @@
 		27A8A77D152A008200363704 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				278B0C71152A6B7C00577747 /* TouchDBDoc.icns */,
 				27A8A77E152A008200363704 /* TouchDB Viewer-Info.plist */,
 				27A8A77F152A008200363704 /* InfoPlist.strings */,
 				27A8A782152A008200363704 /* main.m */,
@@ -156,6 +176,8 @@
 				27A8A781152A008200363704 /* InfoPlist.strings in Resources */,
 				27A8A787152A008200363704 /* Credits.rtf in Resources */,
 				27A8A78D152A008200363704 /* MainMenu.xib in Resources */,
+				27A8A79B152A01FF00363704 /* DBWindowController.xib in Resources */,
+				278B0C72152A6B7C00577747 /* TouchDBDoc.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -168,6 +190,8 @@
 			files = (
 				27A8A783152A008200363704 /* main.m in Sources */,
 				27A8A78A152A008200363704 /* AppDelegate.m in Sources */,
+				27A8A79A152A01FF00363704 /* DBWindowController.m in Sources */,
+				278B0C6F152A64A900577747 /* DBDocument.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -217,6 +241,7 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -225,6 +250,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				WARNING_CFLAGS = "-Wall";
 			};
 			name = Debug;
 		};
@@ -238,6 +264,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -245,12 +272,17 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx;
+				WARNING_CFLAGS = "-Wall";
 			};
 			name = Release;
 		};
 		27A8A791152A008200363704 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../Syncpoint/build/Syncpoint/Build/Products/Debug\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TouchDB Viewer/TouchDB Viewer-Prefix.pch";
 				INFOPLIST_FILE = "TouchDB Viewer/TouchDB Viewer-Info.plist";
@@ -262,6 +294,10 @@
 		27A8A792152A008200363704 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../Syncpoint/build/Syncpoint/Build/Products/Debug\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TouchDB Viewer/TouchDB Viewer-Prefix.pch";
 				INFOPLIST_FILE = "TouchDB Viewer/TouchDB Viewer-Info.plist";
@@ -289,6 +325,7 @@
 				27A8A792152A008200363704 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

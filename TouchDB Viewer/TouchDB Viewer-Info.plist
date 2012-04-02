@@ -4,6 +4,23 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>touchdb</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>TouchDBDoc</string>
+			<key>CFBundleTypeName</key>
+			<string>TouchDB database</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>NSDocumentClass</key>
+			<string>DBDocument</string>
+		</dict>
+	</array>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
