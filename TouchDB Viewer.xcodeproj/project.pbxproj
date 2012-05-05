@@ -59,11 +59,12 @@
 		27A8A788152A008200363704 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		27A8A789152A008200363704 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		27A8A78C152A008200363704 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		27A8A795152A015B00363704 /* Syncpoint.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Syncpoint.framework; path = ../Syncpoint/build/Syncpoint/Build/Products/Debug/Syncpoint.framework; sourceTree = "<group>"; };
+		27A8A795152A015B00363704 /* Syncpoint.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Syncpoint.framework; path = Frameworks/Syncpoint.framework; sourceTree = "<group>"; };
 		27A8A797152A01FF00363704 /* DBWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBWindowController.h; sourceTree = "<group>"; };
 		27A8A798152A01FF00363704 /* DBWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBWindowController.m; sourceTree = "<group>"; };
 		27A8A799152A01FF00363704 /* DBWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DBWindowController.xib; sourceTree = "<group>"; };
 		27F87AFB1555E7FC00F0A416 /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = AppIcon.icns; path = ../AppIcon.icns; sourceTree = "<group>"; };
+		27F87AFD1555EC5000F0A416 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +83,7 @@
 		27A8A767152A008100363704 = {
 			isa = PBXGroup;
 			children = (
+				27F87AFD1555EC5000F0A416 /* README.md */,
 				27A8A77C152A008200363704 /* TouchDB Viewer */,
 				27A8A775152A008200363704 /* Frameworks */,
 				27A8A773152A008200363704 /* Products */,
