@@ -7,11 +7,21 @@
 //
 
 #import <Cocoa/Cocoa.h>
-@class CouchDatabase;
+@class CouchDatabase, DocEditor;
 
 
 @interface DBWindowController : NSWindowController
 
 - (id)initWithDatabase: (CouchDatabase*)db;
+
+- (NSArray*) selectedDocuments;
+- (BOOL) selectDocument: (CouchDocument*)doc;
+
+- (IBAction) newDocument: (id)sender;
+- (IBAction) deleteDocument: (id)sender;
+
+- (BOOL) hasColumnForProperty: (NSString*)property;
+- (void) addColumnForProperty: (NSString*)property;
+- (void) removeColumnForProperty: (NSString*)property;
 
 @end

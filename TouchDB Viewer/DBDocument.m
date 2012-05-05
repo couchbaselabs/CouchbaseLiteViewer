@@ -45,4 +45,10 @@
 }
 
 
+- (void) close {
+    [(CouchTouchDBServer*)_db.server close];
+    [super close];
+}
+
+
 @end

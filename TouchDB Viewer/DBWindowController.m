@@ -7,6 +7,7 @@
 //
 
 #import "DBWindowController.h"
+#import "DocEditor.h"
 
 
 @interface DBWindowController () <NSOutlineViewDataSource>
@@ -16,13 +17,12 @@
     NSString* _dbPath;
     CouchLiveQuery* _query;
     NSMutableArray* _rows;
-    CouchQueryRow* _selRow;
-    NSMutableArray* _selRowKeys;
     
+    IBOutlet DocEditor* _docEditor;
     IBOutlet NSTabView* _tabs;
     IBOutlet NSTextField* _infoField;
     IBOutlet NSOutlineView* _docsOutline;
-    IBOutlet NSTableView* _propertyTable;
+    IBOutlet NSButton *_addDocButton, *_removeDocButton;
 }
 
 @property (readonly, nonatomic) NSString* dbPath;
@@ -34,9 +34,6 @@
 @implementation DBWindowController
 
 
-static NSMutableArray* sControllers;
-
-
 @synthesize dbPath=_dbPath;
 
 
@@ -46,12 +43,10 @@ static NSMutableArray* sControllers;
     if (self) {
         _db = db;
         _query = [_db.getAllDocuments asLiveQuery];
-        [_query addObserver: self forKeyPath: @"rows" options: NSKeyValueObservingOptionInitial context: NULL];
-        
-        // This keeps me from being dealloced under ARC. (Is there a better way?)
-        if (!sControllers)
-            sControllers = [NSMutableArray array];
-        [sControllers addObject: self];
+        _query.prefetch = _query.sequences = YES;
+        [_query addObserver: self forKeyPath: @"rows"
+                    options: NSKeyValueObservingOptionInitial
+                    context: NULL];
     }
     return self;
 }
@@ -59,11 +54,14 @@ static NSMutableArray* sControllers;
 
 - (void)dealloc
 {
-    NSLog(@"DEALLOC %@", self);
+    [_query removeObserver: self forKeyPath: @"rows"];
 }
 
 
 - (void) windowDidLoad {
+    _docEditor.database = _db;
+    
+    // Set up the window title:
     if (_dbPath) {
         self.window.title = _dbPath.lastPathComponent;
         self.window.representedFilename = _dbPath;
@@ -80,32 +78,86 @@ static NSMutableArray* sControllers;
 }
 
 
-- (void)windowWillClose:(NSNotification *)notification {
-    [sControllers removeObject: self];
-}
-
-
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
                          change:(NSDictionary *)change context:(void *)context
 {
     if (object == _query) {
-        NSLog(@"------ Rows Changed -----");
+        NSArray* selection;
+        CouchDocument* editedDoc = _docEditor.revision.document;
+        if (editedDoc)
+            selection = [NSArray arrayWithObject: editedDoc];
+        else
+            selection = self.selectedDocuments;
+        
         CouchQueryEnumerator* rows = _query.rows;
         _rows = rows.allObjects.mutableCopy;
+        if (_docsOutline.sortDescriptors)
+            [_rows sortUsingDescriptors: _docsOutline.sortDescriptors];
         [_docsOutline reloadItem: nil];
         _infoField.stringValue = [NSString stringWithFormat: @"%lld docs — sequence #%lld",
                                   _rows.count, rows.sequenceNumber];
+        
+        self.selectedDocuments = selection;
     }
 }
 
 
-- (void) outlineView:(NSOutlineView *)outlineView sortDescriptorsDidChange:(NSArray *)oldDescriptors {
+- (void) outlineView:(NSOutlineView *)outlineView
+         sortDescriptorsDidChange:(NSArray *)oldDescriptors {
     [_rows sortUsingDescriptors: outlineView.sortDescriptors];
     [outlineView reloadItem: nil];
 }
 
 
-#pragma mark - OUTLINE VIEW:
+- (NSArray*) selectedRows {
+    NSIndexSet* selIndexes = [_docsOutline selectedRowIndexes];
+    NSUInteger count = selIndexes.count;
+    NSMutableArray* sel = [NSMutableArray arrayWithCapacity: count];
+    [selIndexes enumerateIndexesUsingBlock: ^(NSUInteger idx, BOOL *stop) {
+        CouchQueryRow* item = [self queryRowForItem: [_docsOutline itemAtRow: idx]]; 
+        [sel addObject: item];
+    }];
+    return sel;
+}
+
+
+- (NSArray*) selectedDocuments {
+    NSMutableArray* docs = [NSMutableArray array];
+    for (CouchQueryRow* row in self.selectedRows)
+        [docs addObject: row.document];
+    return docs;
+}
+
+
+- (void) setSelectedDocuments: (NSArray*)sel {
+    NSMutableIndexSet* selIndexes = [NSMutableIndexSet indexSet];
+    for (CouchDocument* doc in sel) {
+        CouchQueryRow* queryRow = [self queryRowForDocument: doc];
+        if (queryRow) {
+            int row = [_docsOutline rowForItem: [self itemForQueryRow: queryRow]];
+            if (row >= 0)
+                [selIndexes addIndex: row];
+        }
+    }
+    [_docsOutline selectRowIndexes: selIndexes byExtendingSelection: NO];
+}
+
+
+- (BOOL) selectDocument: (CouchDocument*)doc {
+    CouchQueryRow* queryRow = [self queryRowForDocument: doc];
+    if (queryRow) {
+        int row = [_docsOutline rowForItem: [self itemForQueryRow: queryRow]];
+        if (row >= 0) {
+            [_docsOutline selectRowIndexes: [NSIndexSet indexSetWithIndex: row]
+                      byExtendingSelection: NO];
+            return YES;
+        }
+    }
+    return NO;
+}
+
+
+#pragma mark - DOCUMENT-LIST VIEW:
 
 
 - (CouchQueryRow*) queryRowForItem: (id)item {
@@ -117,6 +169,16 @@ static NSMutableArray* sControllers;
 - (id) itemForQueryRow: (CouchQueryRow*)row {
     NSParameterAssert(row != nil);
     return row;
+}
+
+
+- (CouchQueryRow*) queryRowForDocument: (CouchDocument*)doc {
+    NSString* docID = doc.documentID;
+    for (CouchQueryRow* row in _rows) {
+        if ([row.documentID isEqualToString: docID])
+            return row;
+    }
+    return nil;
 }
 
 
@@ -135,18 +197,24 @@ static NSString* formatProperties( NSDictionary* props ) {
       objectValueForTableColumn:(NSTableColumn *)tableColumn
                          byItem:(id)item
 {
-    //NSLog(@"value(%@) of %@", tableColumn.identifier, item);
     CouchQueryRow* row = [self queryRowForItem: item];
+    NSString* identifier = tableColumn.identifier;
     
-    static NSArray* kColumnIDs;
-    if (!kColumnIDs)
-        kColumnIDs = [NSArray arrayWithObjects: @"id", @"rev", @"seq", @"json", nil];
-    switch ([kColumnIDs indexOfObject: tableColumn.identifier]) {
-        case 0: return row.documentID;
-        case 1: return formatRevision(row.documentRevision);
-        case 2: return @"?"; // TODO: Local sequence #
-        case 3: return formatProperties(row.document.userProperties);
-        default:return @"???";
+    if ([identifier hasPrefix: @"."]) {
+        NSString* property = [identifier substringFromIndex: 1];
+        id value = [row.documentProperties objectForKey: property];
+        return formatProperties(value);
+    } else {
+        static NSArray* kColumnIDs;
+        if (!kColumnIDs)
+            kColumnIDs = [NSArray arrayWithObjects: @"id", @"rev", @"seq", @"json", nil];
+        switch ([kColumnIDs indexOfObject: identifier]) {
+            case 0: return row.documentID;
+            case 1: return formatRevision(row.documentRevision);
+            case 2: return [NSNumber numberWithUnsignedLongLong: row.localSequence];
+            case 3: return formatProperties(row.document.userProperties);
+            default:return @"???";
+        }
     }
 }
 
@@ -165,7 +233,6 @@ static NSString* formatProperties( NSDictionary* props ) {
 
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item {
-    //NSLog(@"child[%ld] of %@", index, item);
     if (item == nil)
         return [self itemForQueryRow: [_rows objectAtIndex: index]];
     else
@@ -173,47 +240,139 @@ static NSString* formatProperties( NSDictionary* props ) {
 }
 
 
+- (BOOL)selectionShouldChangeInOutlineView:(NSOutlineView *)outlineView {
+    return [_docEditor saveDocument];
+}
+
+
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification {
-    int row = [_docsOutline selectedRow];
-    id item = row >= 0 ? [_docsOutline itemAtRow: row] : nil;
-    CouchQueryRow* sel = item ? [self queryRowForItem: item] : nil;
-    [self setSelectedRow: sel];
+    [self enableDocumentButtons];
+    
+    CouchQueryRow* sel = nil;
+    NSIndexSet* selRows = [_docsOutline selectedRowIndexes];
+    if (selRows.count == 1) {
+        id item = [_docsOutline itemAtRow: [selRows firstIndex]]; 
+        sel = item ? [self queryRowForItem: item] : nil;
+    }
+    [_docEditor setRevision: sel.document.currentRevision];
 }
 
 
+#pragma mark - CUSTOM COLUMNS:
 
-#pragma mark - ROW TABLE VIEW:
+
+static int jsonObjectRank(id a) {
+    if (a == nil)
+        return 0;
+    if (a == (id)kCFNull)
+        return 1;
+    if (a == (id)kCFBooleanTrue || a == (id)kCFBooleanFalse)
+        return 2;
+    if ([a isKindOfClass: [NSNumber class]])
+        return 3;
+    if ([a isKindOfClass: [NSString class]])
+        return 4;
+    if ([a isKindOfClass: [NSArray class]])
+        return 5;
+    return 6;
+}
 
 
-- (void) setSelectedRow: (CouchQueryRow*)row {
-    if (row != _selRow) {
-        _selRow = row;
-        _selRowKeys = row.document.properties.allKeys.mutableCopy;
-        [_selRowKeys sortUsingComparator: ^NSComparisonResult(NSString* key1, NSString* key2) {
-            int n = ([key2 hasPrefix: @"_"] != 0) - ([key1 hasPrefix: @"_"] != 0);
-            if (n)
-                return n;
-            return [key1 caseInsensitiveCompare: key2];
-        }];
-        [_propertyTable reloadData];
+static NSComparisonResult jsonCompare(id a, id b) {
+    if (a == b)
+        return 0;
+    int rankDelta = jsonObjectRank(a) - jsonObjectRank(b);
+    if (rankDelta != 0)
+        return rankDelta;
+    else
+        return [a compare: b];
+}
+
+
+- (BOOL) hasColumnForProperty: (NSString*)property {
+    NSString* identifier = [@"." stringByAppendingString: property];
+    return [_docsOutline tableColumnWithIdentifier: identifier] != nil;
+}
+
+
+- (void) addColumnForProperty: (NSString*)property {
+    NSString* identifier = [@"." stringByAppendingString: property];
+    if (![_docsOutline tableColumnWithIdentifier: identifier]) {
+        NSTableColumn* col = [[NSTableColumn alloc] initWithIdentifier: identifier];
+        [col.headerCell setStringValue: identifier];
+        NSTableColumn* jsonCol = [_docsOutline tableColumnWithIdentifier: @"json"];
+        [col.dataCell setFont: [jsonCol.dataCell font]];
+        
+        NSString* sortKey = [@"documentProperties." stringByAppendingString: property];
+        col.sortDescriptorPrototype = [NSSortDescriptor sortDescriptorWithKey: sortKey
+                                       ascending:YES
+                                       comparator:^NSComparisonResult(id obj1, id obj2) {
+                                           return jsonCompare(obj1, obj2);
+                                       }];
+        
+        
+        [_docsOutline addTableColumn: col];
+        NSUInteger index = [_docsOutline.tableColumns indexOfObject: col];
+        [_docsOutline moveColumn: index toColumn: _docsOutline.tableColumns.count - 2];
     }
 }
 
 
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
-    return _selRowKeys.count;
-}
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn
-            row:(NSInteger)row
-{
-    id result = [_selRowKeys objectAtIndex: row];
-    if (![tableColumn.identifier isEqualToString: @"key"]) {
-        result = [_selRow.document.properties objectForKey: result];
-        result = [RESTBody stringWithJSONObject: result];
-    }
-    return result;
+- (void) removeColumnForProperty: (NSString*)property {
+    NSString* identifier = [@"." stringByAppendingString: property];
+    NSTableColumn* col = [_docsOutline tableColumnWithIdentifier: identifier];
+    if (col)
+        [_docsOutline removeTableColumn: col];
 }
 
+
+#pragma mark - ACTIONS:
+
+
+- (void) enableDocumentButtons {
+    [_removeDocButton setEnabled: (_docsOutline.selectedRow >= 0)];
+}
+
+
+- (IBAction) newDocument: (id)sender {
+    [_docsOutline selectRowIndexes: nil byExtendingSelection: NO];
+    [_docEditor editNewDocument];
+}
+
+
+- (IBAction) deleteDocument: (id)sender {
+    NSArray* sel = self.selectedDocuments;
+    if (sel.count == 0) {
+        NSBeep();
+        return;
+    }
+    NSError* error;
+    if (![[_db deleteDocuments: sel] wait: &error]) {
+        [self presentError: error];
+    }
+}
+
+
+- (void) keyDown: (NSEvent*)ev {
+    if (ev.type == NSKeyDown) {
+        NSString* keys = ev.characters;
+        if (keys.length == 1) {
+            unichar key = [keys characterAtIndex: 0];
+            if (key == 0x7F || key == NSDeleteCharFunctionKey) {
+                // Delete key -- delete from focused table view:
+                NSResponder* responder = [self.window firstResponder];
+                if (responder == _docsOutline) {
+                    [self deleteDocument: self];
+                    return;
+                } else if (responder == _docEditor.tableView) {
+                    [_docEditor removeProperty: self];
+                    return;
+                }
+            }
+        }
+    }
+    NSBeep();
+}
 
 
 @end

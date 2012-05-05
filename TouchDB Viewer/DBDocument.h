@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+/** NSDocument subclass that manages a TouchDB database file. */
 @interface DBDocument : NSDocument
 
 @end

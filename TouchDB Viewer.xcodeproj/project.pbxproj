@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		273A4390153C937A00AEC9D7 /* Syncpoint.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 27A8A795152A015B00363704 /* Syncpoint.framework */; };
+		2765CF7815544FAA0087D810 /* DocEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 2765CF7715544FAA0087D810 /* DocEditor.m */; };
 		278B0C6F152A64A900577747 /* DBDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 278B0C6D152A64A900577747 /* DBDocument.m */; };
 		278B0C72152A6B7C00577747 /* TouchDBDoc.icns in Resources */ = {isa = PBXBuildFile; fileRef = 278B0C71152A6B7C00577747 /* TouchDBDoc.icns */; };
+		278C85B81554810D0016C7A4 /* JSONFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 278C85B71554810D0016C7A4 /* JSONFormatter.m */; };
 		27A8A777152A008200363704 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27A8A776152A008200363704 /* Cocoa.framework */; };
 		27A8A781152A008200363704 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 27A8A77F152A008200363704 /* InfoPlist.strings */; };
 		27A8A783152A008200363704 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A8A782152A008200363704 /* main.m */; };
@@ -18,12 +21,31 @@
 		27A8A796152A015B00363704 /* Syncpoint.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27A8A795152A015B00363704 /* Syncpoint.framework */; };
 		27A8A79A152A01FF00363704 /* DBWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A8A798152A01FF00363704 /* DBWindowController.m */; };
 		27A8A79B152A01FF00363704 /* DBWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27A8A799152A01FF00363704 /* DBWindowController.xib */; };
+		27F87AFC1555E7FD00F0A416 /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 27F87AFB1555E7FC00F0A416 /* AppIcon.icns */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		273A438E153C935F00AEC9D7 /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				273A4390153C937A00AEC9D7 /* Syncpoint.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		2765CF7615544FAA0087D810 /* DocEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocEditor.h; sourceTree = "<group>"; };
+		2765CF7715544FAA0087D810 /* DocEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocEditor.m; sourceTree = "<group>"; };
 		278B0C6C152A64A900577747 /* DBDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBDocument.h; sourceTree = "<group>"; };
 		278B0C6D152A64A900577747 /* DBDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBDocument.m; sourceTree = "<group>"; };
 		278B0C71152A6B7C00577747 /* TouchDBDoc.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = TouchDBDoc.icns; sourceTree = "<group>"; };
+		278C85B61554810D0016C7A4 /* JSONFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONFormatter.h; sourceTree = "<group>"; };
+		278C85B71554810D0016C7A4 /* JSONFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONFormatter.m; sourceTree = "<group>"; };
 		27A8A772152A008200363704 /* TouchDB Viewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TouchDB Viewer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		27A8A776152A008200363704 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		27A8A779152A008200363704 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -41,6 +63,7 @@
 		27A8A797152A01FF00363704 /* DBWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBWindowController.h; sourceTree = "<group>"; };
 		27A8A798152A01FF00363704 /* DBWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBWindowController.m; sourceTree = "<group>"; };
 		27A8A799152A01FF00363704 /* DBWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DBWindowController.xib; sourceTree = "<group>"; };
+		27F87AFB1555E7FC00F0A416 /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = AppIcon.icns; path = ../AppIcon.icns; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,12 +122,16 @@
 				27A8A788152A008200363704 /* AppDelegate.h */,
 				27A8A789152A008200363704 /* AppDelegate.m */,
 				27A8A78B152A008200363704 /* MainMenu.xib */,
-				27A8A77D152A008200363704 /* Supporting Files */,
 				27A8A797152A01FF00363704 /* DBWindowController.h */,
 				27A8A798152A01FF00363704 /* DBWindowController.m */,
+				2765CF7615544FAA0087D810 /* DocEditor.h */,
+				2765CF7715544FAA0087D810 /* DocEditor.m */,
 				27A8A799152A01FF00363704 /* DBWindowController.xib */,
 				278B0C6C152A64A900577747 /* DBDocument.h */,
 				278B0C6D152A64A900577747 /* DBDocument.m */,
+				278C85B61554810D0016C7A4 /* JSONFormatter.h */,
+				278C85B71554810D0016C7A4 /* JSONFormatter.m */,
+				27A8A77D152A008200363704 /* Supporting Files */,
 			);
 			path = "TouchDB Viewer";
 			sourceTree = "<group>";
@@ -112,6 +139,7 @@
 		27A8A77D152A008200363704 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				27F87AFB1555E7FC00F0A416 /* AppIcon.icns */,
 				278B0C71152A6B7C00577747 /* TouchDBDoc.icns */,
 				27A8A77E152A008200363704 /* TouchDB Viewer-Info.plist */,
 				27A8A77F152A008200363704 /* InfoPlist.strings */,
@@ -132,6 +160,7 @@
 				27A8A76E152A008200363704 /* Sources */,
 				27A8A76F152A008200363704 /* Frameworks */,
 				27A8A770152A008200363704 /* Resources */,
+				273A438E153C935F00AEC9D7 /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
@@ -178,6 +207,7 @@
 				27A8A78D152A008200363704 /* MainMenu.xib in Resources */,
 				27A8A79B152A01FF00363704 /* DBWindowController.xib in Resources */,
 				278B0C72152A6B7C00577747 /* TouchDBDoc.icns in Resources */,
+				27F87AFC1555E7FD00F0A416 /* AppIcon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,6 +222,8 @@
 				27A8A78A152A008200363704 /* AppDelegate.m in Sources */,
 				27A8A79A152A01FF00363704 /* DBWindowController.m in Sources */,
 				278B0C6F152A64A900577747 /* DBDocument.m in Sources */,
+				2765CF7815544FAA0087D810 /* DocEditor.m in Sources */,
+				278C85B81554810D0016C7A4 /* JSONFormatter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,6 +264,7 @@
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 0.1;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -250,6 +283,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				VERSIONING_SYSTEM = "apple-generic";
 				WARNING_CFLAGS = "-Wall";
 			};
 			name = Debug;
@@ -261,6 +295,7 @@
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
+				CURRENT_PROJECT_VERSION = 0.1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -272,6 +307,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx;
+				VERSIONING_SYSTEM = "apple-generic";
 				WARNING_CFLAGS = "-Wall";
 			};
 			name = Release;
