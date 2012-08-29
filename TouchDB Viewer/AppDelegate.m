@@ -16,6 +16,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    gRESTLogLevel = kRESTLogRequestHeaders;
 }
 
 @end

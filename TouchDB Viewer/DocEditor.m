@@ -14,7 +14,9 @@
 {
     CouchDatabase* _db;
     CouchRevision* _revision;
+    BOOL _readOnly;
     BOOL _untitled;
+    NSDictionary* _originalProperties;
     NSMutableDictionary* _properties;
     NSMutableArray* _propNames;
     BOOL _cancelingEdit;
@@ -26,7 +28,7 @@
 }
 
 
-@synthesize database=_db, tableView=_table;
+@synthesize database=_db, tableView=_table, readOnly=_readOnly;
 
 
 - (void) awakeFromNib {
@@ -83,7 +85,7 @@ static BOOL isSpecialProperty(NSString* key) {
 
 
 - (NSString*) selectedProperty {
-    int row = _table.selectedRow;
+    NSInteger row = _table.selectedRow;
     return row >= 0 ? [_propNames objectAtIndex: row] : nil;
 }
 
@@ -101,7 +103,7 @@ static BOOL isSpecialProperty(NSString* key) {
 
 
 - (NSString*) selectedOrClickedProperty {
-    int row = _table.clickedRow;
+    NSInteger row = _table.clickedRow;
     if (row < 0)
         row = _table.selectedRow;
     return row >= 0 ? [_propNames objectAtIndex: row] : nil;
@@ -109,7 +111,7 @@ static BOOL isSpecialProperty(NSString* key) {
 
 
 - (BOOL) saveDocument {
-    if (_properties && ![_properties isEqual: _revision.properties]) {
+    if (!_readOnly && _properties && ![_properties isEqual: _originalProperties]) {
         CouchDocument* doc;
         NSError* error;
         if (_revision)
@@ -121,6 +123,8 @@ static BOOL isSpecialProperty(NSString* key) {
             return NO;
         }
         self.revision = doc.currentRevision;
+        _properties = _revision.properties.mutableCopy;
+        _originalProperties = _properties.copy;
     }
     _saveButton.hidden = _revertButton.hidden = YES;
     return YES;
@@ -140,6 +144,7 @@ static BOOL isSpecialProperty(NSString* key) {
     } else {
         _properties = _revision.properties.mutableCopy;
     }
+    _originalProperties = _properties.copy;
     [self rebuildTable];
     self.selectedProperty = selectedProperty;
     _saveButton.hidden = _revertButton.hidden = !_untitled;
@@ -151,7 +156,7 @@ static BOOL isSpecialProperty(NSString* key) {
 
 - (IBAction) addProperty: (id)sender {
     // Insert a placeholder empty-string property for the user to fill in:
-    if ([_propNames containsObject: @""] || [_properties objectForKey: @""]) {
+    if (_readOnly || [_propNames containsObject: @""] || [_properties objectForKey: @""]) {
         NSBeep();
         return;
     }
@@ -164,7 +169,7 @@ static BOOL isSpecialProperty(NSString* key) {
 
 - (IBAction) removeProperty: (id)sender {
     NSString* prop = self.selectedOrClickedProperty;
-    if (!prop || isSpecialProperty(prop)) {
+    if (_readOnly || !prop || isSpecialProperty(prop)) {
         NSBeep();
         return;
     }
@@ -211,7 +216,7 @@ static BOOL isSpecialProperty(NSString* key) {
         [(id)item setTitle: title];
         return (property != nil);
     } else if (action == @selector(removeProperty:)) {
-        return (property != nil && !isSpecialProperty(property));
+        return (!_readOnly && property != nil && !isSpecialProperty(property));
     }
     return YES;
 }
@@ -219,8 +224,8 @@ static BOOL isSpecialProperty(NSString* key) {
 
 - (void) enablePropertyButtons {
     NSString* selectedProperty = self.selectedProperty;
-    BOOL canInsert = (_revision != nil || _untitled);
-    BOOL canRemove = selectedProperty && !isSpecialProperty(selectedProperty);
+    BOOL canInsert = !_readOnly && (_revision != nil || _untitled);
+    BOOL canRemove = !_readOnly && selectedProperty && !isSpecialProperty(selectedProperty);
     _addPropertyButton.enabled = canInsert;
     _removePropertyButton.enabled = canRemove;
     _addColumnButton.enabled = selectedProperty && !isSpecialProperty(selectedProperty);
@@ -265,6 +270,8 @@ static BOOL isSpecialProperty(NSString* key) {
         shouldEditTableColumn:(NSTableColumn *)tableColumn
         row:(NSInteger)row
 {
+    if (_readOnly)
+        return NO;
     NSString* key = [_propNames objectAtIndex: row];
     if (!isSpecialProperty(key))
         return YES;

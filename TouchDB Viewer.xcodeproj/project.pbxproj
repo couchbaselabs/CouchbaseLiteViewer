@@ -21,6 +21,9 @@
 		27A8A796152A015B00363704 /* Syncpoint.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27A8A795152A015B00363704 /* Syncpoint.framework */; };
 		27A8A79A152A01FF00363704 /* DBWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A8A798152A01FF00363704 /* DBWindowController.m */; };
 		27A8A79B152A01FF00363704 /* DBWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27A8A799152A01FF00363704 /* DBWindowController.xib */; };
+		27F3A62D15EE70B300263663 /* DocHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F3A62C15EE70B300263663 /* DocHistory.m */; };
+		27F3A63015EE98C100263663 /* QueryResultController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F3A62F15EE98C100263663 /* QueryResultController.m */; };
+		27F3A63315EEA06900263663 /* RevTreeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F3A63215EEA06900263663 /* RevTreeController.m */; };
 		27F87AFC1555E7FD00F0A416 /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 27F87AFB1555E7FC00F0A416 /* AppIcon.icns */; };
 /* End PBXBuildFile section */
 
@@ -63,6 +66,12 @@
 		27A8A797152A01FF00363704 /* DBWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBWindowController.h; sourceTree = "<group>"; };
 		27A8A798152A01FF00363704 /* DBWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBWindowController.m; sourceTree = "<group>"; };
 		27A8A799152A01FF00363704 /* DBWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DBWindowController.xib; sourceTree = "<group>"; };
+		27F3A62B15EE70B300263663 /* DocHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocHistory.h; sourceTree = "<group>"; };
+		27F3A62C15EE70B300263663 /* DocHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocHistory.m; sourceTree = "<group>"; };
+		27F3A62E15EE98C000263663 /* QueryResultController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QueryResultController.h; sourceTree = "<group>"; };
+		27F3A62F15EE98C100263663 /* QueryResultController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QueryResultController.m; sourceTree = "<group>"; };
+		27F3A63115EEA06900263663 /* RevTreeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RevTreeController.h; sourceTree = "<group>"; };
+		27F3A63215EEA06900263663 /* RevTreeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RevTreeController.m; sourceTree = "<group>"; };
 		27F87AFB1555E7FC00F0A416 /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = AppIcon.icns; path = ../AppIcon.icns; sourceTree = "<group>"; };
 		27F87AFD1555EC5000F0A416 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -126,9 +135,15 @@
 				27A8A78B152A008200363704 /* MainMenu.xib */,
 				27A8A797152A01FF00363704 /* DBWindowController.h */,
 				27A8A798152A01FF00363704 /* DBWindowController.m */,
+				27F3A62E15EE98C000263663 /* QueryResultController.h */,
+				27F3A62F15EE98C100263663 /* QueryResultController.m */,
+				27F3A63115EEA06900263663 /* RevTreeController.h */,
+				27F3A63215EEA06900263663 /* RevTreeController.m */,
 				2765CF7615544FAA0087D810 /* DocEditor.h */,
 				2765CF7715544FAA0087D810 /* DocEditor.m */,
 				27A8A799152A01FF00363704 /* DBWindowController.xib */,
+				27F3A62B15EE70B300263663 /* DocHistory.h */,
+				27F3A62C15EE70B300263663 /* DocHistory.m */,
 				278B0C6C152A64A900577747 /* DBDocument.h */,
 				278B0C6D152A64A900577747 /* DBDocument.m */,
 				278C85B61554810D0016C7A4 /* JSONFormatter.h */,
@@ -179,7 +194,7 @@
 		27A8A769152A008100363704 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0440;
 				ORGANIZATIONNAME = "Couchbase, Inc.";
 			};
 			buildConfigurationList = 27A8A76C152A008100363704 /* Build configuration list for PBXProject "TouchDB Viewer" */;
@@ -226,6 +241,9 @@
 				278B0C6F152A64A900577747 /* DBDocument.m in Sources */,
 				2765CF7815544FAA0087D810 /* DocEditor.m in Sources */,
 				278C85B81554810D0016C7A4 /* JSONFormatter.m in Sources */,
+				27F3A62D15EE70B300263663 /* DocHistory.m in Sources */,
+				27F3A63015EE98C100263663 /* QueryResultController.m in Sources */,
+				27F3A63315EEA06900263663 /* RevTreeController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,6 +283,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 0.1;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -280,6 +300,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
@@ -296,6 +317,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 0.1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -305,6 +328,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
@@ -317,6 +341,7 @@
 		27A8A791152A008200363704 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../Syncpoint/build/Syncpoint/Build/Products/Debug\"",
@@ -332,6 +357,7 @@
 		27A8A792152A008200363704 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../Syncpoint/build/Syncpoint/Build/Products/Debug\"",

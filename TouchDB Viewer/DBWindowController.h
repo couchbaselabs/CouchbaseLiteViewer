@@ -14,9 +14,7 @@
 
 - (id)initWithDatabase: (CouchDatabase*)db;
 
-- (NSArray*) selectedDocuments;
-- (BOOL) selectDocument: (CouchDocument*)doc;
-
+- (IBAction) showDocRevisionTree:(id)sender;
 - (IBAction) newDocument: (id)sender;
 - (IBAction) deleteDocument: (id)sender;
 

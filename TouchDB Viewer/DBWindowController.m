@@ -8,6 +8,8 @@
 
 #import "DBWindowController.h"
 #import "DocEditor.h"
+#import "QueryResultController.h"
+#import "RevTreeController.h"
 
 
 @interface DBWindowController () <NSOutlineViewDataSource>
@@ -15,14 +17,13 @@
     @private
     CouchDatabase* _db;
     NSString* _dbPath;
-    CouchLiveQuery* _query;
-    NSMutableArray* _rows;
-    
+    NSTableColumn* _idCol, *_seqCol;
+
+    IBOutlet QueryResultController* _queryController;
+    IBOutlet RevTreeController* _revTreeController;
     IBOutlet DocEditor* _docEditor;
-    IBOutlet NSTabView* _tabs;
-    IBOutlet NSTextField* _infoField;
     IBOutlet NSOutlineView* _docsOutline;
-    IBOutlet NSButton *_addDocButton, *_removeDocButton;
+    IBOutlet NSPathControl* _path;
 }
 
 @property (readonly, nonatomic) NSString* dbPath;
@@ -42,24 +43,21 @@
     self = [super initWithWindowNibName: @"DBWindowController"];
     if (self) {
         _db = db;
-        _query = [_db.getAllDocuments asLiveQuery];
-        _query.prefetch = _query.sequences = YES;
-        [_query addObserver: self forKeyPath: @"rows"
-                    options: NSKeyValueObservingOptionInitial
-                    context: NULL];
     }
     return self;
 }
 
 
-- (void)dealloc
-{
-    [_query removeObserver: self forKeyPath: @"rows"];
-}
-
-
 - (void) windowDidLoad {
+    _docsOutline.target = self;
+    _docsOutline.doubleAction = @selector(showDocRevisionTree:);
+    
+    _queryController.outline = _docsOutline;
+    _queryController.query = [_db getAllDocuments];
+
     _docEditor.database = _db;
+
+    _path.URL = _db.URL;
     
     // Set up the window title:
     if (_dbPath) {
@@ -75,186 +73,6 @@
         self.window.title = [NSString stringWithFormat: @"%@ <%@>",
                              _db.relativePath, host];
     }
-}
-
-
-- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
-                         change:(NSDictionary *)change context:(void *)context
-{
-    if (object == _query) {
-        NSArray* selection;
-        CouchDocument* editedDoc = _docEditor.revision.document;
-        if (editedDoc)
-            selection = [NSArray arrayWithObject: editedDoc];
-        else
-            selection = self.selectedDocuments;
-        
-        CouchQueryEnumerator* rows = _query.rows;
-        _rows = rows.allObjects.mutableCopy;
-        if (_docsOutline.sortDescriptors)
-            [_rows sortUsingDescriptors: _docsOutline.sortDescriptors];
-        [_docsOutline reloadItem: nil];
-        _infoField.stringValue = [NSString stringWithFormat: @"%lld docs — sequence #%lld",
-                                  _rows.count, rows.sequenceNumber];
-        
-        self.selectedDocuments = selection;
-    }
-}
-
-
-- (void) outlineView:(NSOutlineView *)outlineView
-         sortDescriptorsDidChange:(NSArray *)oldDescriptors {
-    [_rows sortUsingDescriptors: outlineView.sortDescriptors];
-    [outlineView reloadItem: nil];
-}
-
-
-- (NSArray*) selectedRows {
-    NSIndexSet* selIndexes = [_docsOutline selectedRowIndexes];
-    NSUInteger count = selIndexes.count;
-    NSMutableArray* sel = [NSMutableArray arrayWithCapacity: count];
-    [selIndexes enumerateIndexesUsingBlock: ^(NSUInteger idx, BOOL *stop) {
-        CouchQueryRow* item = [self queryRowForItem: [_docsOutline itemAtRow: idx]]; 
-        [sel addObject: item];
-    }];
-    return sel;
-}
-
-
-- (NSArray*) selectedDocuments {
-    NSMutableArray* docs = [NSMutableArray array];
-    for (CouchQueryRow* row in self.selectedRows)
-        [docs addObject: row.document];
-    return docs;
-}
-
-
-- (void) setSelectedDocuments: (NSArray*)sel {
-    NSMutableIndexSet* selIndexes = [NSMutableIndexSet indexSet];
-    for (CouchDocument* doc in sel) {
-        CouchQueryRow* queryRow = [self queryRowForDocument: doc];
-        if (queryRow) {
-            int row = [_docsOutline rowForItem: [self itemForQueryRow: queryRow]];
-            if (row >= 0)
-                [selIndexes addIndex: row];
-        }
-    }
-    [_docsOutline selectRowIndexes: selIndexes byExtendingSelection: NO];
-}
-
-
-- (BOOL) selectDocument: (CouchDocument*)doc {
-    CouchQueryRow* queryRow = [self queryRowForDocument: doc];
-    if (queryRow) {
-        int row = [_docsOutline rowForItem: [self itemForQueryRow: queryRow]];
-        if (row >= 0) {
-            [_docsOutline selectRowIndexes: [NSIndexSet indexSetWithIndex: row]
-                      byExtendingSelection: NO];
-            return YES;
-        }
-    }
-    return NO;
-}
-
-
-#pragma mark - DOCUMENT-LIST VIEW:
-
-
-- (CouchQueryRow*) queryRowForItem: (id)item {
-    NSAssert([item isKindOfClass: [CouchQueryRow class]], @"Invalid outline item: %@", item);
-    return (CouchQueryRow*)item;
-}
-
-
-- (id) itemForQueryRow: (CouchQueryRow*)row {
-    NSParameterAssert(row != nil);
-    return row;
-}
-
-
-- (CouchQueryRow*) queryRowForDocument: (CouchDocument*)doc {
-    NSString* docID = doc.documentID;
-    for (CouchQueryRow* row in _rows) {
-        if ([row.documentID isEqualToString: docID])
-            return row;
-    }
-    return nil;
-}
-
-
-static NSString* formatRevision( NSString* revID ) {
-    if (revID.length >= 2 && [revID characterAtIndex: 1] == '-')
-        revID = [@" " stringByAppendingString: revID];
-    return revID;
-}
-
-static NSString* formatProperties( NSDictionary* props ) {
-    return props ? [RESTBody stringWithJSONObject: props] : nil;
-}
-
-
-- (id)outlineView:(NSOutlineView *)outlineView 
-      objectValueForTableColumn:(NSTableColumn *)tableColumn
-                         byItem:(id)item
-{
-    CouchQueryRow* row = [self queryRowForItem: item];
-    NSString* identifier = tableColumn.identifier;
-    
-    if ([identifier hasPrefix: @"."]) {
-        NSString* property = [identifier substringFromIndex: 1];
-        id value = [row.documentProperties objectForKey: property];
-        return formatProperties(value);
-    } else {
-        static NSArray* kColumnIDs;
-        if (!kColumnIDs)
-            kColumnIDs = [NSArray arrayWithObjects: @"id", @"rev", @"seq", @"json", nil];
-        switch ([kColumnIDs indexOfObject: identifier]) {
-            case 0: return row.documentID;
-            case 1: return formatRevision(row.documentRevision);
-            case 2: return [NSNumber numberWithUnsignedLongLong: row.localSequence];
-            case 3: return formatProperties(row.document.userProperties);
-            default:return @"???";
-        }
-    }
-}
-
-
-- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item {
-    return item == nil;
-}
-
-
-- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
-    if (item == nil)
-        return _rows.count;
-    else
-        return 0;
-}
-
-
-- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item {
-    if (item == nil)
-        return [self itemForQueryRow: [_rows objectAtIndex: index]];
-    else
-        return nil;
-}
-
-
-- (BOOL)selectionShouldChangeInOutlineView:(NSOutlineView *)outlineView {
-    return [_docEditor saveDocument];
-}
-
-
-- (void)outlineViewSelectionDidChange:(NSNotification *)notification {
-    [self enableDocumentButtons];
-    
-    CouchQueryRow* sel = nil;
-    NSIndexSet* selRows = [_docsOutline selectedRowIndexes];
-    if (selRows.count == 1) {
-        id item = [_docsOutline itemAtRow: [selRows firstIndex]]; 
-        sel = item ? [self queryRowForItem: item] : nil;
-    }
-    [_docEditor setRevision: sel.document.currentRevision];
 }
 
 
@@ -289,6 +107,14 @@ static NSComparisonResult jsonCompare(id a, id b) {
 }
 
 
+static void insertColumn(NSOutlineView* outline, NSTableColumn* col, NSUInteger index) {
+    [outline addTableColumn: col];
+    NSUInteger curIndex = [outline.tableColumns indexOfObject: col];
+    if (curIndex != index)
+        [outline moveColumn: curIndex toColumn: index];
+}
+
+
 - (BOOL) hasColumnForProperty: (NSString*)property {
     NSString* identifier = [@"." stringByAppendingString: property];
     return [_docsOutline tableColumnWithIdentifier: identifier] != nil;
@@ -309,11 +135,7 @@ static NSComparisonResult jsonCompare(id a, id b) {
                                        comparator:^NSComparisonResult(id obj1, id obj2) {
                                            return jsonCompare(obj1, obj2);
                                        }];
-        
-        
-        [_docsOutline addTableColumn: col];
-        NSUInteger index = [_docsOutline.tableColumns indexOfObject: col];
-        [_docsOutline moveColumn: index toColumn: _docsOutline.tableColumns.count - 2];
+        insertColumn(_docsOutline, col, _docsOutline.tableColumns.count - 1);
     }
 }
 
@@ -326,30 +148,72 @@ static NSComparisonResult jsonCompare(id a, id b) {
 }
 
 
+- (void) hideDocColumns {
+    if (_seqCol)
+        return;
+    _docsOutline.outlineTableColumn = [_docsOutline tableColumnWithIdentifier: @"rev"];
+    _seqCol = [_docsOutline tableColumnWithIdentifier: @"seq"];
+    _idCol = [_docsOutline tableColumnWithIdentifier: @"id"];
+    [_docsOutline removeTableColumn: _seqCol];
+    [_docsOutline removeTableColumn: _idCol];
+    [_docsOutline sizeLastColumnToFit];
+}
+
+- (void) showDocColumns {
+    if (!_seqCol)
+        return;
+    insertColumn(_docsOutline, _seqCol, 0);
+    insertColumn(_docsOutline, _idCol, 1);
+    _docsOutline.outlineTableColumn = _seqCol;
+    _seqCol = _idCol = nil;
+    [_docsOutline sizeLastColumnToFit];
+}
+
+
 #pragma mark - ACTIONS:
 
 
-- (void) enableDocumentButtons {
-    [_removeDocButton setEnabled: (_docsOutline.selectedRow >= 0)];
+- (IBAction) showDocRevisionTree:(id)sender {
+    if (_revTreeController.outline)
+        return;
+    NSArray* docs = _queryController.selectedDocuments;
+    if (docs.count != 1)
+        return;
+
+    CouchDocument* doc = docs[0];
+    [self hideDocColumns];
+    _revTreeController.document = doc;
+    _queryController.outline = nil;
+    _revTreeController.outline = _docsOutline;
+    _path.URL = doc.URL;
+}
+
+
+- (IBAction) hideDocRevisionTree: (id)sender {
+    if (_queryController.outline)
+        return;
+    [self showDocColumns];
+    _revTreeController.document = nil;
+    _revTreeController.outline = nil;
+    _queryController.outline = _docsOutline;
+    _path.URL = _db.URL;
+}
+
+
+- (IBAction) pathClicked: (id)sender {
+    NSUInteger index = [_path.pathComponentCells indexOfObjectIdenticalTo: _path.clickedPathComponentCell];
+    if (index == 0)
+        [self hideDocRevisionTree: sender];
 }
 
 
 - (IBAction) newDocument: (id)sender {
-    [_docsOutline selectRowIndexes: nil byExtendingSelection: NO];
-    [_docEditor editNewDocument];
+    [_queryController newDocument: sender];
 }
 
 
 - (IBAction) deleteDocument: (id)sender {
-    NSArray* sel = self.selectedDocuments;
-    if (sel.count == 0) {
-        NSBeep();
-        return;
-    }
-    NSError* error;
-    if (![[_db deleteDocuments: sel] wait: &error]) {
-        [self presentError: error];
-    }
+    [_queryController deleteDocument: sender];
 }
 
 
@@ -374,19 +238,5 @@ static NSComparisonResult jsonCompare(id a, id b) {
     NSBeep();
 }
 
-
-@end
-
-
-
-@interface NSString (DBWindowController)
-- (NSComparisonResult) revID_compare: (NSString*)str;
-@end
-
-@implementation NSString (DBWindowController)
-
-- (NSComparisonResult) revID_compare: (NSString*)str {
-    return [self compare: str options: NSNumericSearch];
-}
 
 @end

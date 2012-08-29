@@ -16,6 +16,8 @@
 
 @property CouchRevision* revision;
 
+@property BOOL readOnly;
+
 - (void) editNewDocument;
 
 - (IBAction) addProperty: (id)sender;
