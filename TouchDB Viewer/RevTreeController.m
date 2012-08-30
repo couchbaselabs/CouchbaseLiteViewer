@@ -97,18 +97,17 @@ static NSString* formatProperty( id property ) {
     
     if ([identifier hasPrefix: @"."]) {
         NSString* property = [identifier substringFromIndex: 1];
-        id value = [rev.properties objectForKey: property];
-        return formatProperty(value);
+        return formatProperty(rev[property]);
     } else {
         static NSArray* kColumnIDs;
         if (!kColumnIDs)
-            kColumnIDs = [NSArray arrayWithObjects: @"id", @"rev", @"json", nil];
+            kColumnIDs = @[@"id", @"rev", @"json"];
         switch ([kColumnIDs indexOfObject: identifier]) {
             case 0: return rev.documentID;
             case 1: return formatRevision(rev.revisionID);
             case 2: {
                 NSDictionary* userProps = rev.userProperties;
-                return userProps.count ? formatProperty(rev.userProperties) : nil;
+                return userProps.count ? formatProperty(userProps) : nil;
             }
             default:return @"???";
         }
@@ -154,7 +153,7 @@ static NSString* formatProperty( id property ) {
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item {
     item = item ?: _root;
-    return [[item childNodes] objectAtIndex: index];
+    return [item childNodes][index];
 }
 
 

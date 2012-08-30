@@ -86,7 +86,7 @@ static BOOL isSpecialProperty(NSString* key) {
 
 - (NSString*) selectedProperty {
     NSInteger row = _table.selectedRow;
-    return row >= 0 ? [_propNames objectAtIndex: row] : nil;
+    return row >= 0 ? _propNames[row] : nil;
 }
 
 
@@ -106,7 +106,7 @@ static BOOL isSpecialProperty(NSString* key) {
     NSInteger row = _table.clickedRow;
     if (row < 0)
         row = _table.selectedRow;
-    return row >= 0 ? [_propNames objectAtIndex: row] : nil;
+    return row >= 0 ? _propNames[row] : nil;
 }
 
 
@@ -117,7 +117,7 @@ static BOOL isSpecialProperty(NSString* key) {
         if (_revision)
             doc = _revision.document;
         else
-            doc = [_db documentWithID: [_properties objectForKey: @"_id"]];
+            doc = _db[_properties[@"_id"]];
         if (![[doc putProperties: _properties] wait: &error]) {
             [_table presentError: error];
             return NO;
@@ -156,7 +156,7 @@ static BOOL isSpecialProperty(NSString* key) {
 
 - (IBAction) addProperty: (id)sender {
     // Insert a placeholder empty-string property for the user to fill in:
-    if (_readOnly || [_propNames containsObject: @""] || [_properties objectForKey: @""]) {
+    if (_readOnly || [_propNames containsObject: @""] || _properties[@""]) {
         NSBeep();
         return;
     }
@@ -244,9 +244,9 @@ static BOOL isSpecialProperty(NSString* key) {
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn
             row:(NSInteger)row
 {
-    id result = [_propNames objectAtIndex: row];
+    id result = _propNames[row];
     if (![tableColumn.identifier isEqualToString: @"key"])
-        result = [_properties objectForKey: result];
+        result = _properties[result];
     return result;
 }
 
@@ -256,7 +256,7 @@ static BOOL isSpecialProperty(NSString* key) {
    forTableColumn:(NSTableColumn *)tableColumn
               row:(NSInteger)row
 {
-    NSString* key = [_propNames objectAtIndex: row];
+    NSString* key = _propNames[row];
     NSColor* color;
     if (isSpecialProperty(key))
         color = [NSColor disabledControlTextColor];
@@ -272,7 +272,7 @@ static BOOL isSpecialProperty(NSString* key) {
 {
     if (_readOnly)
         return NO;
-    NSString* key = [_propNames objectAtIndex: row];
+    NSString* key = _propNames[row];
     if (!isSpecialProperty(key))
         return YES;
     if (_untitled && [key isEqualToString: @"_id"] &&
@@ -291,11 +291,11 @@ static BOOL isSpecialProperty(NSString* key) {
     if (_cancelingEdit)
         return;
     BOOL editingKey = [tableColumn.identifier isEqualToString: @"key"];
-    NSString* key = [_propNames objectAtIndex: row];
+    NSString* key = _propNames[row];
     if (isSpecialProperty(key) && !_untitled)
         return;
     
-    if ([_properties objectForKey: key]) {
+    if (_properties[key]) {
         // Yes, this is a real document property:
         if (newCellValue == nil || [newCellValue isEqual: @""]) {
             // User entered empty key or value: delete property
@@ -310,21 +310,21 @@ static BOOL isSpecialProperty(NSString* key) {
                 NSBeep();
                 return;
             }
-            if ([_properties objectForKey: newCellValue]) {
+            if (_properties[newCellValue]) {
                 NSBeep();  // duplicate key!
                 return;
             }
-            id value = [_properties objectForKey: key];
-            [_properties setObject: value forKey: newCellValue];
+            id value = _properties[key];
+            _properties[newCellValue] = value;
             [_properties removeObjectForKey: key];
             [self rebuildTable];
             self.selectedProperty = newCellValue;
             
         } else {
             // Change the value:
-            if ([newCellValue isEqual: [_properties objectForKey: key]])
+            if ([newCellValue isEqual: _properties[key]])
                 return; // no-op
-            [_properties setObject: newCellValue forKey: key];
+            _properties[key] = newCellValue;
         }
         
     } else {
@@ -341,16 +341,16 @@ static BOOL isSpecialProperty(NSString* key) {
                 NSBeep();
                 return;
             }
-            if ([_properties objectForKey: newCellValue]) {
+            if (_properties[newCellValue]) {
                 NSBeep();  // duplicate key!
                 return;
             }
-            [_propNames replaceObjectAtIndex: row withObject: newCellValue];
+            _propNames[row] = newCellValue;
             [self sortProperties];
             self.selectedProperty = newCellValue;
         } else {
             // Changing the value:
-            [_properties setObject: newCellValue forKey: key];
+            _properties[key] = newCellValue;
         }
     }
     

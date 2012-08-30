@@ -14,7 +14,7 @@
 - (NSString *)stringForObjectValue: (id)obj {
     if (obj == nil)
         return @"";
-    NSArray* wrapped = [NSArray arrayWithObject: obj]; // in case obj is a fragment
+    NSArray* wrapped = @[obj]; // in case obj is a fragment
     NSData* data = [NSJSONSerialization dataWithJSONObject: wrapped options: 0 error: nil];
     data = [data subdataWithRange: NSMakeRange(1, data.length - 2)];
     return [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];

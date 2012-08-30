@@ -71,7 +71,7 @@
         NSArray* selection;
         CouchDocument* editedDoc = _docEditor.revision.document;
         if (editedDoc)
-            selection = [NSArray arrayWithObject: editedDoc];
+            selection = @[editedDoc];
         else
             selection = self.selectedDocuments;
 
@@ -187,16 +187,16 @@ static NSString* formatProperty( id property ) {
     
     if ([identifier hasPrefix: @"."]) {
         NSString* property = [identifier substringFromIndex: 1];
-        id value = [row.documentProperties objectForKey: property];
+        id value = (row.documentProperties)[property];
         return formatProperty(value);
     } else {
         static NSArray* kColumnIDs;
         if (!kColumnIDs)
-            kColumnIDs = [NSArray arrayWithObjects: @"id", @"rev", @"seq", @"json", nil];
+            kColumnIDs = @[@"id", @"rev", @"seq", @"json"];
         switch ([kColumnIDs indexOfObject: identifier]) {
             case 0: return row.documentID;
             case 1: return formatRevision(row.documentRevision);
-            case 2: return [NSNumber numberWithUnsignedLongLong: row.localSequence];
+            case 2: return @(row.localSequence);
             case 3: return formatProperty(row.document.userProperties);
             default:return @"???";
         }
@@ -219,7 +219,7 @@ static NSString* formatProperty( id property ) {
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item {
     if (item == nil)
-        return [self itemForQueryRow: [_rows objectAtIndex: index]];
+        return [self itemForQueryRow: _rows[index]];
     else
         return nil;
 }
