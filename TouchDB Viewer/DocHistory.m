@@ -9,6 +9,20 @@
 #import "DocHistory.h"
 
 
+NSTreeNode* SortRevisionTree(NSTreeNode* tree) {
+    [tree.mutableChildNodes sortUsingComparator: ^NSComparisonResult(id obj1, id obj2) {
+        CouchRevision* rev1 = [obj1 representedObject];
+        CouchRevision* rev2 = [obj2 representedObject];
+        // Plain string compare is OK because sibling revs must start with the same gen #.
+        // Comparing backwards because we want descending rev IDs, i.e. winner first.
+        return [rev2.revisionID compare: rev1.revisionID];
+    }];
+    for (NSTreeNode* child in tree.childNodes)
+        SortRevisionTree(child);
+    return tree;
+}
+
+
 NSTreeNode* GetDocRevisionTree(CouchDocument* doc) {
     NSArray* leaves = [doc getConflictingRevisions];
     if (!leaves)
@@ -47,6 +61,42 @@ NSTreeNode* GetDocRevisionTree(CouchDocument* doc) {
         if (node)
             [root.mutableChildNodes addObject: node];
     }
+    SortRevisionTree(root);
+    return root;
+}
+
+
+static void addLeafNodes(NSTreeNode* node, NSMutableSet* leaves) {
+    if (node.isLeaf)
+        [leaves addObject: node];
+    else {
+        for (NSTreeNode* child in node.childNodes)
+            addLeafNodes(child, leaves);
+    }
+}
+
+
+NSSet* GetLeafNodes(NSTreeNode* tree) {
+    NSMutableSet* leaves = [NSMutableSet set];
+    addLeafNodes(tree, leaves);
+    return leaves;
+}
+
+
+NSTreeNode* FlattenTree(NSTreeNode* root) {
+    // If this node has one child, make its linear decendent chain into direct children:
+    if (root.childNodes.count == 1) {
+        NSTreeNode* child = root;
+        while (!child.isLeaf) {
+            NSTreeNode* parent = child;
+            child = child.childNodes[0];
+            [parent.mutableChildNodes removeObject: child];
+            [root.mutableChildNodes addObject: child];
+        }
+    }
+    // Now recurse:
+    for (NSTreeNode* child in root.childNodes)
+        FlattenTree(child);
     return root;
 }
 

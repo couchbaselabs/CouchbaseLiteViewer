@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		273A4390153C937A00AEC9D7 /* Syncpoint.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 27A8A795152A015B00363704 /* Syncpoint.framework */; };
 		2765CF7815544FAA0087D810 /* DocEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 2765CF7715544FAA0087D810 /* DocEditor.m */; };
 		278B0C6F152A64A900577747 /* DBDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 278B0C6D152A64A900577747 /* DBDocument.m */; };
 		278B0C72152A6B7C00577747 /* TouchDBDoc.icns in Resources */ = {isa = PBXBuildFile; fileRef = 278B0C71152A6B7C00577747 /* TouchDBDoc.icns */; };
@@ -18,12 +17,16 @@
 		27A8A787152A008200363704 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 27A8A785152A008200363704 /* Credits.rtf */; };
 		27A8A78A152A008200363704 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A8A789152A008200363704 /* AppDelegate.m */; };
 		27A8A78D152A008200363704 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27A8A78B152A008200363704 /* MainMenu.xib */; };
-		27A8A796152A015B00363704 /* Syncpoint.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27A8A795152A015B00363704 /* Syncpoint.framework */; };
 		27A8A79A152A01FF00363704 /* DBWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A8A798152A01FF00363704 /* DBWindowController.m */; };
 		27A8A79B152A01FF00363704 /* DBWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27A8A799152A01FF00363704 /* DBWindowController.xib */; };
 		27F3A62D15EE70B300263663 /* DocHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F3A62C15EE70B300263663 /* DocHistory.m */; };
 		27F3A63015EE98C100263663 /* QueryResultController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F3A62F15EE98C100263663 /* QueryResultController.m */; };
 		27F3A63315EEA06900263663 /* RevTreeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F3A63215EEA06900263663 /* RevTreeController.m */; };
+		27F3A63515F002F900263663 /* CouchCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27F3A63415F002F900263663 /* CouchCocoa.framework */; };
+		27F3A63715F0030000263663 /* TouchDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27F3A63615F0030000263663 /* TouchDB.framework */; };
+		27F3A63815F003C400263663 /* CouchCocoa.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 27F3A63415F002F900263663 /* CouchCocoa.framework */; };
+		27F3A63915F003C600263663 /* TouchDB.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 27F3A63615F0030000263663 /* TouchDB.framework */; };
+		27F3A63B15F0095800263663 /* database.icns in Resources */ = {isa = PBXBuildFile; fileRef = 27F3A63A15F0095800263663 /* database.icns */; };
 		27F87AFC1555E7FD00F0A416 /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 27F87AFB1555E7FC00F0A416 /* AppIcon.icns */; };
 /* End PBXBuildFile section */
 
@@ -34,7 +37,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				273A4390153C937A00AEC9D7 /* Syncpoint.framework in Copy Frameworks */,
+				27F3A63815F003C400263663 /* CouchCocoa.framework in Copy Frameworks */,
+				27F3A63915F003C600263663 /* TouchDB.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -62,7 +66,6 @@
 		27A8A788152A008200363704 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		27A8A789152A008200363704 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		27A8A78C152A008200363704 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		27A8A795152A015B00363704 /* Syncpoint.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Syncpoint.framework; path = Frameworks/Syncpoint.framework; sourceTree = "<group>"; };
 		27A8A797152A01FF00363704 /* DBWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBWindowController.h; sourceTree = "<group>"; };
 		27A8A798152A01FF00363704 /* DBWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBWindowController.m; sourceTree = "<group>"; };
 		27A8A799152A01FF00363704 /* DBWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DBWindowController.xib; sourceTree = "<group>"; };
@@ -72,6 +75,9 @@
 		27F3A62F15EE98C100263663 /* QueryResultController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QueryResultController.m; sourceTree = "<group>"; };
 		27F3A63115EEA06900263663 /* RevTreeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RevTreeController.h; sourceTree = "<group>"; };
 		27F3A63215EEA06900263663 /* RevTreeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RevTreeController.m; sourceTree = "<group>"; };
+		27F3A63415F002F900263663 /* CouchCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CouchCocoa.framework; path = Frameworks/CouchCocoa.framework; sourceTree = "<group>"; };
+		27F3A63615F0030000263663 /* TouchDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TouchDB.framework; path = Frameworks/TouchDB.framework; sourceTree = "<group>"; };
+		27F3A63A15F0095800263663 /* database.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = database.icns; sourceTree = "<group>"; };
 		27F87AFB1555E7FC00F0A416 /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = AppIcon.icns; path = ../AppIcon.icns; sourceTree = "<group>"; };
 		27F87AFD1555EC5000F0A416 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -81,8 +87,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				27A8A796152A015B00363704 /* Syncpoint.framework in Frameworks */,
 				27A8A777152A008200363704 /* Cocoa.framework in Frameworks */,
+				27F3A63515F002F900263663 /* CouchCocoa.framework in Frameworks */,
+				27F3A63715F0030000263663 /* TouchDB.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,7 +117,8 @@
 		27A8A775152A008200363704 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				27A8A795152A015B00363704 /* Syncpoint.framework */,
+				27F3A63415F002F900263663 /* CouchCocoa.framework */,
+				27F3A63615F0030000263663 /* TouchDB.framework */,
 				27A8A776152A008200363704 /* Cocoa.framework */,
 				27A8A778152A008200363704 /* Other Frameworks */,
 			);
@@ -163,6 +171,7 @@
 				27A8A782152A008200363704 /* main.m */,
 				27A8A784152A008200363704 /* TouchDB Viewer-Prefix.pch */,
 				27A8A785152A008200363704 /* Credits.rtf */,
+				27F3A63A15F0095800263663 /* database.icns */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -225,6 +234,7 @@
 				27A8A79B152A01FF00363704 /* DBWindowController.xib in Resources */,
 				278B0C72152A6B7C00577747 /* TouchDBDoc.icns in Resources */,
 				27F87AFC1555E7FD00F0A416 /* AppIcon.icns in Resources */,
+				27F3A63B15F0095800263663 /* database.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,11 +354,12 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../Syncpoint/build/Syncpoint/Build/Products/Debug\"",
+					"\"$(SRCROOT)/Frameworks\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TouchDB Viewer/TouchDB Viewer-Prefix.pch";
 				INFOPLIST_FILE = "TouchDB Viewer/TouchDB Viewer-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks/";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -360,11 +371,12 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../Syncpoint/build/Syncpoint/Build/Products/Debug\"",
+					"\"$(SRCROOT)/Frameworks\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TouchDB Viewer/TouchDB Viewer-Prefix.pch";
 				INFOPLIST_FILE = "TouchDB Viewer/TouchDB Viewer-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks/";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

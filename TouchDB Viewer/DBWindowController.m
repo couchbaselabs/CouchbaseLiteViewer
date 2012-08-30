@@ -57,7 +57,7 @@
 
     _docEditor.database = _db;
 
-    _path.URL = _db.URL;
+    [self setPathURL: _db.URL];
     
     // Set up the window title:
     if (_dbPath) {
@@ -73,6 +73,12 @@
         self.window.title = [NSString stringWithFormat: @"%@ <%@>",
                              _db.relativePath, host];
     }
+}
+
+
+- (void) setPathURL: (NSURL*)url {
+    _path.URL = url;
+    [_path.pathComponentCells[0] setImage: [NSImage imageNamed: @"database"]];
 }
 
 
@@ -185,7 +191,7 @@ static void insertColumn(NSOutlineView* outline, NSTableColumn* col, NSUInteger 
     _revTreeController.document = doc;
     _queryController.outline = nil;
     _revTreeController.outline = _docsOutline;
-    _path.URL = doc.URL;
+    [self setPathURL: doc.URL];
 }
 
 
@@ -193,10 +199,12 @@ static void insertColumn(NSOutlineView* outline, NSTableColumn* col, NSUInteger 
     if (_queryController.outline)
         return;
     [self showDocColumns];
+    CouchDocument* doc = _revTreeController.document;
     _revTreeController.document = nil;
     _revTreeController.outline = nil;
     _queryController.outline = _docsOutline;
-    _path.URL = _db.URL;
+    [_queryController selectDocument: doc];
+    [self setPathURL: _db.URL];
 }
 
 

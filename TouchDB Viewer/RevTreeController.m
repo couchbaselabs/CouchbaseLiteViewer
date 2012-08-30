@@ -11,13 +11,18 @@
 #import "DocHistory.h"
 
 
+static NSFont* sFont, *sBoldFont;
+
+
 @interface RevTreeController ()
 {
     CouchDocument* _document;
     NSTreeNode* _root;
+    NSSet* _leaves;
     
     IBOutlet DocEditor* _docEditor;
     IBOutlet NSOutlineView* _docsOutline;
+    IBOutlet NSButton *_addDocButton, *_removeDocButton;
 }
 @end
 
@@ -31,13 +36,23 @@
 }
 
 - (void) setOutline: (NSOutlineView*)outline {
+    if (_docsOutline && sFont) {
+        // Restore font of rev column (may have been left bolded)
+        NSTextFieldCell* cell = [_docsOutline tableColumnWithIdentifier: @"rev"].dataCell;
+        cell.font = sFont;
+    }
     _docsOutline.dataSource = nil;
     _docsOutline.delegate = nil;
     _docsOutline = outline;
-    outline.dataSource = self;
-    outline.delegate = self;
-    [outline reloadData];
-    [self outlineViewSelectionDidChange: nil];
+
+    if (outline) {
+        outline.dataSource = self;
+        outline.delegate = self;
+        [outline reloadData];
+        [outline expandItem: nil expandChildren: YES];
+        [self outlineViewSelectionDidChange: nil];
+        _addDocButton.enabled = _removeDocButton.enabled = NO;
+    }
 }
 
 
@@ -48,6 +63,8 @@
 - (void) setDocument:(CouchDocument *)document {
     _document = document;
     _root = document ? GetDocRevisionTree(document) : nil;
+    _leaves = GetLeafNodes(_root);
+    FlattenTree(_root);
 }
 
 
@@ -66,8 +83,8 @@ static NSString* formatRevision( NSString* revID ) {
     return revID;
 }
 
-static NSString* formatProperties( NSDictionary* props ) {
-    return props ? [RESTBody stringWithJSONObject: props] : nil;
+static NSString* formatProperty( id property ) {
+    return property ? [RESTBody stringWithJSONObject: property] : nil;
 }
 
 
@@ -81,7 +98,7 @@ static NSString* formatProperties( NSDictionary* props ) {
     if ([identifier hasPrefix: @"."]) {
         NSString* property = [identifier substringFromIndex: 1];
         id value = [rev.properties objectForKey: property];
-        return formatProperties(value);
+        return formatProperty(value);
     } else {
         static NSArray* kColumnIDs;
         if (!kColumnIDs)
@@ -89,16 +106,43 @@ static NSString* formatProperties( NSDictionary* props ) {
         switch ([kColumnIDs indexOfObject: identifier]) {
             case 0: return rev.documentID;
             case 1: return formatRevision(rev.revisionID);
-            case 2: return formatProperties(rev.userProperties);
+            case 2: {
+                NSDictionary* userProps = rev.userProperties;
+                return userProps.count ? formatProperty(rev.userProperties) : nil;
+            }
             default:return @"???";
         }
     }
 }
 
 
+- (void) outlineView:(NSOutlineView *)outlineView
+        willDisplayCell:(NSTextFieldCell*)cell
+         forTableColumn:(NSTableColumn *)col
+                   item:(NSTreeNode*)item
+{
+    if ([col.identifier isEqualToString: @"rev"]) {
+        CouchRevision* rev = [self revisionForItem: item];
+        NSColor* color =  rev.isDeleted ? [NSColor disabledControlTextColor]
+                                        : [NSColor controlTextColor];
+        [cell setTextColor: color];
+
+        if (!sFont) {
+            sFont = [cell font];
+            sBoldFont = [[NSFontManager sharedFontManager] convertFont: sFont
+                                                           toHaveTrait: NSBoldFontMask];
+        }
+        NSFont* font = sFont;
+        if ([_leaves containsObject: item] && !rev.isDeleted)
+            font = sBoldFont;
+        [cell setFont: font];
+    }
+}
+
+
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item {
     item = item ?: _root;
-    return [[item childNodes] count] > 0;
+    return ![item isLeaf];
 }
 
 

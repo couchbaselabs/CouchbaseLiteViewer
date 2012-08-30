@@ -54,6 +54,7 @@
     outline.dataSource = self;
     outline.delegate = self;
     [outline reloadData];
+    [self enableDocumentButtons];
 }
 
 
@@ -172,8 +173,8 @@ static NSString* formatRevision( NSString* revID ) {
     return revID;
 }
 
-static NSString* formatProperties( NSDictionary* props ) {
-    return props ? [RESTBody stringWithJSONObject: props] : nil;
+static NSString* formatProperty( id property ) {
+    return property ? [RESTBody stringWithJSONObject: property] : nil;
 }
 
 
@@ -187,7 +188,7 @@ static NSString* formatProperties( NSDictionary* props ) {
     if ([identifier hasPrefix: @"."]) {
         NSString* property = [identifier substringFromIndex: 1];
         id value = [row.documentProperties objectForKey: property];
-        return formatProperties(value);
+        return formatProperty(value);
     } else {
         static NSArray* kColumnIDs;
         if (!kColumnIDs)
@@ -196,7 +197,7 @@ static NSString* formatProperties( NSDictionary* props ) {
             case 0: return row.documentID;
             case 1: return formatRevision(row.documentRevision);
             case 2: return [NSNumber numberWithUnsignedLongLong: row.localSequence];
-            case 3: return formatProperties(row.document.userProperties);
+            case 3: return formatProperty(row.document.userProperties);
             default:return @"???";
         }
     }
@@ -247,7 +248,8 @@ static NSString* formatProperties( NSDictionary* props ) {
 
 
 - (void) enableDocumentButtons {
-    [_removeDocButton setEnabled: (_docsOutline.selectedRow >= 0)];
+    _addDocButton.enabled = YES;
+    _removeDocButton.enabled = (_docsOutline.selectedRow >= 0);
 }
 
 
