@@ -31,7 +31,8 @@
 {
     NSString* dbPath = absoluteURL.path;
     if (![absoluteURL isFileURL] || ![dbPath.pathExtension isEqualToString: @"touchdb"]) {
-        *outError = [NSError errorWithDomain: NSCocoaErrorDomain code: -1 userInfo: nil]; //TODO: Real error
+        if (outError)
+            *outError = [NSError errorWithDomain: NSCocoaErrorDomain code: -1 userInfo: nil]; //TODO: Real error
         return NO;
     }
     

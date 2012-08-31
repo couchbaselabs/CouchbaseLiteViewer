@@ -5,7 +5,7 @@ This is a fairly simple Mac editor for [TouchDB](https://github.com/couchbaselab
 1. Open any TouchDB database file on a reachable filesystem
 2. View all documents including revision IDs and sequence numbers
 3. View and modify JSON properties of any document
-4. View document history as a full revision tree
+4. View document history as a full revision tree (by double-clicking a document row)
 5. Add and remove documents
 
 ## Requirements
