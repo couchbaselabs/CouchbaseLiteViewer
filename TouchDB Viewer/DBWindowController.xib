@@ -901,17 +901,17 @@
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">dataSource</string>
 						<reference key="source" ref="417721070"/>
-						<reference key="destination" ref="1001"/>
+						<reference key="destination" ref="572162625"/>
 					</object>
-					<int key="connectionID">62</int>
+					<int key="connectionID">624</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">delegate</string>
 						<reference key="source" ref="417721070"/>
-						<reference key="destination" ref="1001"/>
+						<reference key="destination" ref="572162625"/>
 					</object>
-					<int key="connectionID">61</int>
+					<int key="connectionID">625</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -2067,7 +2067,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">623</int>
+			<int key="maxID">625</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2076,9 +2076,7 @@
 					<string key="superclassName">NSWindowController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="deleteDocument:">id</string>
-						<string key="hideDocRevisionTree:">id</string>
 						<string key="newDocument:">id</string>
-						<string key="pathClicked:">id</string>
 						<string key="showDocRevisionTree:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
@@ -2086,16 +2084,8 @@
 							<string key="name">deleteDocument:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="hideDocRevisionTree:">
-							<string key="name">hideDocRevisionTree:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="newDocument:">
 							<string key="name">newDocument:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="pathClicked:">
-							<string key="name">pathClicked:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="showDocRevisionTree:">
@@ -2144,6 +2134,7 @@
 						<string key="addColumnForSelectedProperty:">id</string>
 						<string key="addProperty:">id</string>
 						<string key="cancelOperation:">id</string>
+						<string key="copy:">id</string>
 						<string key="removeProperty:">id</string>
 						<string key="revertDocumentToSaved:">id</string>
 						<string key="saveDocument:">id</string>
@@ -2159,6 +2150,10 @@
 						</object>
 						<object class="IBActionInfo" key="cancelOperation:">
 							<string key="name">cancelOperation:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="copy:">
+							<string key="name">copy:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="removeProperty:">
@@ -2199,10 +2194,15 @@
 					<string key="className">QueryResultController</string>
 					<string key="superclassName">NSObject</string>
 					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="copy:">id</string>
 						<string key="deleteDocument:">id</string>
 						<string key="newDocument:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="copy:">
+							<string key="name">copy:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="deleteDocument:">
 							<string key="name">deleteDocument:</string>
 							<string key="candidateClassName">id</string>

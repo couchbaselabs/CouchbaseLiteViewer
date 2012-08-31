@@ -68,6 +68,18 @@ static NSFont* sFont, *sBoldFont;
 }
 
 
+- (NSArray*) selectedRevisions {
+    NSIndexSet* selIndexes = [_docsOutline selectedRowIndexes];
+    NSUInteger count = selIndexes.count;
+    NSMutableArray* sel = [NSMutableArray arrayWithCapacity: count];
+    [selIndexes enumerateIndexesUsingBlock: ^(NSUInteger idx, BOOL *stop) {
+        CouchRevision* item = [self revisionForItem: [_docsOutline itemAtRow: idx]];
+        [sel addObject: item];
+    }];
+    return sel;
+}
+
+
 #pragma mark - DOCUMENT-LIST VIEW:
 
 
@@ -171,6 +183,26 @@ static NSString* formatProperty( id property ) {
     }
     _docEditor.readOnly = YES;
     _docEditor.revision = sel;
+}
+
+
+#pragma mark - ACTIONS:
+
+
+- (IBAction) copy:(id)sender {
+    NSArray* sel = self.selectedRevisions;
+    if (!sel.count) {
+        NSBeep();
+        return;
+    }
+    NSMutableArray* revIDs = [NSMutableArray array];
+    for (CouchRevision* rev in sel)
+        [revIDs addObject: rev.revisionID];
+    NSString* result = [revIDs componentsJoinedByString: @"\n"];
+
+    NSPasteboard* pb = [NSPasteboard generalPasteboard];
+    [pb clearContents];
+    [pb setString: result forType: NSStringPboardType];
 }
 
 

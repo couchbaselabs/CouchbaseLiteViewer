@@ -34,5 +34,6 @@
 
 - (BOOL) saveDocument;
 - (IBAction) cancelOperation: (id)sender;
+- (IBAction) copy:(id)sender;
 
 @end

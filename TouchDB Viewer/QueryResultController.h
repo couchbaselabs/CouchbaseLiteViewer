@@ -18,5 +18,6 @@
 
 - (IBAction) newDocument: (id)sender;
 - (IBAction) deleteDocument: (id)sender;
+- (IBAction) copy:(id)sender;
 
 @end

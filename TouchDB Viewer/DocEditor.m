@@ -8,6 +8,7 @@
 
 #import "DocEditor.h"
 #import "DBWindowController.h"
+#import "JSONFormatter.h"
 
 
 @implementation DocEditor
@@ -200,6 +201,21 @@ static BOOL isSpecialProperty(NSString* key) {
         }
         [self rebuildTable];
     }
+}
+
+
+- (IBAction) copy:(id)sender {
+    NSString* prop = self.selectedProperty;
+    if (!prop) {
+        NSBeep();
+        return;
+    }
+    id value = _properties[prop];
+    NSString* json = [JSONFormatter stringForObjectValue: value];
+    
+    NSPasteboard* pb = [NSPasteboard generalPasteboard];
+    [pb clearContents];
+    [pb setString: json forType: NSStringPboardType];
 }
 
 

@@ -10,4 +10,6 @@
 
 @interface JSONFormatter : NSFormatter
 
++ (NSString*) stringForObjectValue: (id)obj;
+
 @end

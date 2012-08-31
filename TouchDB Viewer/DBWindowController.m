@@ -247,4 +247,17 @@ static void insertColumn(NSOutlineView* outline, NSTableColumn* col, NSUInteger 
 }
 
 
+- (IBAction) copy:(id)sender {
+    id focus = self.window.firstResponder;
+    if ([focus isKindOfClass: [NSTableView class]]) {
+        focus = [focus delegate];
+        if ([focus respondsToSelector: @selector(copy:)]) {
+            [focus copy: sender];
+            return;
+        }
+    }
+    NSBeep();
+}
+
+
 @end

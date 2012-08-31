@@ -272,6 +272,23 @@ static NSString* formatProperty( id property ) {
 }
 
 
+- (IBAction) copy:(id)sender {
+    NSArray* docs = self.selectedDocuments;
+    if (!docs.count) {
+        NSBeep();
+        return;
+    }
+    NSMutableArray* docIDs = [NSMutableArray array];
+    for (CouchDocument* doc in docs)
+        [docIDs addObject: doc.documentID];
+    NSString* result = [docIDs componentsJoinedByString: @"\n"];
+
+    NSPasteboard* pb = [NSPasteboard generalPasteboard];
+    [pb clearContents];
+    [pb setString: result forType: NSStringPboardType];
+}
+
+
 @end
 
 
