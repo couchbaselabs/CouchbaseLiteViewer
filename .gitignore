@@ -3,6 +3,8 @@
 *.perspectivev3
 *.mode1v3
 *.framework
+*.app
+*.zip
 xcuserdata/
 build/
 DerivedData/

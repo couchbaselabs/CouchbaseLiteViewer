@@ -18,6 +18,9 @@
 - (IBAction) newDocument: (id)sender;
 - (IBAction) deleteDocument: (id)sender;
 
+/** Either the QueryResultController or the RevTreeController */
+@property (readonly) id outlineController;
+
 - (BOOL) hasColumnForProperty: (NSString*)property;
 - (void) addColumnForProperty: (NSString*)property;
 - (void) removeColumnForProperty: (NSString*)property;

@@ -12,6 +12,7 @@
 
 @property (copy) CouchQuery* query;
 @property (assign) NSOutlineView* outline;
+@property BOOL showDeleted;
 
 - (NSArray*) selectedDocuments;
 - (BOOL) selectDocument: (CouchDocument*)doc;

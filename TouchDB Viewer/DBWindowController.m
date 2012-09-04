@@ -40,6 +40,7 @@
 
 - (id)initWithDatabase: (CouchDatabase*)db
 {
+    NSParameterAssert(db != nil);
     self = [super initWithWindowNibName: @"DBWindowController"];
     if (self) {
         _db = db;
@@ -179,6 +180,11 @@ static void insertColumn(NSOutlineView* outline, NSTableColumn* col, NSUInteger 
 #pragma mark - ACTIONS:
 
 
+- (id) outlineController {
+    return _docsOutline.dataSource;
+}
+
+
 - (IBAction) showDocRevisionTree:(id)sender {
     if (_revTreeController.outline)
         return;
@@ -188,9 +194,11 @@ static void insertColumn(NSOutlineView* outline, NSTableColumn* col, NSUInteger 
 
     CouchDocument* doc = docs[0];
     [self hideDocColumns];
+    [self willChangeValueForKey: @"outlineController"];
     _revTreeController.document = doc;
     _queryController.outline = nil;
     _revTreeController.outline = _docsOutline;
+    [self didChangeValueForKey: @"outlineController"];
     [self setPathURL: doc.URL];
 }
 
@@ -200,10 +208,12 @@ static void insertColumn(NSOutlineView* outline, NSTableColumn* col, NSUInteger 
         return;
     [self showDocColumns];
     CouchDocument* doc = _revTreeController.document;
+    [self willChangeValueForKey: @"outlineController"];
     _revTreeController.document = nil;
     _revTreeController.outline = nil;
     _queryController.outline = _docsOutline;
     [_queryController selectDocument: doc];
+    [self didChangeValueForKey: @"outlineController"];
     [self setPathURL: _db.URL];
 }
 

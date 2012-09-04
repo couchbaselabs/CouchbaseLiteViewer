@@ -12,5 +12,6 @@
 
 @property (assign) NSOutlineView* outline;
 @property (retain) CouchDocument* document;
+@property BOOL showDeleted;
 
 @end

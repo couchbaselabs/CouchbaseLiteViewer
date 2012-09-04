@@ -12,6 +12,10 @@ NSTreeNode* GetDocRevisionTree(CouchDocument* doc);
 
 NSSet* GetLeafNodes(NSTreeNode* tree);
 
-NSTreeNode* FlattenTree(NSTreeNode* root);
+NSTreeNode* CopyTree(NSTreeNode* root);
+
+void FlattenTree(NSTreeNode* root);
+
+NSTreeNode* TreeWithoutDeletedBranches(NSTreeNode* root);
 
 NSString* DumpDocRevisionTree(NSTreeNode* root);

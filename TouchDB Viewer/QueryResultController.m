@@ -58,6 +58,16 @@
 }
 
 
+- (BOOL) showDeleted {
+    return _query.includeDeleted;
+}
+
+- (void) setShowDeleted:(BOOL)showDeleted {
+    _query.includeDeleted = showDeleted;
+    [_query start];
+}
+
+
 - (void)dealloc
 {
     [_query removeObserver: self forKeyPath: @"rows"];
@@ -201,6 +211,19 @@ static NSString* formatProperty( id property ) {
             default:return @"???";
         }
     }
+}
+
+
+- (void) outlineView:(NSOutlineView *)outlineView
+     willDisplayCell:(NSTextFieldCell*)cell
+      forTableColumn:(NSTableColumn *)col
+                item:(NSTreeNode*)item
+{
+    CouchQueryRow* row = [self queryRowForItem: item];
+    BOOL deleted = [row.value[@"deleted"] boolValue];
+    NSColor* color =  deleted ? [NSColor disabledControlTextColor]
+                              : [NSColor controlTextColor];
+    [cell setTextColor: color];
 }
 
 

@@ -24,7 +24,7 @@ NSTreeNode* SortRevisionTree(NSTreeNode* tree) {
 
 
 NSTreeNode* GetDocRevisionTree(CouchDocument* doc) {
-    NSArray* leaves = [doc getConflictingRevisions];
+    NSArray* leaves = [doc getLeafRevisions];
     if (!leaves)
         return nil;
     NSTreeNode* root = [NSTreeNode treeNodeWithRepresentedObject: nil];
@@ -83,7 +83,19 @@ NSSet* GetLeafNodes(NSTreeNode* tree) {
 }
 
 
-NSTreeNode* FlattenTree(NSTreeNode* root) {
+NSTreeNode* CopyTree(NSTreeNode* root) {
+    if (!root)
+        return nil;
+    NSTreeNode* copiedRoot = [NSTreeNode treeNodeWithRepresentedObject: root.representedObject];
+    for (NSTreeNode* child in root.childNodes)
+        [copiedRoot.mutableChildNodes addObject: CopyTree(child)];
+    return copiedRoot;
+}
+
+
+void FlattenTree(NSTreeNode* root) {
+    if (!root)
+        return;
     // If this node has one child, make its linear decendent chain into direct children:
     if (root.childNodes.count == 1) {
         NSTreeNode* child = root;
@@ -97,7 +109,30 @@ NSTreeNode* FlattenTree(NSTreeNode* root) {
     // Now recurse:
     for (NSTreeNode* child in root.childNodes)
         FlattenTree(child);
-    return root;
+}
+
+
+NSTreeNode* TreeWithoutDeletedBranches(NSTreeNode* root) {
+    if (!root)
+        return nil;
+    CouchRevision* rev = root.representedObject;
+    if (root.isLeaf) {
+        if (rev.isDeleted)
+            return nil;
+        return [NSTreeNode treeNodeWithRepresentedObject: rev];
+    } else {
+        NSMutableArray* children = [NSMutableArray array];
+        for (NSTreeNode* child in root.childNodes) {
+            NSTreeNode* prunedChild = TreeWithoutDeletedBranches(child);
+            if (prunedChild)
+                [children addObject: prunedChild];
+        }
+        if (children.count == 0)
+            return nil;
+        root = [NSTreeNode treeNodeWithRepresentedObject: rev];
+        [root.mutableChildNodes setArray: children];
+        return root;
+    }
 }
 
 

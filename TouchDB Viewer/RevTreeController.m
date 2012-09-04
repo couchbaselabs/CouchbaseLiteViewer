@@ -17,8 +17,10 @@ static NSFont* sFont, *sBoldFont;
 @interface RevTreeController ()
 {
     CouchDocument* _document;
-    NSTreeNode* _root;
+    NSTreeNode* _fullRoot;  // includes deleted revs
+    NSTreeNode* _root;  // may not include deleted revs
     NSSet* _leaves;
+    BOOL _showDeleted;
     
     IBOutlet DocEditor* _docEditor;
     IBOutlet NSOutlineView* _docsOutline;
@@ -62,9 +64,29 @@ static NSFont* sFont, *sBoldFont;
 
 - (void) setDocument:(CouchDocument *)document {
     _document = document;
-    _root = document ? GetDocRevisionTree(document) : nil;
+    _fullRoot = document ? GetDocRevisionTree(document) : nil;
+    if (!_showDeleted && _document.currentRevision.isDeleted)
+        self.showDeleted = YES;
+    else
+        [self updateRoot];
+}
+
+
+- (void) updateRoot {
+    _root = _showDeleted ? CopyTree(_fullRoot) : TreeWithoutDeletedBranches(_fullRoot);
     _leaves = GetLeafNodes(_root);
     FlattenTree(_root);
+}
+
+
+- (BOOL) showDeleted {
+    return _showDeleted;
+}
+
+- (void) setShowDeleted:(BOOL)showDeleted {
+    _showDeleted = showDeleted;
+    [self updateRoot];
+    [_docsOutline reloadData];
 }
 
 
