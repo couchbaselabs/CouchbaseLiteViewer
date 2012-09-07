@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		274789FF15F97520006E842D /* URLFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 274789FE15F97520006E842D /* URLFormatter.m */; };
 		2765CF7815544FAA0087D810 /* DocEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 2765CF7715544FAA0087D810 /* DocEditor.m */; };
 		278B0C6F152A64A900577747 /* DBDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 278B0C6D152A64A900577747 /* DBDocument.m */; };
 		278B0C72152A6B7C00577747 /* TouchDBDoc.icns in Resources */ = {isa = PBXBuildFile; fileRef = 278B0C71152A6B7C00577747 /* TouchDBDoc.icns */; };
@@ -46,6 +47,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		274789FD15F97520006E842D /* URLFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLFormatter.h; sourceTree = "<group>"; };
+		274789FE15F97520006E842D /* URLFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLFormatter.m; sourceTree = "<group>"; };
 		2765CF7615544FAA0087D810 /* DocEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocEditor.h; sourceTree = "<group>"; };
 		2765CF7715544FAA0087D810 /* DocEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocEditor.m; sourceTree = "<group>"; };
 		278B0C6C152A64A900577747 /* DBDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBDocument.h; sourceTree = "<group>"; };
@@ -156,6 +159,8 @@
 				278B0C6D152A64A900577747 /* DBDocument.m */,
 				278C85B61554810D0016C7A4 /* JSONFormatter.h */,
 				278C85B71554810D0016C7A4 /* JSONFormatter.m */,
+				274789FD15F97520006E842D /* URLFormatter.h */,
+				274789FE15F97520006E842D /* URLFormatter.m */,
 				27A8A77D152A008200363704 /* Supporting Files */,
 			);
 			path = "TouchDB Viewer";
@@ -254,6 +259,7 @@
 				27F3A62D15EE70B300263663 /* DocHistory.m in Sources */,
 				27F3A63015EE98C100263663 /* QueryResultController.m in Sources */,
 				27F3A63315EEA06900263663 /* RevTreeController.m in Sources */,
+				274789FF15F97520006E842D /* URLFormatter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

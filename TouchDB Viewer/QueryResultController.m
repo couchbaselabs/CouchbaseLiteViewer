@@ -40,6 +40,9 @@
     [_query addObserver: self forKeyPath: @"rows"
                 options: NSKeyValueObservingOptionInitial
                 context: NULL];
+    [_query addObserver: self forKeyPath: @"error"
+                options: 0
+                context: NULL];
 }
 
 
@@ -78,20 +81,24 @@
                          change:(NSDictionary *)change context:(void *)context
 {
     if (object == _query) {
-        NSArray* selection;
-        CouchDocument* editedDoc = _docEditor.revision.document;
-        if (editedDoc)
-            selection = @[editedDoc];
-        else
-            selection = self.selectedDocuments;
+        if (_query.error) {
+            [_docsOutline.window presentError: _query.error];
+        } else {
+            NSArray* selection;
+            CouchDocument* editedDoc = _docEditor.revision.document;
+            if (editedDoc)
+                selection = @[editedDoc];
+            else
+                selection = self.selectedDocuments;
 
-        CouchQueryEnumerator* rows = _query.rows;
-        _rows = rows.allObjects.mutableCopy;
-        if (_docsOutline.sortDescriptors)
-            [_rows sortUsingDescriptors: _docsOutline.sortDescriptors];
-        [_docsOutline reloadItem: nil];
+            CouchQueryEnumerator* rows = _query.rows;
+            _rows = rows.allObjects.mutableCopy;
+            if (_docsOutline.sortDescriptors)
+                [_rows sortUsingDescriptors: _docsOutline.sortDescriptors];
+            [_docsOutline reloadItem: nil];
 
-        self.selectedDocuments = selection;
+            self.selectedDocuments = selection;
+        }
     }
 }
 

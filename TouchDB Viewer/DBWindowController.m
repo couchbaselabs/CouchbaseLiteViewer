@@ -18,12 +18,14 @@
     CouchDatabase* _db;
     NSString* _dbPath;
     NSTableColumn* _idCol, *_seqCol;
+    BOOL _isTouchDB;
 
     IBOutlet QueryResultController* _queryController;
     IBOutlet RevTreeController* _revTreeController;
     IBOutlet DocEditor* _docEditor;
     IBOutlet NSOutlineView* _docsOutline;
     IBOutlet NSPathControl* _path;
+    IBOutlet NSButton* _showDeletedCheckbox;
 }
 
 @property (readonly, nonatomic) NSString* dbPath;
@@ -44,8 +46,28 @@
     self = [super initWithWindowNibName: @"DBWindowController"];
     if (self) {
         _db = db;
+
+        // Check what kind of server this is running on:
+        RESTOperation* op = [_db.server GET];
+        [op onCompletion: ^{
+            if (op.error) {
+                [self presentError: op.error];
+            } else {
+                NSDictionary* info = op.responseBody.fromJSON;
+                NSLog(@"Server = %@", info);
+                _isTouchDB = info[@"TouchDB"] != nil;
+                if (!_isTouchDB)
+                    _showDeletedCheckbox.hidden = YES;
+            }
+        }];
     }
     return self;
+}
+
+
+- (id)initWithURL: (NSURL*)url {
+    CouchDatabase* db = [CouchDatabase databaseWithURL: url];
+    return db ? [self initWithDatabase: db] : nil;
 }
 
 
@@ -79,7 +101,9 @@
 
 - (void) setPathURL: (NSURL*)url {
     _path.URL = url;
-    [_path.pathComponentCells[0] setImage: [NSImage imageNamed: @"database"]];
+    NSArray* cells = _path.pathComponentCells;
+    if (cells.count > 0)
+        [cells[0] setImage: [NSImage imageNamed: @"database"]];
 }
 
 

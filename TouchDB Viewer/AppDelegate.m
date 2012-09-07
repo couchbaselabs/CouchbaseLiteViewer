@@ -12,7 +12,7 @@
 
 @implementation AppDelegate
 
-@synthesize window = _window;
+@synthesize window=_window, urlPanel=_urlPanel, urlInputField=_urlInputField;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
@@ -21,6 +21,30 @@
 
 - (BOOL) applicationShouldOpenUntitledFile:(NSApplication *)sender {
     return NO;
+}
+
+- (IBAction) openURL:(id)sender {
+    [_urlPanel center];
+    NSInteger code = [NSApp runModalForWindow: _urlPanel];
+    NSURL* url = _urlInputField.objectValue;
+    [_urlPanel orderOut: self];
+    if (code == NSOKButton && url) {
+        DBWindowController* controller = [[DBWindowController alloc] initWithURL: url];
+        if (controller)
+            [controller showWindow: self];
+        else
+            NSBeep();
+    }
+}
+
+- (IBAction) dismissURLPanel: (id)sender
+{
+    NSInteger code = [sender tag];
+    if (code == NSOKButton && !_urlInputField.objectValue) {
+        NSBeep();
+        return;
+    }
+    [NSApp stopModalWithCode: code];
 }
 
 @end

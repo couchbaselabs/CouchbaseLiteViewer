@@ -78,7 +78,7 @@
 													<string key="NSFrameSize">{370, 371}</string>
 													<reference key="NSSuperview" ref="252304245"/>
 													<reference key="NSWindow"/>
-													<reference key="NSNextKeyView" ref="832127522"/>
+													<reference key="NSNextKeyView" ref="890457675"/>
 													<string key="NSReuseIdentifierKey">_NS:13</string>
 													<bool key="NSEnabled">YES</bool>
 													<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -350,7 +350,7 @@
 									<string key="NSFrameSize">{372, 389}</string>
 									<reference key="NSSuperview" ref="967525427"/>
 									<reference key="NSWindow"/>
-									<reference key="NSNextKeyView" ref="890457675"/>
+									<reference key="NSNextKeyView" ref="252304245"/>
 									<string key="NSReuseIdentifierKey">_NS:9</string>
 									<int key="NSsFlags">133682</int>
 									<reference key="NSVScroller" ref="832127522"/>
@@ -376,7 +376,7 @@
 													<string key="NSFrameSize">{240, 371}</string>
 													<reference key="NSSuperview" ref="483783956"/>
 													<reference key="NSWindow"/>
-													<reference key="NSNextKeyView" ref="542141625"/>
+													<reference key="NSNextKeyView" ref="597025874"/>
 													<string key="NSReuseIdentifierKey">_NS:13</string>
 													<bool key="NSEnabled">YES</bool>
 													<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -532,7 +532,7 @@
 									<string key="NSFrame">{{382, 0}, {242, 389}}</string>
 									<reference key="NSSuperview" ref="967525427"/>
 									<reference key="NSWindow"/>
-									<reference key="NSNextKeyView" ref="597025874"/>
+									<reference key="NSNextKeyView" ref="483783956"/>
 									<string key="NSReuseIdentifierKey">_NS:9</string>
 									<int key="NSsFlags">133682</int>
 									<reference key="NSVScroller" ref="542141625"/>
@@ -672,7 +672,6 @@
 							<string key="NSFrame">{{571, 2}, {38, 17}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="440119481">
@@ -802,7 +801,7 @@
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="289871776"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
+				<string key="NSScreenRect">{{0, 0}, {2560, 1578}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSAutorecalculatesContentBorderThicknessMinY">NO</bool>
 				<double key="NSContentBorderThicknessMinY">22</double>
@@ -921,6 +920,14 @@
 						<reference key="destination" ref="289871776"/>
 					</object>
 					<int key="connectionID">619</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_showDeletedCheckbox</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="422770785"/>
+					</object>
+					<int key="connectionID">645</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -2177,7 +2184,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">644</int>
+			<int key="maxID">645</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2209,6 +2216,7 @@
 						<string key="_path">NSPathControl</string>
 						<string key="_queryController">QueryResultController</string>
 						<string key="_revTreeController">RevTreeController</string>
+						<string key="_showDeletedCheckbox">NSButton</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="_docEditor">
@@ -2230,6 +2238,10 @@
 						<object class="IBToOneOutletInfo" key="_revTreeController">
 							<string key="name">_revTreeController</string>
 							<string key="candidateClassName">RevTreeController</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="_showDeletedCheckbox">
+							<string key="name">_showDeletedCheckbox</string>
+							<string key="candidateClassName">NSButton</string>
 						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">

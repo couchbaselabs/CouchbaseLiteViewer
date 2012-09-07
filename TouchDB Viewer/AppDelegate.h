@@ -11,5 +11,8 @@
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
 @property (assign) IBOutlet NSWindow *window;
+@property (assign) IBOutlet NSPanel* urlPanel;
+@property (assign) IBOutlet NSTextField *urlInputField;
 
+- (IBAction) dismissURLPanel:(id)sender;
 @end

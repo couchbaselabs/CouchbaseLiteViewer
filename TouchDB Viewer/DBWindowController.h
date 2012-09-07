@@ -13,6 +13,7 @@
 @interface DBWindowController : NSWindowController
 
 - (id)initWithDatabase: (CouchDatabase*)db;
+- (id)initWithURL: (NSURL*)url;
 
 - (IBAction) showDocRevisionTree:(id)sender;
 - (IBAction) newDocument: (id)sender;
