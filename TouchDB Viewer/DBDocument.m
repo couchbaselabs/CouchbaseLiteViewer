@@ -8,7 +8,7 @@
 
 #import "DBDocument.h"
 #import "DBWindowController.h"
-#import <TouchDB/TDDatabaseManager.h>
+#import <TouchDB/TD_DatabaseManager.h>
 
 
 @implementation DBDocument
@@ -37,7 +37,7 @@
     }
     
     NSString* serverPath = dbPath.stringByDeletingLastPathComponent;
-    TDDatabaseManagerOptions options = {.readOnly = false, .noReplicator = true};
+    TD_DatabaseManagerOptions options = {.readOnly = false, .noReplicator = true};
     CouchTouchDBServer* server = [[CouchTouchDBServer alloc] initWithServerPath: serverPath
                                                                         options: &options];
     if (server.error) {
