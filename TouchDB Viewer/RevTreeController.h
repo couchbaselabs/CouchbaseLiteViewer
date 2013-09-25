@@ -10,8 +10,8 @@
 
 @interface RevTreeController : NSObject <NSOutlineViewDataSource, NSOutlineViewDelegate>
 
-@property (assign) NSOutlineView* outline;
-@property (retain) CouchDocument* document;
+@property (weak) NSOutlineView* outline;
+@property (strong) CouchDocument* document;
 @property BOOL showDeleted;
 
 @end

@@ -12,9 +12,9 @@
 
 @interface DocEditor : NSObject
 
-@property CouchDatabase* database;
+@property (weak) CouchDatabase* database;
 
-@property CouchRevision* revision;
+@property (weak) CouchRevision* revision;
 
 @property BOOL readOnly;
 
@@ -25,7 +25,7 @@
 
 - (IBAction) addColumnForSelectedProperty:(id)sender;
 
-@property (readonly) NSTableView* tableView;
+@property (weak, readonly) NSTableView* tableView;
 
 @property (copy) NSString* selectedProperty;
 

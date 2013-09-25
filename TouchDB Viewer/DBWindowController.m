@@ -16,7 +16,7 @@
 {
     @private
     CouchDatabase* _db;
-    NSString* _dbPath;
+    NSString* __weak _dbPath;
     NSTableColumn* _idCol, *_seqCol;
     BOOL _isTouchDB;
 
@@ -28,7 +28,7 @@
     IBOutlet NSButton* _showDeletedCheckbox;
 }
 
-@property (readonly, nonatomic) NSString* dbPath;
+@property (weak, readonly, nonatomic) NSString* dbPath;
 
 @end
 

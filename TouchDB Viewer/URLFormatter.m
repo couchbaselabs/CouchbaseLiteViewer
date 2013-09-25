@@ -17,7 +17,7 @@
 {
     self = [super init];
     if (self != nil) {
-        _allowedSchemes = [NSArray arrayWithObjects: @"http", @"https", nil];
+        _allowedSchemes = @[@"http", @"https"];
     }
     return self;
 }

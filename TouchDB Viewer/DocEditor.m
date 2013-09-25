@@ -13,7 +13,7 @@
 
 @implementation DocEditor
 {
-    CouchDatabase* _db;
+    CouchDatabase* __weak _db;
     CouchRevision* _revision;
     BOOL _readOnly;
     BOOL _untitled;
@@ -23,7 +23,7 @@
     BOOL _cancelingEdit;
     
     IBOutlet DBWindowController* _dbWindowController;
-    IBOutlet NSTableView* _table;
+    IBOutlet NSTableView* __weak _table;
     IBOutlet NSButton *_addPropertyButton, *_removePropertyButton, *_addColumnButton;
     IBOutlet NSButton *_saveButton, *_revertButton;
 }

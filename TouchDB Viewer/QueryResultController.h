@@ -11,7 +11,7 @@
 @interface QueryResultController : NSObject <NSOutlineViewDataSource, NSOutlineViewDelegate>
 
 @property (copy) CouchQuery* query;
-@property (assign) NSOutlineView* outline;
+@property (weak) NSOutlineView* outline;
 @property BOOL showDeleted;
 
 - (NSArray*) selectedDocuments;

@@ -20,7 +20,7 @@
 - (IBAction) deleteDocument: (id)sender;
 
 /** Either the QueryResultController or the RevTreeController */
-@property (readonly) id outlineController;
+@property (unsafe_unretained, readonly) id outlineController;
 
 - (BOOL) hasColumnForProperty: (NSString*)property;
 - (void) addColumnForProperty: (NSString*)property;
