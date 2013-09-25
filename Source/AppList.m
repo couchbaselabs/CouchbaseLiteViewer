@@ -76,7 +76,6 @@ NSImage* kOSIcon, *kAppIcon, *kDbIcon;
     NSString* bundlePath = [self.path stringByAppendingPathComponent: getAppBundleName(self.path)];
     NSString* infoPath = [bundlePath stringByAppendingPathComponent: @"Info.plist"];
     NSDictionary* plist = [NSDictionary dictionaryWithContentsOfFile: infoPath];
-//    NSLog(@"plist = %@", plist);
     NSString* iconFileName = plist[@"CFBundleIcons"][@"CFBundlePrimaryIcon"][@"CFBundleIconFiles"][0];
     if (!iconFileName)
         return nil;
@@ -90,7 +89,8 @@ NSImage* kOSIcon, *kAppIcon, *kDbIcon;
 
 
 #define kSimulatorPath @"Library/Application Support/iPhone Simulator/"
-#define kDbDirPath @"Library/Application Support/CouchbaseLite"
+#define kDbDirName @"CouchbaseLite"
+#define kIOSDbDirPath @"Library/Application Support/CouchbaseLite"
 #define kDbPathExtensions @[@"cblite", @"touchdb"]
 #define kReplicatorDbName @"_replicator"
 
@@ -115,7 +115,7 @@ static NSDictionary* iterateDir(NSString* dir, NSError** outError,
 }
 
 
-static NSDictionary* findOSDirs(NSError** error) {
+static NSDictionary* findIOSSimulatorDirs(NSError** error) {
     NSString* dir = [NSHomeDirectory() stringByAppendingPathComponent: kSimulatorPath];
     return iterateDir(dir, error, ^NSString *(NSString *dirname) {
         if (isdigit([dirname characterAtIndex: 0]) && [dirname doubleValue] >= 6.0)
@@ -137,7 +137,7 @@ static NSDictionary* findAppDirs(NSString* osDir, NSError** error) {
     NSString* appsDir = [osDir stringByAppendingPathComponent: @"Applications"];
     return iterateDir(appsDir, error, ^NSString *(NSString *dirName) {
         NSString* appHomeDir = [appsDir stringByAppendingPathComponent: dirName];
-        NSString* cblPath = [appHomeDir stringByAppendingPathComponent: kDbDirPath];
+        NSString* cblPath = [appHomeDir stringByAppendingPathComponent: kIOSDbDirPath];
         if (![[NSFileManager defaultManager] fileExistsAtPath: cblPath])
             return nil;
         return [getAppBundleName(appHomeDir) stringByDeletingPathExtension];
@@ -146,14 +146,42 @@ static NSDictionary* findAppDirs(NSString* osDir, NSError** error) {
 
 
 static NSDictionary* findAppDatabases(NSString* appHomeDir, NSError** error) {
-    NSString* cblPath = [appHomeDir stringByAppendingPathComponent: kDbDirPath];
+    NSString* cblPath = [appHomeDir stringByAppendingPathComponent: kIOSDbDirPath];
     return iterateDir(cblPath, error, ^NSString *(NSString *filename) {
         if (![kDbPathExtensions containsObject: filename.pathExtension])
             return nil;
         NSString* dbName = filename.stringByDeletingPathExtension;
         if ([dbName isEqualToString: kReplicatorDbName])
             return nil;
-        return dbName;
+        return [dbName stringByReplacingOccurrencesOfString: @":" withString: @"/"];
+    });
+}
+
+
+static NSDictionary* findMacAppDirs(NSError** error) {
+    NSString* dirName = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES)[0];
+    return iterateDir(dirName, error, ^NSString *(NSString *appDirName) {
+        NSString* appDirPath = [dirName stringByAppendingPathComponent: appDirName];
+        NSString* cblPath = [appDirPath stringByAppendingPathComponent: kDbDirName];
+        BOOL isDir;
+        if (![[NSFileManager defaultManager] fileExistsAtPath: cblPath isDirectory: &isDir]
+                || !isDir)
+            return nil;
+        return [[appDirName componentsSeparatedByString: @"."] lastObject];
+    });
+}
+
+
+static NSDictionary* findMacAppDatabases(NSString* appSupportDir, NSError** error) {
+    NSLog(@"Looking in %@", appSupportDir);
+    NSString* cblPath = [appSupportDir stringByAppendingPathComponent: kDbDirName];
+    return iterateDir(cblPath, error, ^NSString *(NSString *filename) {
+        if (![kDbPathExtensions containsObject: filename.pathExtension])
+            return nil;
+        NSString* dbName = filename.stringByDeletingPathExtension;
+        if ([dbName isEqualToString: kReplicatorDbName])
+            return nil;
+        return [dbName stringByReplacingOccurrencesOfString: @":" withString: @"/"];
     });
 }
 
@@ -165,7 +193,7 @@ static NSArray* sortedKeys(NSDictionary* dict) {
 
 AppListNode* BuildAppList(NSError** outError) {
     AppListNode* root = [[AppListNode alloc] initWithType: kOSNode path: nil displayName: nil];
-    NSDictionary* versions = findOSDirs(outError);
+    NSDictionary* versions = findIOSSimulatorDirs(outError);
     if (!versions)
         return nil;
     for (NSString* version in sortedKeys(versions)) {
@@ -190,13 +218,35 @@ AppListNode* BuildAppList(NSError** outError) {
         if (versNode.children.count > 0)
             [root.children addObject: versNode];
     }
+
+    // Now find Mac apps:
+    AppListNode* versNode = [[AppListNode alloc] initWithType: kOSNode path: @"" displayName: @"Mac OS"];
+    NSDictionary* apps = findMacAppDirs(outError);
+    if (!apps)
+        return nil;
+    for (NSString* app in sortedKeys(apps)) {
+        AppListNode* appNode = [[AppListNode alloc] initWithType: kAppNode path: apps[app] displayName: app];
+
+        NSDictionary* dbs = findMacAppDatabases(apps[app],  outError);
+        if (!dbs)
+            return nil;
+        for (NSString* db in sortedKeys(dbs)) {
+            AppListNode* dbNode = [[AppListNode alloc] initWithType: kDbNode path: dbs[db] displayName: db];
+            [appNode.children addObject: dbNode];
+        }
+        if (appNode.children.count > 0)
+            [versNode.children addObject: appNode];
+    }
+    if (versNode.children.count > 0)
+        [root.children addObject: versNode];
+
     return root;
 }
 
 
 void TestAppList(void) {
     NSError* error;
-    NSDictionary* versions = findOSDirs(&error);
+    NSDictionary* versions = findIOSSimulatorDirs(&error);
     NSCAssert(versions, @"error %@", error);
     for (NSString* version in sortedKeys(versions)) {
         NSLog(@"%@:", version);

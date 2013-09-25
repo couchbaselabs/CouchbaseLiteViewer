@@ -32,7 +32,7 @@
 {
     NSParameterAssert(absoluteURL.isFileURL);
     _path = absoluteURL.path;
-    if (![absoluteURL isFileURL] || ![_path.pathExtension isEqualToString: @"cblite"]) {
+    if (![absoluteURL isFileURL] || ![@[@"cblite", @"touchdb"] containsObject: _path.pathExtension]) {
         if (outError)
             *outError = [NSError errorWithDomain: NSCocoaErrorDomain code: -1 userInfo: nil]; //TODO: Real error
         return NO;

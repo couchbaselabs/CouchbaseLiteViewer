@@ -10,6 +10,7 @@
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>cblite</string>
+				<string>touchdb</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>DBDoc</string>
