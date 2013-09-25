@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "DBWindowController.h"
+#import "AppListController.h"
 
 
 @implementation AppDelegate
@@ -16,11 +17,15 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    //gRESTLogLevel = kRESTLogRequestHeaders;
+    [AppListController restore];
 }
 
 - (BOOL) applicationShouldOpenUntitledFile:(NSApplication *)sender {
     return NO;
+}
+
+- (IBAction) showAppBrowser: (id)sender {
+    [AppListController show];
 }
 
 /*

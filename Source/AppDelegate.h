@@ -14,5 +14,7 @@
 @property (weak) IBOutlet NSPanel* urlPanel;
 @property (weak) IBOutlet NSTextField *urlInputField;
 
+- (IBAction) showAppBrowser: (id)sender;
+
 //- (IBAction) dismissURLPanel:(id)sender;
 @end

@@ -10,6 +10,10 @@
 		274789FF15F97520006E842D /* URLFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 274789FE15F97520006E842D /* URLFormatter.m */; };
 		27538FA517F28B31004C3BFD /* CouchbaseLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27538FA417F28B31004C3BFD /* CouchbaseLite.framework */; };
 		27538FA617F29303004C3BFD /* CouchbaseLite.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 27538FA417F28B31004C3BFD /* CouchbaseLite.framework */; };
+		27538FA917F34C09004C3BFD /* AppList.m in Sources */ = {isa = PBXBuildFile; fileRef = 27538FA817F34C09004C3BFD /* AppList.m */; };
+		27538FAF17F3607C004C3BFD /* AppListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27538FAD17F3607C004C3BFD /* AppListController.m */; };
+		27538FB017F3607C004C3BFD /* AppListController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27538FAE17F3607C004C3BFD /* AppListController.xib */; };
+		27557B2317F38DF100F28764 /* ios_app.png in Resources */ = {isa = PBXBuildFile; fileRef = 27557B2217F38DF100F28764 /* ios_app.png */; };
 		2765CF7815544FAA0087D810 /* DocEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 2765CF7715544FAA0087D810 /* DocEditor.m */; };
 		278B0C6F152A64A900577747 /* DBDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 278B0C6D152A64A900577747 /* DBDocument.m */; };
 		278B0C72152A6B7C00577747 /* DBDoc.icns in Resources */ = {isa = PBXBuildFile; fileRef = 278B0C71152A6B7C00577747 /* DBDoc.icns */; };
@@ -47,6 +51,12 @@
 		274789FD15F97520006E842D /* URLFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLFormatter.h; sourceTree = "<group>"; };
 		274789FE15F97520006E842D /* URLFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLFormatter.m; sourceTree = "<group>"; };
 		27538FA417F28B31004C3BFD /* CouchbaseLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CouchbaseLite.framework; path = Frameworks/CouchbaseLite.framework; sourceTree = "<group>"; };
+		27538FA717F34C09004C3BFD /* AppList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppList.h; sourceTree = "<group>"; };
+		27538FA817F34C09004C3BFD /* AppList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppList.m; sourceTree = "<group>"; };
+		27538FAC17F3607C004C3BFD /* AppListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppListController.h; sourceTree = "<group>"; };
+		27538FAD17F3607C004C3BFD /* AppListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppListController.m; sourceTree = "<group>"; };
+		27538FAE17F3607C004C3BFD /* AppListController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppListController.xib; sourceTree = "<group>"; };
+		27557B2217F38DF100F28764 /* ios_app.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ios_app.png; sourceTree = "<group>"; };
 		2765CF7615544FAA0087D810 /* DocEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocEditor.h; sourceTree = "<group>"; };
 		2765CF7715544FAA0087D810 /* DocEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocEditor.m; sourceTree = "<group>"; };
 		278B0C6C152A64A900577747 /* DBDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBDocument.h; sourceTree = "<group>"; };
@@ -156,6 +166,11 @@
 				274789FD15F97520006E842D /* URLFormatter.h */,
 				274789FE15F97520006E842D /* URLFormatter.m */,
 				27A8A77D152A008200363704 /* Supporting Files */,
+				27538FA717F34C09004C3BFD /* AppList.h */,
+				27538FA817F34C09004C3BFD /* AppList.m */,
+				27538FAC17F3607C004C3BFD /* AppListController.h */,
+				27538FAD17F3607C004C3BFD /* AppListController.m */,
+				27538FAE17F3607C004C3BFD /* AppListController.xib */,
 			);
 			name = "Couchbase Lite Viewer";
 			path = Source;
@@ -167,6 +182,7 @@
 				27F87AFB1555E7FC00F0A416 /* AppIcon.icns */,
 				278B0C71152A6B7C00577747 /* DBDoc.icns */,
 				27F3A63A15F0095800263663 /* database.icns */,
+				27557B2217F38DF100F28764 /* ios_app.png */,
 				27A8A77E152A008200363704 /* Couchbase Lite Viewer-Info.plist */,
 				27A8A77F152A008200363704 /* InfoPlist.strings */,
 				27A8A782152A008200363704 /* main.m */,
@@ -232,9 +248,11 @@
 				27A8A787152A008200363704 /* Credits.rtf in Resources */,
 				27A8A78D152A008200363704 /* MainMenu.xib in Resources */,
 				27A8A79B152A01FF00363704 /* DBWindowController.xib in Resources */,
+				27557B2317F38DF100F28764 /* ios_app.png in Resources */,
 				278B0C72152A6B7C00577747 /* DBDoc.icns in Resources */,
 				27F87AFC1555E7FD00F0A416 /* AppIcon.icns in Resources */,
 				27F3A63B15F0095800263663 /* database.icns in Resources */,
+				27538FB017F3607C004C3BFD /* AppListController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,7 +272,9 @@
 				27F3A62D15EE70B300263663 /* DocHistory.m in Sources */,
 				27F3A63015EE98C100263663 /* QueryResultController.m in Sources */,
 				27F3A63315EEA06900263663 /* RevTreeController.m in Sources */,
+				27538FA917F34C09004C3BFD /* AppList.m in Sources */,
 				274789FF15F97520006E842D /* URLFormatter.m in Sources */,
+				27538FAF17F3607C004C3BFD /* AppListController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
