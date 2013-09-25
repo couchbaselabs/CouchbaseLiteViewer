@@ -1,0 +1,8 @@
+//
+// Prefix header for all source files of the 'Couchbase Lite Viewer' target in the 'Couchbase Lite Viewer' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+    #import <CouchbaseLite/CouchbaseLite.h>
+#endif

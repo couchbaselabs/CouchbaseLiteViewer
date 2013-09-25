@@ -8,9 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		274789FF15F97520006E842D /* URLFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 274789FE15F97520006E842D /* URLFormatter.m */; };
+		27538FA517F28B31004C3BFD /* CouchbaseLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27538FA417F28B31004C3BFD /* CouchbaseLite.framework */; };
+		27538FA617F29303004C3BFD /* CouchbaseLite.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 27538FA417F28B31004C3BFD /* CouchbaseLite.framework */; };
 		2765CF7815544FAA0087D810 /* DocEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 2765CF7715544FAA0087D810 /* DocEditor.m */; };
 		278B0C6F152A64A900577747 /* DBDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 278B0C6D152A64A900577747 /* DBDocument.m */; };
-		278B0C72152A6B7C00577747 /* TouchDBDoc.icns in Resources */ = {isa = PBXBuildFile; fileRef = 278B0C71152A6B7C00577747 /* TouchDBDoc.icns */; };
+		278B0C72152A6B7C00577747 /* DBDoc.icns in Resources */ = {isa = PBXBuildFile; fileRef = 278B0C71152A6B7C00577747 /* DBDoc.icns */; };
 		278C85B81554810D0016C7A4 /* JSONFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 278C85B71554810D0016C7A4 /* JSONFormatter.m */; };
 		27A8A777152A008200363704 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27A8A776152A008200363704 /* Cocoa.framework */; };
 		27A8A781152A008200363704 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 27A8A77F152A008200363704 /* InfoPlist.strings */; };
@@ -23,10 +25,6 @@
 		27F3A62D15EE70B300263663 /* DocHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F3A62C15EE70B300263663 /* DocHistory.m */; };
 		27F3A63015EE98C100263663 /* QueryResultController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F3A62F15EE98C100263663 /* QueryResultController.m */; };
 		27F3A63315EEA06900263663 /* RevTreeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F3A63215EEA06900263663 /* RevTreeController.m */; };
-		27F3A63515F002F900263663 /* CouchCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27F3A63415F002F900263663 /* CouchCocoa.framework */; };
-		27F3A63715F0030000263663 /* TouchDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27F3A63615F0030000263663 /* TouchDB.framework */; };
-		27F3A63815F003C400263663 /* CouchCocoa.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 27F3A63415F002F900263663 /* CouchCocoa.framework */; };
-		27F3A63915F003C600263663 /* TouchDB.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 27F3A63615F0030000263663 /* TouchDB.framework */; };
 		27F3A63B15F0095800263663 /* database.icns in Resources */ = {isa = PBXBuildFile; fileRef = 27F3A63A15F0095800263663 /* database.icns */; };
 		27F87AFC1555E7FD00F0A416 /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 27F87AFB1555E7FC00F0A416 /* AppIcon.icns */; };
 /* End PBXBuildFile section */
@@ -38,8 +36,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				27F3A63815F003C400263663 /* CouchCocoa.framework in Copy Frameworks */,
-				27F3A63915F003C600263663 /* TouchDB.framework in Copy Frameworks */,
+				27538FA617F29303004C3BFD /* CouchbaseLite.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -49,22 +46,23 @@
 /* Begin PBXFileReference section */
 		274789FD15F97520006E842D /* URLFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLFormatter.h; sourceTree = "<group>"; };
 		274789FE15F97520006E842D /* URLFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLFormatter.m; sourceTree = "<group>"; };
+		27538FA417F28B31004C3BFD /* CouchbaseLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CouchbaseLite.framework; path = Frameworks/CouchbaseLite.framework; sourceTree = "<group>"; };
 		2765CF7615544FAA0087D810 /* DocEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocEditor.h; sourceTree = "<group>"; };
 		2765CF7715544FAA0087D810 /* DocEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocEditor.m; sourceTree = "<group>"; };
 		278B0C6C152A64A900577747 /* DBDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBDocument.h; sourceTree = "<group>"; };
 		278B0C6D152A64A900577747 /* DBDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBDocument.m; sourceTree = "<group>"; };
-		278B0C71152A6B7C00577747 /* TouchDBDoc.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = TouchDBDoc.icns; sourceTree = "<group>"; };
+		278B0C71152A6B7C00577747 /* DBDoc.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = DBDoc.icns; sourceTree = "<group>"; };
 		278C85B61554810D0016C7A4 /* JSONFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONFormatter.h; sourceTree = "<group>"; };
 		278C85B71554810D0016C7A4 /* JSONFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONFormatter.m; sourceTree = "<group>"; };
-		27A8A772152A008200363704 /* TouchDB Viewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TouchDB Viewer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		27A8A772152A008200363704 /* Couchbase Lite Viewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Couchbase Lite Viewer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		27A8A776152A008200363704 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		27A8A779152A008200363704 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		27A8A77A152A008200363704 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		27A8A77B152A008200363704 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		27A8A77E152A008200363704 /* TouchDB Viewer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TouchDB Viewer-Info.plist"; sourceTree = "<group>"; };
+		27A8A77E152A008200363704 /* Couchbase Lite Viewer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Couchbase Lite Viewer-Info.plist"; sourceTree = "<group>"; };
 		27A8A780152A008200363704 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		27A8A782152A008200363704 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		27A8A784152A008200363704 /* TouchDB Viewer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TouchDB Viewer-Prefix.pch"; sourceTree = "<group>"; };
+		27A8A784152A008200363704 /* Couchbase Lite Viewer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Couchbase Lite Viewer-Prefix.pch"; sourceTree = "<group>"; };
 		27A8A786152A008200363704 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		27A8A788152A008200363704 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		27A8A789152A008200363704 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -78,8 +76,6 @@
 		27F3A62F15EE98C100263663 /* QueryResultController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QueryResultController.m; sourceTree = "<group>"; };
 		27F3A63115EEA06900263663 /* RevTreeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RevTreeController.h; sourceTree = "<group>"; };
 		27F3A63215EEA06900263663 /* RevTreeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RevTreeController.m; sourceTree = "<group>"; };
-		27F3A63415F002F900263663 /* CouchCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CouchCocoa.framework; path = Frameworks/CouchCocoa.framework; sourceTree = "<group>"; };
-		27F3A63615F0030000263663 /* TouchDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TouchDB.framework; path = Frameworks/TouchDB.framework; sourceTree = "<group>"; };
 		27F3A63A15F0095800263663 /* database.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = database.icns; sourceTree = "<group>"; };
 		27F87AFB1555E7FC00F0A416 /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = AppIcon.icns; path = ../AppIcon.icns; sourceTree = "<group>"; };
 		27F87AFD1555EC5000F0A416 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
@@ -90,9 +86,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27538FA517F28B31004C3BFD /* CouchbaseLite.framework in Frameworks */,
 				27A8A777152A008200363704 /* Cocoa.framework in Frameworks */,
-				27F3A63515F002F900263663 /* CouchCocoa.framework in Frameworks */,
-				27F3A63715F0030000263663 /* TouchDB.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,7 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				27F87AFD1555EC5000F0A416 /* README.md */,
-				27A8A77C152A008200363704 /* TouchDB Viewer */,
+				27A8A77C152A008200363704 /* Couchbase Lite Viewer */,
 				27A8A775152A008200363704 /* Frameworks */,
 				27A8A773152A008200363704 /* Products */,
 			);
@@ -112,7 +107,7 @@
 		27A8A773152A008200363704 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				27A8A772152A008200363704 /* TouchDB Viewer.app */,
+				27A8A772152A008200363704 /* Couchbase Lite Viewer.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -120,8 +115,7 @@
 		27A8A775152A008200363704 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				27F3A63415F002F900263663 /* CouchCocoa.framework */,
-				27F3A63615F0030000263663 /* TouchDB.framework */,
+				27538FA417F28B31004C3BFD /* CouchbaseLite.framework */,
 				27A8A776152A008200363704 /* Cocoa.framework */,
 				27A8A778152A008200363704 /* Other Frameworks */,
 			);
@@ -138,12 +132,14 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
-		27A8A77C152A008200363704 /* TouchDB Viewer */ = {
+		27A8A77C152A008200363704 /* Couchbase Lite Viewer */ = {
 			isa = PBXGroup;
 			children = (
 				27A8A788152A008200363704 /* AppDelegate.h */,
 				27A8A789152A008200363704 /* AppDelegate.m */,
 				27A8A78B152A008200363704 /* MainMenu.xib */,
+				278B0C6C152A64A900577747 /* DBDocument.h */,
+				278B0C6D152A64A900577747 /* DBDocument.m */,
 				27A8A797152A01FF00363704 /* DBWindowController.h */,
 				27A8A798152A01FF00363704 /* DBWindowController.m */,
 				27F3A62E15EE98C000263663 /* QueryResultController.h */,
@@ -155,28 +151,27 @@
 				27A8A799152A01FF00363704 /* DBWindowController.xib */,
 				27F3A62B15EE70B300263663 /* DocHistory.h */,
 				27F3A62C15EE70B300263663 /* DocHistory.m */,
-				278B0C6C152A64A900577747 /* DBDocument.h */,
-				278B0C6D152A64A900577747 /* DBDocument.m */,
 				278C85B61554810D0016C7A4 /* JSONFormatter.h */,
 				278C85B71554810D0016C7A4 /* JSONFormatter.m */,
 				274789FD15F97520006E842D /* URLFormatter.h */,
 				274789FE15F97520006E842D /* URLFormatter.m */,
 				27A8A77D152A008200363704 /* Supporting Files */,
 			);
-			path = "TouchDB Viewer";
+			name = "Couchbase Lite Viewer";
+			path = Source;
 			sourceTree = "<group>";
 		};
 		27A8A77D152A008200363704 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
 				27F87AFB1555E7FC00F0A416 /* AppIcon.icns */,
-				278B0C71152A6B7C00577747 /* TouchDBDoc.icns */,
-				27A8A77E152A008200363704 /* TouchDB Viewer-Info.plist */,
+				278B0C71152A6B7C00577747 /* DBDoc.icns */,
+				27F3A63A15F0095800263663 /* database.icns */,
+				27A8A77E152A008200363704 /* Couchbase Lite Viewer-Info.plist */,
 				27A8A77F152A008200363704 /* InfoPlist.strings */,
 				27A8A782152A008200363704 /* main.m */,
-				27A8A784152A008200363704 /* TouchDB Viewer-Prefix.pch */,
+				27A8A784152A008200363704 /* Couchbase Lite Viewer-Prefix.pch */,
 				27A8A785152A008200363704 /* Credits.rtf */,
-				27F3A63A15F0095800263663 /* database.icns */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -184,9 +179,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		27A8A771152A008200363704 /* TouchDB Viewer */ = {
+		27A8A771152A008200363704 /* Couchbase Lite Viewer */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 27A8A790152A008200363704 /* Build configuration list for PBXNativeTarget "TouchDB Viewer" */;
+			buildConfigurationList = 27A8A790152A008200363704 /* Build configuration list for PBXNativeTarget "Couchbase Lite Viewer" */;
 			buildPhases = (
 				27A8A76E152A008200363704 /* Sources */,
 				27A8A76F152A008200363704 /* Frameworks */,
@@ -197,9 +192,9 @@
 			);
 			dependencies = (
 			);
-			name = "TouchDB Viewer";
+			name = "Couchbase Lite Viewer";
 			productName = "TouchDB Viewer";
-			productReference = 27A8A772152A008200363704 /* TouchDB Viewer.app */;
+			productReference = 27A8A772152A008200363704 /* Couchbase Lite Viewer.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -208,10 +203,10 @@
 		27A8A769152A008100363704 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0440;
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Couchbase, Inc.";
 			};
-			buildConfigurationList = 27A8A76C152A008100363704 /* Build configuration list for PBXProject "TouchDB Viewer" */;
+			buildConfigurationList = 27A8A76C152A008100363704 /* Build configuration list for PBXProject "Couchbase Lite Viewer" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -223,7 +218,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				27A8A771152A008200363704 /* TouchDB Viewer */,
+				27A8A771152A008200363704 /* Couchbase Lite Viewer */,
 			);
 		};
 /* End PBXProject section */
@@ -237,7 +232,7 @@
 				27A8A787152A008200363704 /* Credits.rtf in Resources */,
 				27A8A78D152A008200363704 /* MainMenu.xib in Resources */,
 				27A8A79B152A01FF00363704 /* DBWindowController.xib in Resources */,
-				278B0C72152A6B7C00577747 /* TouchDBDoc.icns in Resources */,
+				278B0C72152A6B7C00577747 /* DBDoc.icns in Resources */,
 				27F87AFC1555E7FD00F0A416 /* AppIcon.icns in Resources */,
 				27F3A63B15F0095800263663 /* database.icns in Resources */,
 			);
@@ -297,9 +292,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
@@ -319,6 +318,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
@@ -332,9 +332,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
@@ -348,6 +352,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx;
@@ -364,13 +369,13 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/Frameworks\"",
+					"$(SRCROOT)/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "TouchDB Viewer/TouchDB Viewer-Prefix.pch";
-				INFOPLIST_FILE = "TouchDB Viewer/TouchDB Viewer-Info.plist";
+				GCC_PREFIX_HEADER = "Source/Couchbase Lite Viewer-Prefix.pch";
+				INFOPLIST_FILE = "Source/Couchbase Lite Viewer-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks/";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Couchbase Lite Viewer";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -384,13 +389,13 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/Frameworks\"",
+					"$(SRCROOT)/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "TouchDB Viewer/TouchDB Viewer-Prefix.pch";
-				INFOPLIST_FILE = "TouchDB Viewer/TouchDB Viewer-Info.plist";
+				GCC_PREFIX_HEADER = "Source/Couchbase Lite Viewer-Prefix.pch";
+				INFOPLIST_FILE = "Source/Couchbase Lite Viewer-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks/";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Couchbase Lite Viewer";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -399,7 +404,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		27A8A76C152A008100363704 /* Build configuration list for PBXProject "TouchDB Viewer" */ = {
+		27A8A76C152A008100363704 /* Build configuration list for PBXProject "Couchbase Lite Viewer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				27A8A78E152A008200363704 /* Debug */,
@@ -408,7 +413,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		27A8A790152A008200363704 /* Build configuration list for PBXNativeTarget "TouchDB Viewer" */ = {
+		27A8A790152A008200363704 /* Build configuration list for PBXNativeTarget "Couchbase Lite Viewer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				27A8A791152A008200363704 /* Debug */,

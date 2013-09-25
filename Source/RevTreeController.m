@@ -1,6 +1,6 @@
 //
 //  RevTreeController.m
-//  TouchDB Viewer
+//  Couchbase Lite Viewer
 //
 //  Created by Jens Alfke on 8/29/12.
 //  Copyright (c) 2012 Couchbase, Inc. All rights reserved.
@@ -13,10 +13,13 @@
 
 static NSFont* sFont, *sBoldFont;
 
+static void enableCell(NSTextFieldCell *cell, BOOL enabled);
+static void emboldenCell(NSTextFieldCell *cell, BOOL embolden);
+
 
 @interface RevTreeController ()
 {
-    CouchDocument* _document;
+    CBLDocument* _document;
     NSTreeNode* _fullRoot;  // includes deleted revs
     NSTreeNode* _root;  // may not include deleted revs
     NSSet* _leaves;
@@ -58,11 +61,11 @@ static NSFont* sFont, *sBoldFont;
 }
 
 
-- (CouchDocument*) document {
+- (CBLDocument*) document {
     return _document;
 }
 
-- (void) setDocument:(CouchDocument *)document {
+- (void) setDocument:(CBLDocument *)document {
     _document = document;
     _fullRoot = document ? GetDocRevisionTree(document) : nil;
     if (!_showDeleted && _document.currentRevision.isDeleted)
@@ -95,17 +98,17 @@ static NSFont* sFont, *sBoldFont;
     NSUInteger count = selIndexes.count;
     NSMutableArray* sel = [NSMutableArray arrayWithCapacity: count];
     [selIndexes enumerateIndexesUsingBlock: ^(NSUInteger idx, BOOL *stop) {
-        CouchRevision* item = [self revisionForItem: [_docsOutline itemAtRow: idx]];
+        CBLRevision* item = [self revisionForItem: [_docsOutline itemAtRow: idx]];
         [sel addObject: item];
     }];
     return sel;
 }
 
 
-#pragma mark - DOCUMENT-LIST VIEW:
+#pragma mark - REVISION-LIST VIEW:
 
 
-- (CouchRevision*) revisionForItem: (id)item {
+- (CBLRevision*) revisionForItem: (id)item {
     NSAssert(item==nil || [item isKindOfClass: [NSTreeNode class]], @"Invalid outline item: %@", item);
     return [item representedObject];
 }
@@ -118,7 +121,7 @@ static NSString* formatRevision( NSString* revID ) {
 }
 
 static NSString* formatProperty( id property ) {
-    return property ? [RESTBody stringWithJSONObject: property] : nil;
+    return property ? [CBLJSON stringWithJSONObject: property options: 0 error: NULL] : nil;
 }
 
 
@@ -126,7 +129,7 @@ static NSString* formatProperty( id property ) {
       objectValueForTableColumn:(NSTableColumn *)tableColumn
                          byItem:(id)item
 {
-    CouchRevision* rev = [self revisionForItem: item];
+    CBLRevision* rev = [self revisionForItem: item];
     NSString* identifier = tableColumn.identifier;
     
     if ([identifier hasPrefix: @"."]) {
@@ -137,9 +140,11 @@ static NSString* formatProperty( id property ) {
         if (!kColumnIDs)
             kColumnIDs = @[@"id", @"rev", @"json"];
         switch ([kColumnIDs indexOfObject: identifier]) {
-            case 0: return rev.documentID;
+            case 0: return rev.document.documentID;
             case 1: return formatRevision(rev.revisionID);
             case 2: {
+                if (!rev.propertiesAvailable)
+                    return @"missing";
                 NSDictionary* userProps = rev.userProperties;
                 return userProps.count ? formatProperty(userProps) : nil;
             }
@@ -154,21 +159,13 @@ static NSString* formatProperty( id property ) {
          forTableColumn:(NSTableColumn *)col
                    item:(NSTreeNode*)item
 {
-    if ([col.identifier isEqualToString: @"rev"]) {
-        CouchRevision* rev = [self revisionForItem: item];
-        NSColor* color =  rev.isDeleted ? [NSColor disabledControlTextColor]
-                                        : [NSColor controlTextColor];
-        [cell setTextColor: color];
-
-        if (!sFont) {
-            sFont = [cell font];
-            sBoldFont = [[NSFontManager sharedFontManager] convertFont: sFont
-                                                           toHaveTrait: NSBoldFontMask];
-        }
-        NSFont* font = sFont;
-        if ([_leaves containsObject: item] && !rev.isDeleted)
-            font = sBoldFont;
-        [cell setFont: font];
+    NSString* identifier = col.identifier;
+    CBLRevision* rev = [self revisionForItem: item];
+    if ([identifier isEqualToString: @"rev"]) {
+        enableCell(cell, !rev.isDeleted);
+        emboldenCell(cell, [_leaves containsObject: item] && !rev.isDeleted);
+    } else if ([identifier isEqualToString: @"json"]) {
+        enableCell(cell, rev.propertiesAvailable);
     }
 }
 
@@ -197,7 +194,7 @@ static NSString* formatProperty( id property ) {
 
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification {
-    CouchRevision* sel = nil;
+    CBLRevision* sel = nil;
     NSIndexSet* selRows = [_docsOutline selectedRowIndexes];
     if (selRows.count == 1) {
         id item = [_docsOutline itemAtRow: [selRows firstIndex]]; 
@@ -218,7 +215,7 @@ static NSString* formatProperty( id property ) {
         return;
     }
     NSMutableArray* revIDs = [NSMutableArray array];
-    for (CouchRevision* rev in sel)
+    for (CBLRevision* rev in sel)
         [revIDs addObject: rev.revisionID];
     NSString* result = [revIDs componentsJoinedByString: @"\n"];
 
@@ -229,3 +226,21 @@ static NSString* formatProperty( id property ) {
 
 
 @end
+
+
+
+
+static void enableCell(NSTextFieldCell *cell, BOOL enabled) {
+    NSColor* color =  enabled ? [NSColor controlTextColor]
+    : [NSColor disabledControlTextColor];
+    [cell setTextColor: color];
+}
+
+static void emboldenCell(NSTextFieldCell *cell, BOOL embolden) {
+    if (!sFont) {
+        sFont = [cell font];
+        sBoldFont = [[NSFontManager sharedFontManager] convertFont: sFont
+                                                       toHaveTrait: NSBoldFontMask];
+    }
+    [cell setFont: (embolden ? sBoldFont : sFont)];
+}

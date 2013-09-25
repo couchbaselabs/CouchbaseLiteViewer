@@ -1,6 +1,6 @@
 //
 //  main.m
-//  TouchDB Viewer
+//  Couchbase Lite Viewer
 //
 //  Created by Jens Alfke on 4/2/12.
 //  Copyright (c) 2012 Couchbase, Inc. All rights reserved.

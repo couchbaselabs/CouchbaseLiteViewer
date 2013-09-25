@@ -1,6 +1,6 @@
 //
 //  DocEditor.m
-//  TouchDB Viewer
+//  Couchbase Lite Viewer
 //
 //  Created by Jens Alfke on 5/4/12.
 //  Copyright (c) 2012 Couchbase, Inc. All rights reserved.
@@ -9,12 +9,13 @@
 #import "DocEditor.h"
 #import "DBWindowController.h"
 #import "JSONFormatter.h"
+#import <CouchbaseLite/CouchbaseLite.h>
 
 
 @implementation DocEditor
 {
-    CouchDatabase* __weak _db;
-    CouchRevision* _revision;
+    CBLDatabase* __weak _db;
+    CBLRevision* _revision;
     BOOL _readOnly;
     BOOL _untitled;
     NSDictionary* _originalProperties;
@@ -43,11 +44,11 @@
 }
 
 
-- (CouchRevision*) revision {
+- (CBLRevision*) revision {
     return _revision;
 }
 
-- (void) setRevision: (CouchRevision*)rev {
+- (void) setRevision: (CBLRevision*)rev {
     if (rev != _revision || _untitled) {
         _revision = rev;
         _untitled = NO;
@@ -113,13 +114,13 @@ static BOOL isSpecialProperty(NSString* key) {
 
 - (BOOL) saveDocument {
     if (!_readOnly && _properties && ![_properties isEqual: _originalProperties]) {
-        CouchDocument* doc;
+        CBLDocument* doc;
         NSError* error;
         if (_revision)
             doc = _revision.document;
         else
             doc = _db[_properties[@"_id"]];
-        if (![[doc putProperties: _properties] wait: &error]) {
+        if (![doc putProperties: _properties error: &error]) {
             [_table presentError: error];
             return NO;
         }
@@ -140,8 +141,7 @@ static BOOL isSpecialProperty(NSString* key) {
 - (IBAction) revertDocumentToSaved:(id)sender {
     NSString* selectedProperty = self.selectedProperty;
     if (_untitled) {
-        NSString* docID = [[_db.server generateUUIDs: 1] lastObject];
-        _properties = [NSMutableDictionary dictionaryWithObject: docID forKey: @"_id"];
+        _properties = [NSMutableDictionary dictionary];
     } else {
         _properties = _revision.properties.mutableCopy;
     }

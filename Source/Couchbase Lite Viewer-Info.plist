@@ -9,12 +9,12 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
-				<string>touchdb</string>
+				<string>cblite</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>TouchDBDoc</string>
+			<string>DBDoc</string>
 			<key>CFBundleTypeName</key>
-			<string>TouchDB database</string>
+			<string>Couchbase Lite database</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>NSDocumentClass</key>
@@ -44,7 +44,7 @@
 	<key>LSMinimumSystemVersion</key>
 	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2012 Couchbase, Inc. All rights reserved.</string>
+	<string>Copyright © 2012-2013 Couchbase, Inc. All rights reserved.</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>

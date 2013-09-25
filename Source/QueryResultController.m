@@ -1,6 +1,6 @@
 //
 //  QueryResultController.m
-//  TouchDB Viewer
+//  Couchbase Lite Viewer
 //
 //  Created by Jens Alfke on 8/29/12.
 //  Copyright (c) 2012 Couchbase, Inc. All rights reserved.
@@ -13,7 +13,7 @@
 @interface QueryResultController ()
 {
 @private
-    CouchLiveQuery* _query;
+    CBLLiveQuery* _query;
     NSMutableArray* _rows;
     NSOutlineView* _docsOutline;
 
@@ -27,22 +27,22 @@
 @implementation QueryResultController
 
 
-- (CouchQuery*)query {
+- (CBLQuery*)query {
     return _query;
 }
 
-- (void) setQuery: (CouchQuery*)query
+- (void) setQuery: (CBLQuery*)query
 {
     if (_query)
         [_query removeObserver: self forKeyPath: @"rows"];
     _query = [query asLiveQuery];
-    _query.prefetch = _query.sequences = YES;
     [_query addObserver: self forKeyPath: @"rows"
                 options: NSKeyValueObservingOptionInitial
                 context: NULL];
     [_query addObserver: self forKeyPath: @"error"
                 options: 0
                 context: NULL];
+    [_query start];
 }
 
 
@@ -85,13 +85,13 @@
             [_docsOutline.window presentError: _query.error];
         } else {
             NSArray* selection;
-            CouchDocument* editedDoc = _docEditor.revision.document;
+            CBLDocument* editedDoc = _docEditor.revision.document;
             if (editedDoc)
                 selection = @[editedDoc];
             else
                 selection = self.selectedDocuments;
 
-            CouchQueryEnumerator* rows = _query.rows;
+            CBLQueryEnumerator* rows = _query.rows;
             _rows = rows.allObjects.mutableCopy;
             if (_docsOutline.sortDescriptors)
                 [_rows sortUsingDescriptors: _docsOutline.sortDescriptors];
@@ -116,7 +116,7 @@
     NSUInteger count = selIndexes.count;
     NSMutableArray* sel = [NSMutableArray arrayWithCapacity: count];
     [selIndexes enumerateIndexesUsingBlock: ^(NSUInteger idx, BOOL *stop) {
-        CouchQueryRow* item = [self queryRowForItem: [_docsOutline itemAtRow: idx]];
+        CBLQueryRow* item = [self queryRowForItem: [_docsOutline itemAtRow: idx]];
         [sel addObject: item];
     }];
     return sel;
@@ -125,7 +125,7 @@
 
 - (NSArray*) selectedDocuments {
     NSMutableArray* docs = [NSMutableArray array];
-    for (CouchQueryRow* row in self.selectedRows)
+    for (CBLQueryRow* row in self.selectedRows)
         [docs addObject: row.document];
     return docs;
 }
@@ -133,8 +133,8 @@
 
 - (void) setSelectedDocuments: (NSArray*)sel {
     NSMutableIndexSet* selIndexes = [NSMutableIndexSet indexSet];
-    for (CouchDocument* doc in sel) {
-        CouchQueryRow* queryRow = [self queryRowForDocument: doc];
+    for (CBLDocument* doc in sel) {
+        CBLQueryRow* queryRow = [self queryRowForDocument: doc];
         if (queryRow) {
             NSInteger row = [_docsOutline rowForItem: [self itemForQueryRow: queryRow]];
             if (row >= 0)
@@ -145,8 +145,8 @@
 }
 
 
-- (BOOL) selectDocument: (CouchDocument*)doc {
-    CouchQueryRow* queryRow = [self queryRowForDocument: doc];
+- (BOOL) selectDocument: (CBLDocument*)doc {
+    CBLQueryRow* queryRow = [self queryRowForDocument: doc];
     if (queryRow) {
         NSInteger row = [_docsOutline rowForItem: [self itemForQueryRow: queryRow]];
         if (row >= 0) {
@@ -162,21 +162,21 @@
 #pragma mark - DOCUMENT-LIST VIEW:
 
 
-- (CouchQueryRow*) queryRowForItem: (id)item {
-    NSAssert([item isKindOfClass: [CouchQueryRow class]], @"Invalid outline item: %@", item);
-    return (CouchQueryRow*)item;
+- (CBLQueryRow*) queryRowForItem: (id)item {
+    NSAssert([item isKindOfClass: [CBLQueryRow class]], @"Invalid outline item: %@", item);
+    return (CBLQueryRow*)item;
 }
 
 
-- (id) itemForQueryRow: (CouchQueryRow*)row {
+- (id) itemForQueryRow: (CBLQueryRow*)row {
     NSParameterAssert(row != nil);
     return row;
 }
 
 
-- (CouchQueryRow*) queryRowForDocument: (CouchDocument*)doc {
+- (CBLQueryRow*) queryRowForDocument: (CBLDocument*)doc {
     NSString* docID = doc.documentID;
-    for (CouchQueryRow* row in _rows) {
+    for (CBLQueryRow* row in _rows) {
         if ([row.documentID isEqualToString: docID])
             return row;
     }
@@ -191,7 +191,7 @@ static NSString* formatRevision( NSString* revID ) {
 }
 
 static NSString* formatProperty( id property ) {
-    return property ? [RESTBody stringWithJSONObject: property] : nil;
+    return property ? [CBLJSON stringWithJSONObject: property options: 0 error: NULL] : nil;
 }
 
 
@@ -199,7 +199,7 @@ static NSString* formatProperty( id property ) {
       objectValueForTableColumn:(NSTableColumn *)tableColumn
                          byItem:(id)item
 {
-    CouchQueryRow* row = [self queryRowForItem: item];
+    CBLQueryRow* row = [self queryRowForItem: item];
     NSString* identifier = tableColumn.identifier;
     
     if ([identifier hasPrefix: @"."]) {
@@ -226,7 +226,7 @@ static NSString* formatProperty( id property ) {
       forTableColumn:(NSTableColumn *)col
                 item:(NSTreeNode*)item
 {
-    CouchQueryRow* row = [self queryRowForItem: item];
+    CBLQueryRow* row = [self queryRowForItem: item];
     BOOL deleted = [row.value[@"deleted"] boolValue];
     NSColor* color =  deleted ? [NSColor disabledControlTextColor]
                               : [NSColor controlTextColor];
@@ -263,7 +263,7 @@ static NSString* formatProperty( id property ) {
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification {
     [self enableDocumentButtons];
     
-    CouchQueryRow* sel = nil;
+    CBLQueryRow* sel = nil;
     NSIndexSet* selRows = [_docsOutline selectedRowIndexes];
     if (selRows.count == 1) {
         id item = [_docsOutline itemAtRow: [selRows firstIndex]]; 
@@ -295,8 +295,15 @@ static NSString* formatProperty( id property ) {
         NSBeep();
         return;
     }
-    NSError* error;
-    if (![[_query.database deleteDocuments: sel] wait: &error]) {
+    __block NSError* error;
+    BOOL ok = [_query.database inTransaction:^BOOL{
+        for (CBLDocument* doc in sel) {
+            if (![doc deleteDocument: &error])
+                return NO;
+        }
+        return YES;
+    }];
+    if (!ok) {
         [_docsOutline presentError: error];
     }
 }
@@ -309,7 +316,7 @@ static NSString* formatProperty( id property ) {
         return;
     }
     NSMutableArray* docIDs = [NSMutableArray array];
-    for (CouchDocument* doc in docs)
+    for (CBLDocument* doc in docs)
         [docIDs addObject: doc.documentID];
     NSString* result = [docIDs componentsJoinedByString: @"\n"];
 

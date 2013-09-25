@@ -1,6 +1,6 @@
 //
 //  AppDelegate.h
-//  TouchDB Viewer
+//  Couchbase Lite Viewer
 //
 //  Created by Jens Alfke on 4/2/12.
 //  Copyright (c) 2012 Couchbase, Inc. All rights reserved.
@@ -14,5 +14,5 @@
 @property (weak) IBOutlet NSPanel* urlPanel;
 @property (weak) IBOutlet NSTextField *urlInputField;
 
-- (IBAction) dismissURLPanel:(id)sender;
+//- (IBAction) dismissURLPanel:(id)sender;
 @end

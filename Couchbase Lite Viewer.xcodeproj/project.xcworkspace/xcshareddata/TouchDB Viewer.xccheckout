@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>DFF631CE-7DE6-44EC-8692-4766B948B6FC</string>
+	<key>IDESourceControlProjectName</key>
+	<string>TouchDB Viewer</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>31C8F644-06C2-4F41-B1E3-A50F62BEAC01</key>
+		<string>ssh://github.com/couchbaselabs/CouchCocoa.git</string>
+		<key>71AB55E9-9522-47E7-A129-650B4443A625</key>
+		<string>ssh://github.com/couchbaselabs/TouchDBViewer.git</string>
+		<key>FF89FF57-65E4-43D3-B2FE-484A478DD730</key>
+		<string>ssh://github.com/couchbaselabs/TouchDB-iOS.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>TouchDB Viewer.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>31C8F644-06C2-4F41-B1E3-A50F62BEAC01</key>
+		<string>../../../CouchCocoa</string>
+		<key>71AB55E9-9522-47E7-A129-650B4443A625</key>
+		<string>../..</string>
+		<key>FF89FF57-65E4-43D3-B2FE-484A478DD730</key>
+		<string>../../../TouchDB</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/couchbaselabs/TouchDBViewer.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>71AB55E9-9522-47E7-A129-650B4443A625</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>71AB55E9-9522-47E7-A129-650B4443A625</string>
+			<key>IDESourceControlWCCName</key>
+			<string>TouchDB Viewer</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>31C8F644-06C2-4F41-B1E3-A50F62BEAC01</string>
+			<key>IDESourceControlWCCName</key>
+			<string>CouchCocoa</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>FF89FF57-65E4-43D3-B2FE-484A478DD730</string>
+			<key>IDESourceControlWCCName</key>
+			<string>TouchDB</string>
+		</dict>
+	</array>
+</dict>
+</plist>

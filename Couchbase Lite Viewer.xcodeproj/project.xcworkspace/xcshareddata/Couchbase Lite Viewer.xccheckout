@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>603E2B31-5014-4219-A23A-468ACE361684</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Couchbase Lite Viewer</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>71AB55E9-9522-47E7-A129-650B4443A625</key>
+		<string>ssh://github.com/couchbaselabs/TouchDBViewer.git</string>
+		<key>C5482F13-59F2-4A08-875A-B43553095368</key>
+		<string>ssh://github.com/couchbase/couchbase-lite-ios.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Couchbase Lite Viewer.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>71AB55E9-9522-47E7-A129-650B4443A625</key>
+		<string>../..</string>
+		<key>C5482F13-59F2-4A08-875A-B43553095368</key>
+		<string>../../../CouchbaseLite</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/couchbaselabs/TouchDBViewer.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>71AB55E9-9522-47E7-A129-650B4443A625</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>C5482F13-59F2-4A08-875A-B43553095368</string>
+			<key>IDESourceControlWCCName</key>
+			<string>CouchbaseLite</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>71AB55E9-9522-47E7-A129-650B4443A625</string>
+			<key>IDESourceControlWCCName</key>
+			<string>TouchDB Viewer</string>
+		</dict>
+	</array>
+</dict>
+</plist>

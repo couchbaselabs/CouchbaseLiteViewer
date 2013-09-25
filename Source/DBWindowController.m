@@ -1,6 +1,6 @@
 //
 //  DBWindowController.m
-//  TouchDB Viewer
+//  Couchbase Lite Viewer
 //
 //  Created by Jens Alfke on 4/2/12.
 //  Copyright (c) 2012 Couchbase, Inc. All rights reserved.
@@ -15,10 +15,9 @@
 @interface DBWindowController () <NSOutlineViewDataSource>
 {
     @private
-    CouchDatabase* _db;
-    NSString* __weak _dbPath;
+    CBLDatabase* _db;
+    NSString* _dbPath;
     NSTableColumn* _idCol, *_seqCol;
-    BOOL _isTouchDB;
 
     IBOutlet QueryResultController* _queryController;
     IBOutlet RevTreeController* _revTreeController;
@@ -28,8 +27,6 @@
     IBOutlet NSButton* _showDeletedCheckbox;
 }
 
-@property (weak, readonly, nonatomic) NSString* dbPath;
-
 @end
 
 
@@ -37,70 +34,37 @@
 @implementation DBWindowController
 
 
-@synthesize dbPath=_dbPath;
-
-
-- (id)initWithDatabase: (CouchDatabase*)db
+- (id)initWithDatabase: (CBLDatabase*)db atPath: (NSString*)dbPath
 {
     NSParameterAssert(db != nil);
     self = [super initWithWindowNibName: @"DBWindowController"];
     if (self) {
         _db = db;
-
-        // Check what kind of server this is running on:
-        RESTOperation* op = [_db.server GET];
-        [op onCompletion: ^{
-            if (op.error) {
-                [self presentError: op.error];
-            } else {
-                NSDictionary* info = op.responseBody.fromJSON;
-                NSLog(@"Server = %@", info);
-                _isTouchDB = info[@"TouchDB"] != nil;
-                if (!_isTouchDB)
-                    _showDeletedCheckbox.hidden = YES;
-            }
-        }];
+        _dbPath = dbPath.copy;
     }
     return self;
 }
-
-
-- (id)initWithURL: (NSURL*)url {
-    CouchDatabase* db = [CouchDatabase databaseWithURL: url];
-    return db ? [self initWithDatabase: db] : nil;
-}
-
 
 - (void) windowDidLoad {
     _docsOutline.target = self;
     _docsOutline.doubleAction = @selector(showDocRevisionTree:);
     
     _queryController.outline = _docsOutline;
-    _queryController.query = [_db getAllDocuments];
+    _queryController.query = [_db queryAllDocuments];
 
     _docEditor.database = _db;
 
-    [self setPathURL: _db.URL];
+    [self setPath: @[_db.name]];
     
     // Set up the window title:
-    if (_dbPath) {
-        self.window.title = _dbPath.lastPathComponent;
-        self.window.representedFilename = _dbPath;
-    } else {
-        // Remote database:
-        NSURL* url = _db.URL;
-        NSString* host = url.host;
-        NSNumber* port = url.port;
-        if (port && port.intValue != 80)
-            host = [host stringByAppendingFormat: @":%@", port];
-        self.window.title = [NSString stringWithFormat: @"%@ <%@>",
-                             _db.relativePath, host];
-    }
+    self.window.title = _dbPath.lastPathComponent;
+    self.window.representedFilename = _dbPath;
 }
 
 
-- (void) setPathURL: (NSURL*)url {
-    _path.URL = url;
+- (void) setPath: (NSArray*)path {
+    NSString* urlStr = [@"foo:///" stringByAppendingString: [path componentsJoinedByString: @"/"]];
+    _path.URL = [NSURL URLWithString: urlStr];
     NSArray* cells = _path.pathComponentCells;
     if (cells.count > 0)
         [cells[0] setImage: [NSImage imageNamed: @"database"]];
@@ -216,14 +180,14 @@ static void insertColumn(NSOutlineView* outline, NSTableColumn* col, NSUInteger 
     if (docs.count != 1)
         return;
 
-    CouchDocument* doc = docs[0];
+    CBLDocument* doc = docs[0];
     [self hideDocColumns];
     [self willChangeValueForKey: @"outlineController"];
     _revTreeController.document = doc;
     _queryController.outline = nil;
     _revTreeController.outline = _docsOutline;
     [self didChangeValueForKey: @"outlineController"];
-    [self setPathURL: doc.URL];
+    [self setPath: @[_db.name, doc.documentID]];
 }
 
 
@@ -231,14 +195,14 @@ static void insertColumn(NSOutlineView* outline, NSTableColumn* col, NSUInteger 
     if (_queryController.outline)
         return;
     [self showDocColumns];
-    CouchDocument* doc = _revTreeController.document;
+    CBLDocument* doc = _revTreeController.document;
     [self willChangeValueForKey: @"outlineController"];
     _revTreeController.document = nil;
     _revTreeController.outline = nil;
     _queryController.outline = _docsOutline;
     [_queryController selectDocument: doc];
     [self didChangeValueForKey: @"outlineController"];
-    [self setPathURL: _db.URL];
+    [self setPath: @[_db.name]];
 }
 
 

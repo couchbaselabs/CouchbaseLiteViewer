@@ -1,6 +1,6 @@
 //
 //  URLFormatter.m
-//  TouchDB Viewer
+//  Couchbase Lite Viewer
 //
 //  Copyright (c) 2012 Couchbase, Inc. All rights reserved.
 //

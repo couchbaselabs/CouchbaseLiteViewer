@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:TouchDB Viewer.xcodeproj">
+      location = "self:Couchbase Lite Viewer.xcodeproj">
    </FileRef>
 </Workspace>

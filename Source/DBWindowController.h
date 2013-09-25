@@ -1,19 +1,18 @@
 //
 //  DBWindowController.h
-//  TouchDB Viewer
+//  Couchbase Lite Viewer
 //
 //  Created by Jens Alfke on 4/2/12.
 //  Copyright (c) 2012 Couchbase, Inc. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
-@class CouchDatabase, DocEditor;
+@class CBLDatabase, DocEditor;
 
 
 @interface DBWindowController : NSWindowController
 
-- (id)initWithDatabase: (CouchDatabase*)db;
-- (id)initWithURL: (NSURL*)url;
+- (id)initWithDatabase: (CBLDatabase*)db atPath: (NSString*)dbPath;
 
 - (IBAction) showDocRevisionTree:(id)sender;
 - (IBAction) newDocument: (id)sender;

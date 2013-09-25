@@ -1,6 +1,6 @@
 //
 //  DocHistory.m
-//  TouchDB Viewer
+//  Couchbase Lite Viewer
 //
 //  Created by Jens Alfke on 8/29/12.
 //  Copyright (c) 2012 Couchbase, Inc. All rights reserved.
@@ -11,8 +11,8 @@
 
 NSTreeNode* SortRevisionTree(NSTreeNode* tree) {
     [tree.mutableChildNodes sortUsingComparator: ^NSComparisonResult(id obj1, id obj2) {
-        CouchRevision* rev1 = [obj1 representedObject];
-        CouchRevision* rev2 = [obj2 representedObject];
+        CBLRevision* rev1 = [obj1 representedObject];
+        CBLRevision* rev2 = [obj2 representedObject];
         // Plain string compare is OK because sibling revs must start with the same gen #.
         // Comparing backwards because we want descending rev IDs, i.e. winner first.
         return [rev2.revisionID compare: rev1.revisionID];
@@ -23,28 +23,27 @@ NSTreeNode* SortRevisionTree(NSTreeNode* tree) {
 }
 
 
-NSTreeNode* GetDocRevisionTree(CouchDocument* doc) {
-    NSArray* leaves = [doc getLeafRevisions];
+NSTreeNode* GetDocRevisionTree(CBLDocument* doc) {
+    NSError* error;
+    NSArray* leaves = [doc getLeafRevisions: &error];
     if (!leaves)
         return nil;
     NSTreeNode* root = [NSTreeNode treeNodeWithRepresentedObject: nil];
     NSMutableDictionary* nodes = [NSMutableDictionary dictionary];
-    for (CouchRevision* leaf in leaves) {
+    for (CBLRevision* leaf in leaves) {
         // Get history of this leaf/conflict:
-        RESTOperation* op = [leaf sendHTTP: @"GET" parameters: @{@"?revs": @"true"}];
-        if (![op wait])
+        NSArray* history = [leaf getRevisionHistory: &error];
+        if (!history)
             return nil;
         NSTreeNode* node = nil;
         NSTreeNode* child = nil;
-        NSDictionary* revisionsDict = op.responseBody.fromJSON[@"_revisions"];
-        int generation = [revisionsDict[@"start"] intValue];
-        for (NSString* suffix in revisionsDict[@"ids"]) {
+        for (NSInteger i = (NSInteger)history.count - 1; i >= 0; i--) {
             // Create a rev and a tree node:
-            NSString* revID = [NSString stringWithFormat: @"%d-%@", generation, suffix];
+            CBLRevision* rev = history[i];
+            NSString* revID = rev.revisionID;
             node = nodes[revID];
             BOOL exists = (node != nil);
             if (!exists) {
-                CouchRevision* rev = [doc revisionWithID: revID];
                 node = [NSTreeNode treeNodeWithRepresentedObject: rev];
                 nodes[revID] = node;
             }
@@ -52,7 +51,6 @@ NSTreeNode* GetDocRevisionTree(CouchDocument* doc) {
             if (child)
                 [node.mutableChildNodes addObject: child];
             child = node;
-            --generation;
             if (exists) {
                 node = nil;
                 break;
@@ -115,7 +113,7 @@ void FlattenTree(NSTreeNode* root) {
 NSTreeNode* TreeWithoutDeletedBranches(NSTreeNode* root) {
     if (!root)
         return nil;
-    CouchRevision* rev = root.representedObject;
+    CBLRevision* rev = root.representedObject;
     if (root.isLeaf) {
         if (rev.isDeleted)
             return nil;
@@ -139,7 +137,7 @@ NSTreeNode* TreeWithoutDeletedBranches(NSTreeNode* root) {
 static void dumpTree(NSTreeNode* node, int indent, NSMutableString* output) {
     for (int i = 0; i < indent; ++i)
         [output appendString: @"    "];
-    CouchRevision* rev = node.representedObject;
+    CBLRevision* rev = node.representedObject;
     [output appendFormat: @"%@%@\n", rev.revisionID, (rev.isDeleted ? @" DEL" : @"")];
     for (NSTreeNode* child in node.childNodes)
         dumpTree(child, indent+1, output);

@@ -1,6 +1,6 @@
 //
 //  DocEditor.h
-//  TouchDB Viewer
+//  Couchbase Lite Viewer
 //
 //  Created by Jens Alfke on 5/4/12.
 //  Copyright (c) 2012 Couchbase, Inc. All rights reserved.
@@ -12,9 +12,9 @@
 
 @interface DocEditor : NSObject
 
-@property (weak) CouchDatabase* database;
+@property (weak) CBLDatabase* database;
 
-@property (weak) CouchRevision* revision;
+@property (weak) CBLRevision* revision;
 
 @property BOOL readOnly;
 
