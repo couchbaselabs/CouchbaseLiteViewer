@@ -14,7 +14,7 @@
 
 @property (weak) CBLDatabase* database;
 
-@property (weak) CBLRevision* revision;
+@property (weak) CBLSavedRevision* revision;
 
 @property BOOL readOnly;
 

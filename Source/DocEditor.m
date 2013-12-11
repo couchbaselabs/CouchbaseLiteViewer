@@ -15,7 +15,7 @@
 @implementation DocEditor
 {
     CBLDatabase* __weak _db;
-    CBLRevision* _revision;
+    CBLSavedRevision* _revision;
     BOOL _readOnly;
     BOOL _untitled;
     NSDictionary* _originalProperties;
@@ -44,11 +44,11 @@
 }
 
 
-- (CBLRevision*) revision {
+- (CBLSavedRevision*) revision {
     return _revision;
 }
 
-- (void) setRevision: (CBLRevision*)rev {
+- (void) setRevision: (CBLSavedRevision*)rev {
     if (rev != _revision || _untitled) {
         _revision = rev;
         _untitled = NO;

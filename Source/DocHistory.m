@@ -11,8 +11,8 @@
 
 NSTreeNode* SortRevisionTree(NSTreeNode* tree) {
     [tree.mutableChildNodes sortUsingComparator: ^NSComparisonResult(id obj1, id obj2) {
-        CBLRevision* rev1 = [obj1 representedObject];
-        CBLRevision* rev2 = [obj2 representedObject];
+        CBLSavedRevision* rev1 = [obj1 representedObject];
+        CBLSavedRevision* rev2 = [obj2 representedObject];
         // Plain string compare is OK because sibling revs must start with the same gen #.
         // Comparing backwards because we want descending rev IDs, i.e. winner first.
         return [rev2.revisionID compare: rev1.revisionID];
@@ -30,7 +30,7 @@ NSTreeNode* GetDocRevisionTree(CBLDocument* doc) {
         return nil;
     NSTreeNode* root = [NSTreeNode treeNodeWithRepresentedObject: nil];
     NSMutableDictionary* nodes = [NSMutableDictionary dictionary];
-    for (CBLRevision* leaf in leaves) {
+    for (CBLSavedRevision* leaf in leaves) {
         // Get history of this leaf/conflict:
         NSArray* history = [leaf getRevisionHistory: &error];
         if (!history)
@@ -39,7 +39,7 @@ NSTreeNode* GetDocRevisionTree(CBLDocument* doc) {
         NSTreeNode* child = nil;
         for (NSInteger i = (NSInteger)history.count - 1; i >= 0; i--) {
             // Create a rev and a tree node:
-            CBLRevision* rev = history[i];
+            CBLSavedRevision* rev = history[i];
             NSString* revID = rev.revisionID;
             node = nodes[revID];
             BOOL exists = (node != nil);
@@ -113,9 +113,9 @@ void FlattenTree(NSTreeNode* root) {
 NSTreeNode* TreeWithoutDeletedBranches(NSTreeNode* root) {
     if (!root)
         return nil;
-    CBLRevision* rev = root.representedObject;
+    CBLSavedRevision* rev = root.representedObject;
     if (root.isLeaf) {
-        if (rev.isDeleted)
+        if (rev.isDeletion)
             return nil;
         return [NSTreeNode treeNodeWithRepresentedObject: rev];
     } else {
@@ -137,8 +137,8 @@ NSTreeNode* TreeWithoutDeletedBranches(NSTreeNode* root) {
 static void dumpTree(NSTreeNode* node, int indent, NSMutableString* output) {
     for (int i = 0; i < indent; ++i)
         [output appendString: @"    "];
-    CBLRevision* rev = node.representedObject;
-    [output appendFormat: @"%@%@\n", rev.revisionID, (rev.isDeleted ? @" DEL" : @"")];
+    CBLSavedRevision* rev = node.representedObject;
+    [output appendFormat: @"%@%@\n", rev.revisionID, (rev.isDeletion ? @" DEL" : @"")];
     for (NSTreeNode* child in node.childNodes)
         dumpTree(child, indent+1, output);
 }
