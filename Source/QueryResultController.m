@@ -62,11 +62,11 @@
 
 
 - (BOOL) showDeleted {
-    return _query.includeDeleted;
+    return _query.allDocsMode == kCBLIncludeDeleted ? YES : NO;
 }
 
 - (void) setShowDeleted:(BOOL)showDeleted {
-    _query.includeDeleted = showDeleted;
+    _query.allDocsMode = kCBLIncludeDeleted;
     [_query start];
 }
 
@@ -81,8 +81,8 @@
                          change:(NSDictionary *)change context:(void *)context
 {
     if (object == _query) {
-        if (_query.error) {
-            [_docsOutline.window presentError: _query.error];
+        if (_query.lastError) {
+            [_docsOutline.window presentError: _query.lastError];
         } else {
             NSArray* selection;
             CBLDocument* editedDoc = _docEditor.revision.document;
@@ -212,8 +212,8 @@ static NSString* formatProperty( id property ) {
             kColumnIDs = @[@"id", @"rev", @"seq", @"json"];
         switch ([kColumnIDs indexOfObject: identifier]) {
             case 0: return row.documentID;
-            case 1: return formatRevision(row.documentRevision);
-            case 2: return @(row.localSequence);
+            case 1: return formatRevision(row.documentRevisionID);
+            case 2: return @(row.sequenceNumber);
             case 3: return formatProperty(row.document.userProperties);
             default:return @"???";
         }

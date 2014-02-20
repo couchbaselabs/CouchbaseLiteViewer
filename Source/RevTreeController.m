@@ -68,7 +68,7 @@ static void emboldenCell(NSTextFieldCell *cell, BOOL embolden);
 - (void) setDocument:(CBLDocument *)document {
     _document = document;
     _fullRoot = document ? GetDocRevisionTree(document) : nil;
-    if (!_showDeleted && _document.currentRevision.isDeleted)
+    if (!_showDeleted && _document.currentRevision.isDeletion)
         self.showDeleted = YES;
     else
         [self updateRoot];
@@ -98,7 +98,7 @@ static void emboldenCell(NSTextFieldCell *cell, BOOL embolden);
     NSUInteger count = selIndexes.count;
     NSMutableArray* sel = [NSMutableArray arrayWithCapacity: count];
     [selIndexes enumerateIndexesUsingBlock: ^(NSUInteger idx, BOOL *stop) {
-        CBLRevision* item = [self revisionForItem: [_docsOutline itemAtRow: idx]];
+        CBLRevision* item = [self savedRevisionForItem: [_docsOutline itemAtRow: idx]];
         [sel addObject: item];
     }];
     return sel;
@@ -108,7 +108,7 @@ static void emboldenCell(NSTextFieldCell *cell, BOOL embolden);
 #pragma mark - REVISION-LIST VIEW:
 
 
-- (CBLRevision*) revisionForItem: (id)item {
+- (CBLSavedRevision*) savedRevisionForItem: (id)item {
     NSAssert(item==nil || [item isKindOfClass: [NSTreeNode class]], @"Invalid outline item: %@", item);
     return [item representedObject];
 }
@@ -129,7 +129,7 @@ static NSString* formatProperty( id property ) {
       objectValueForTableColumn:(NSTableColumn *)tableColumn
                          byItem:(id)item
 {
-    CBLRevision* rev = [self revisionForItem: item];
+    CBLSavedRevision* rev = [self savedRevisionForItem: item];
     NSString* identifier = tableColumn.identifier;
     
     if ([identifier hasPrefix: @"."]) {
@@ -160,10 +160,10 @@ static NSString* formatProperty( id property ) {
                    item:(NSTreeNode*)item
 {
     NSString* identifier = col.identifier;
-    CBLRevision* rev = [self revisionForItem: item];
+    CBLSavedRevision* rev = [self savedRevisionForItem: item];
     if ([identifier isEqualToString: @"rev"]) {
-        enableCell(cell, !rev.isDeleted);
-        emboldenCell(cell, [_leaves containsObject: item] && !rev.isDeleted);
+        enableCell(cell, !rev.isDeletion);
+        emboldenCell(cell, [_leaves containsObject: item] && !rev.isDeletion);
     } else if ([identifier isEqualToString: @"json"]) {
         enableCell(cell, rev.propertiesAvailable);
     }
@@ -198,7 +198,7 @@ static NSString* formatProperty( id property ) {
     NSIndexSet* selRows = [_docsOutline selectedRowIndexes];
     if (selRows.count == 1) {
         id item = [_docsOutline itemAtRow: [selRows firstIndex]]; 
-        sel = item ? [self revisionForItem: item] : nil;
+        sel = item ? [self savedRevisionForItem: item] : nil;
     }
     _docEditor.readOnly = YES;
     _docEditor.revision = sel;

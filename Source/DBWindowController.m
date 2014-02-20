@@ -50,7 +50,7 @@
     _docsOutline.doubleAction = @selector(showDocRevisionTree:);
     
     _queryController.outline = _docsOutline;
-    _queryController.query = [_db queryAllDocuments];
+    _queryController.query = [_db createAllDocumentsQuery];
 
     _docEditor.database = _db;
 

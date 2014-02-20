@@ -115,7 +115,7 @@ NSTreeNode* TreeWithoutDeletedBranches(NSTreeNode* root) {
         return nil;
     CBLRevision* rev = root.representedObject;
     if (root.isLeaf) {
-        if (rev.isDeleted)
+        if (rev.isDeletion)
             return nil;
         return [NSTreeNode treeNodeWithRepresentedObject: rev];
     } else {
@@ -138,7 +138,7 @@ static void dumpTree(NSTreeNode* node, int indent, NSMutableString* output) {
     for (int i = 0; i < indent; ++i)
         [output appendString: @"    "];
     CBLRevision* rev = node.representedObject;
-    [output appendFormat: @"%@%@\n", rev.revisionID, (rev.isDeleted ? @" DEL" : @"")];
+    [output appendFormat: @"%@%@\n", rev.revisionID, (rev.isDeletion ? @" DEL" : @"")];
     for (NSTreeNode* child in node.childNodes)
         dumpTree(child, indent+1, output);
 }
