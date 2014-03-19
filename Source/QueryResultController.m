@@ -35,6 +35,7 @@
 {
     if (_query)
         [_query removeObserver: self forKeyPath: @"rows"];
+    query.prefetch = YES;
     _query = [query asLiveQuery];
     [_query addObserver: self forKeyPath: @"rows"
                 options: NSKeyValueObservingOptionInitial
@@ -95,7 +96,7 @@
             _rows = rows.allObjects.mutableCopy;
             if (_docsOutline.sortDescriptors)
                 [_rows sortUsingDescriptors: _docsOutline.sortDescriptors];
-            [_docsOutline reloadItem: nil];
+            [_docsOutline reloadData];
 
             self.selectedDocuments = selection;
         }
@@ -107,7 +108,7 @@
          sortDescriptorsDidChange:(NSArray *)oldDescriptors
 {
     [_rows sortUsingDescriptors: outlineView.sortDescriptors];
-    [outlineView reloadItem: nil];
+    [outlineView reloadData];
 }
 
 
@@ -191,7 +192,14 @@ static NSString* formatRevision( NSString* revID ) {
 }
 
 static NSString* formatProperty( id property ) {
-    return property ? [CBLJSON stringWithJSONObject: property options: 0 error: NULL] : nil;
+    if (!property)
+        return nil;
+    NSString* result =[CBLJSON stringWithJSONObject: property
+                                            options: CBLJSONWritingAllowFragments
+                                              error: NULL];
+    if (result.length > 200)
+        result = [[result substringToIndex: 200] stringByAppendingString: @"…"];
+    return result;
 }
 
 
