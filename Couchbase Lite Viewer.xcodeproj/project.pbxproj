@@ -395,6 +395,7 @@
 				GCC_PREFIX_HEADER = "Source/Couchbase Lite Viewer-Prefix.pch";
 				INFOPLIST_FILE = "Source/Couchbase Lite Viewer-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks/";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "Couchbase Lite Viewer";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -415,6 +416,7 @@
 				GCC_PREFIX_HEADER = "Source/Couchbase Lite Viewer-Prefix.pch";
 				INFOPLIST_FILE = "Source/Couchbase Lite Viewer-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks/";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "Couchbase Lite Viewer";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;

@@ -39,7 +39,7 @@
     }
     
     NSString* serverPath = _path.stringByDeletingLastPathComponent;
-    CBLManagerOptions options = {.readOnly = false, .noReplicator = true};
+    CBLManagerOptions options = {.readOnly = false};
     NSError* error;
     _manager = [[CBLManager alloc] initWithDirectory: serverPath
                                              options: &options
