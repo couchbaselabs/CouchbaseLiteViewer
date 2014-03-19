@@ -221,6 +221,11 @@
 			attributes = {
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Couchbase, Inc.";
+				TargetAttributes = {
+					27A8A771152A008200363704 = {
+						DevelopmentTeam = N2Q372V7W2;
+					};
+				};
 			};
 			buildConfigurationList = 27A8A76C152A008100363704 /* Build configuration list for PBXProject "Couchbase Lite Viewer" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -322,7 +327,7 @@
 				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 0.32;
+				CURRENT_PROJECT_VERSION = 0.4;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -362,7 +367,7 @@
 				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 0.32;
+				CURRENT_PROJECT_VERSION = 0.4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -385,7 +390,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -396,6 +401,7 @@
 				INFOPLIST_FILE = "Source/Couchbase Lite Viewer-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks/";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PRODUCT_NAME = "Couchbase Lite Viewer";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -406,7 +412,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -417,6 +423,7 @@
 				INFOPLIST_FILE = "Source/Couchbase Lite Viewer-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks/";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PRODUCT_NAME = "Couchbase Lite Viewer";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
