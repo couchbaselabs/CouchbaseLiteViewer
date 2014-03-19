@@ -19,6 +19,7 @@ typedef enum AppListNodeType {
 @interface AppListNode : NSObject
 
 @property (readonly) AppListNodeType type;
+@property BOOL isMacOS;
 @property (readonly, nonatomic) NSString* displayName;
 @property (readonly, nonatomic) NSString* path;
 @property (readonly) NSImage* icon;

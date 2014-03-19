@@ -25,14 +25,17 @@ static NSString* getAppBundleName(NSString* appHomeDir);
 }
 
 
-NSImage* kOSIcon, *kAppIcon, *kDbIcon;
+NSImage* kiOSIcon, *kMacOSIcon, *kAppIcon, *kDbIcon;
 
 
 + (void) initialize {
     if (self == [AppListNode class]) {
         NSString* simulatorPath = [[NSWorkspace sharedWorkspace] absolutePathForAppBundleWithIdentifier: kSimulatorAppID];
-        kOSIcon = [[[NSWorkspace sharedWorkspace] iconForFile: simulatorPath] copy];
-        kOSIcon.size = NSMakeSize(kIconSize, kIconSize);
+        kiOSIcon = [[[NSWorkspace sharedWorkspace] iconForFile: simulatorPath] copy];
+        kiOSIcon.size = NSMakeSize(kIconSize, kIconSize);
+
+        kMacOSIcon = [[[NSWorkspace sharedWorkspace] iconForFile: @"/System/Library/CoreServices/Finder.app"] copy];
+        kMacOSIcon.size = NSMakeSize(kIconSize, kIconSize);
 
         kAppIcon = [[NSImage imageNamed: @"ios_app.png"] copy];
         kAppIcon.size = NSMakeSize(kIconSize, kIconSize);
@@ -43,6 +46,7 @@ NSImage* kOSIcon, *kAppIcon, *kDbIcon;
 }
 
 @synthesize type=_type, path=_path, displayName=_displayName, children=_children;
+@synthesize isMacOS=_isMacOS;
 
 - (id) initWithType: (AppListNodeType)type path: (NSString*)path displayName: (NSString*)displayName {
     self = [super init];
@@ -58,7 +62,7 @@ NSImage* kOSIcon, *kAppIcon, *kDbIcon;
 - (NSImage*) icon {
     switch (_type) {
         case kOSNode:
-            return kOSIcon;
+            return _isMacOS ?kMacOSIcon : kiOSIcon;
         case kAppNode:
             if (!_appIcon)
                 _appIcon = [self findAppIcon] ?: kAppIcon;
@@ -96,9 +100,9 @@ NSImage* kOSIcon, *kAppIcon, *kDbIcon;
 
 
 // Returns a dictionary mapping display-names -> absolute paths.
-// Block is given an filename and returns a display-name or nil.
-static NSDictionary* iterateDir(NSString* dir, NSError** outError,
-                                NSString* (^block)(NSString* filename))
+// Block is given a filename and returns a display-name or nil.
+static NSMutableDictionary* iterateDir(NSString* dir, NSError** outError,
+                                       NSString* (^block)(NSString* filename))
 {
     NSArray* filenames = [[NSFileManager defaultManager] contentsOfDirectoryAtPath: dir
                                                                          error: outError];
@@ -160,7 +164,7 @@ static NSDictionary* findAppDatabases(NSString* appHomeDir, NSError** error) {
 
 static NSDictionary* findMacAppDirs(NSError** error) {
     NSString* dirName = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES)[0];
-    return iterateDir(dirName, error, ^NSString *(NSString *appDirName) {
+    NSMutableDictionary* dirs = iterateDir(dirName, error, ^NSString *(NSString *appDirName) {
         NSString* appDirPath = [dirName stringByAppendingPathComponent: appDirName];
         NSString* cblPath = [appDirPath stringByAppendingPathComponent: kDbDirName];
         BOOL isDir;
@@ -169,6 +173,29 @@ static NSDictionary* findMacAppDirs(NSError** error) {
             return nil;
         return [[appDirName componentsSeparatedByString: @"."] lastObject];
     });
+
+#if 1
+    // Now look for sandboxed apps:
+    dirName = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)[0];
+    dirName = [dirName stringByAppendingPathComponent: @"Containers"];
+
+    NSArray* filenames = [[NSFileManager defaultManager] contentsOfDirectoryAtPath: dirName
+                                                                             error: NULL];
+    for (NSString* appDirName in filenames) {
+        NSString* appDirPath = [[[dirName stringByAppendingPathComponent: appDirName]
+                                    stringByAppendingPathComponent: @"Data/Library/Application Support"]
+                                    stringByAppendingPathComponent: appDirName];
+        NSString* cblPath = [appDirPath stringByAppendingPathComponent: kDbDirName];
+        BOOL isDir;
+        if ([[NSFileManager defaultManager] fileExistsAtPath: cblPath isDirectory: &isDir]
+                && isDir) {
+            NSString* displayName = [[appDirName componentsSeparatedByString: @"."] lastObject];
+            dirs[displayName] = appDirPath;
+        }
+    }
+#endif
+
+    return dirs;
 }
 
 
@@ -216,11 +243,12 @@ AppListNode* BuildAppList(NSError** outError) {
                 [versNode.children addObject: appNode];
         }
         if (versNode.children.count > 0)
-            [root.children addObject: versNode];
+            [root.children insertObject: versNode atIndex: 0];  // reverse order (newest OS first)
     }
 
     // Now find Mac apps:
     AppListNode* versNode = [[AppListNode alloc] initWithType: kOSNode path: @"" displayName: @"Mac OS"];
+    versNode.isMacOS = YES;
     NSDictionary* apps = findMacAppDirs(outError);
     if (!apps)
         return nil;
@@ -228,14 +256,14 @@ AppListNode* BuildAppList(NSError** outError) {
         AppListNode* appNode = [[AppListNode alloc] initWithType: kAppNode path: apps[app] displayName: app];
 
         NSDictionary* dbs = findMacAppDatabases(apps[app],  outError);
-        if (!dbs)
-            return nil;
-        for (NSString* db in sortedKeys(dbs)) {
-            AppListNode* dbNode = [[AppListNode alloc] initWithType: kDbNode path: dbs[db] displayName: db];
-            [appNode.children addObject: dbNode];
+        if (dbs) {
+            for (NSString* db in sortedKeys(dbs)) {
+                AppListNode* dbNode = [[AppListNode alloc] initWithType: kDbNode path: dbs[db] displayName: db];
+                [appNode.children addObject: dbNode];
+            }
+            if (appNode.children.count > 0)
+                [versNode.children addObject: appNode];
         }
-        if (appNode.children.count > 0)
-            [versNode.children addObject: appNode];
     }
     if (versNode.children.count > 0)
         [root.children addObject: versNode];
