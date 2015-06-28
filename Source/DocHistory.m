@@ -7,6 +7,7 @@
 //
 
 #import "DocHistory.h"
+#import <CouchbaseLite/CouchbaseLite.h>
 
 
 NSTreeNode* SortRevisionTree(NSTreeNode* tree) {

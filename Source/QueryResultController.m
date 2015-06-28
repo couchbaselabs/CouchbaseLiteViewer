@@ -292,7 +292,7 @@ static NSString* formatProperty( id property ) {
 
 
 - (IBAction) newDocument: (id)sender {
-    [_docsOutline selectRowIndexes: nil byExtendingSelection: NO];
+    [_docsOutline deselectAll: nil];
     [_docEditor editNewDocument];
 }
 

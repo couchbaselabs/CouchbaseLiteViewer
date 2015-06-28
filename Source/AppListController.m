@@ -107,7 +107,11 @@ static AppListController* sInstance;
     if (item.type == kDbNode) {
         [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL: url
                                                                                display: YES
-                                                                                 error: NULL];
+                                                                     completionHandler:
+         ^(NSDocument * document, BOOL documentWasAlreadyOpen, NSError *error) {
+             if (error)
+                 [self presentError: error];
+         }];
     }
 }
 

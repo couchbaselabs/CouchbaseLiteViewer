@@ -55,7 +55,7 @@ static void emboldenCell(NSTextFieldCell *cell, BOOL embolden);
         outline.delegate = self;
         [outline reloadData];
         [outline expandItem: nil expandChildren: YES];
-        [self outlineViewSelectionDidChange: nil];
+        [self outlineViewSelectionDidChange];
         _addDocButton.enabled = _removeDocButton.enabled = NO;
     }
 }
@@ -194,6 +194,10 @@ static NSString* formatProperty( id property ) {
 
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification {
+    [self outlineViewSelectionDidChange];
+}
+
+- (void)outlineViewSelectionDidChange {
     CBLSavedRevision* sel = nil;
     NSIndexSet* selRows = [_docsOutline selectedRowIndexes];
     if (selRows.count == 1) {
