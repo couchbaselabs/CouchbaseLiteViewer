@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+/** Controller for the window that lists all the applications and their databases */
 @interface AppListController : NSWindowController
 
 + (void) show;

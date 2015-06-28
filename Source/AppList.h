@@ -16,10 +16,12 @@ typedef enum AppListNodeType {
 } AppListNodeType;
 
 
+/** Model for a tree node in the AppListController's outline view */
 @interface AppListNode : NSObject
 
 @property (readonly) AppListNodeType type;
 @property BOOL isMacOS;
+@property (copy) NSString* bundleID;
 @property (readonly, nonatomic) NSString* displayName;
 @property (readonly, nonatomic) NSString* path;
 @property (readonly) NSImage* icon;

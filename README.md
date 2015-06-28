@@ -2,6 +2,7 @@ This is a fairly simple Mac editor for [Couchbase Lite](https://github.com/couch
 
 ## Features
 
+0. Browse the databases of all iOS apps in the Simulator, and all Mac apps.
 1. Open any Couchbase Lite database file on a reachable filesystem
 2. View all documents including revision IDs and sequence numbers
 3. View and modify JSON properties of any document
@@ -11,21 +12,21 @@ This is a fairly simple Mac editor for [Couchbase Lite](https://github.com/couch
 ## Requirements
 
 * Mac OS X 10.7+.
-* Xcode 4.6+ to build it.
+* Xcode 6+ to build it.
 
 ## Building It
 
-* Get [Couchbase Lite](https://github.com/couchbase/CouchbaseLite-iOS)
+* Get [Couchbase Lite](http://www.couchbase.com/nosql-databases/downloads)
 * Copy or symlink Couchbase Lite.framework into the `Frameworks/` subdirectory.
 * Open `Couchbase Lite Viewer.xcodeproj`.
 * Product > Build
 
 ## Using It
 
-You'll need to locate the database's `.cblite` file:
+Use the browser window to find your app. Mac apps are in one group, iOS apps are grouped by simulator type.
 
-A Mac OS application's databases are by default in ~/Library/Application Support/_bundleID_/CouchbaseLite/ , unless you used a custom path for your CBLManager.
+Once you select your app you'll see its databases; double-click one to open it.
 
-LiteServ's databases are as above, where the _bundleID_ is `com.couchbase.LiteServ`.
+The database viewer window lists all the documents in the left pane, and shows the properties of the selected document in the right pane. (You can add any property you want as a column in the left pane by right-clicking it in the right pane and selecting "Add Column".)
 
-The files of an iOS app running in the simulator can be hard to find. The path to the app tends to look like ~/Library/Application Support/iPhone Simulator/_version_/Applications/_uuid_. Within that, the databases will be in the subdirectory Library/Application Support/CouchbaseLite. If you're having trouble finding the app directory, try logging `[[NSBundle mainBundle] bundlePath]` at launch time.
+Should you want to view the revision history of a document, double-click it in the left pane. Click the navigation control at the top to return to the document list.

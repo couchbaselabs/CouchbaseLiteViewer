@@ -8,7 +8,14 @@
 
 #import <Cocoa/Cocoa.h>
 
+extern void TestAppList(void);//TEMP
+
 int main(int argc, char *argv[])
 {
+#if 0
+    TestAppList();
+    return 0;
+#else
     return NSApplicationMain(argc, (const char **)argv);
+#endif
 }
