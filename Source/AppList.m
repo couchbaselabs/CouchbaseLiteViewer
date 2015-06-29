@@ -81,9 +81,11 @@ NSImage* kiOSIcon, *kMacOSIcon, *kAppIcon, *kMacAppIcon, *kDbIcon;
 - (NSImage*) findAppIcon {
     NSImage* icon = nil;
 #if 1
-    NSString* appPath = [[NSWorkspace sharedWorkspace] absolutePathForAppBundleWithIdentifier: _bundleID];
-    if (appPath)
-        icon = [[NSWorkspace sharedWorkspace] iconForFile: appPath];
+    if (_isMacOS) {
+        NSString* appPath = [[NSWorkspace sharedWorkspace] absolutePathForAppBundleWithIdentifier: _bundleID];
+        if (appPath)
+            icon = [[NSWorkspace sharedWorkspace] iconForFile: appPath];
+    }
 #else
     NSString* bundlePath = [self.path stringByAppendingPathComponent: getAppBundleName(self.path)];
     NSString* infoPath = [bundlePath stringByAppendingPathComponent: @"Info.plist"];

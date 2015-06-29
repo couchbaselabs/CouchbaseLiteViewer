@@ -56,7 +56,8 @@ static AppListController* sInstance;
 
 
 + (void) restore {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey: @"AppListShowing"])
+    if (![[NSUserDefaults standardUserDefaults] objectForKey: @"AppListShowing"]
+            || [[NSUserDefaults standardUserDefaults] boolForKey: @"AppListShowing"])
         [self _show];
 }
 
