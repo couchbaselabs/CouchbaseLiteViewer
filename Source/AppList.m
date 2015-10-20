@@ -23,7 +23,7 @@
 }
 
 
-NSImage* kiOSIcon, *kMacOSIcon, *kAppIcon, *kMacAppIcon, *kDbIcon;
+NSImage* kiOSIcon, *kMacOSIcon, *kAppIcon, *kMacAppIcon, *kDbIcon, *kDb2Icon;
 
 
 + (void) initialize {
@@ -42,6 +42,9 @@ NSImage* kiOSIcon, *kMacOSIcon, *kAppIcon, *kMacAppIcon, *kDbIcon;
 
         kDbIcon = [[NSImage imageNamed: @"database.icns"] copy];
         kDbIcon.size = NSMakeSize(kIconSize, kIconSize);
+
+        kDb2Icon = [[NSImage imageNamed: @"database2.icns"] copy];
+        kDb2Icon.size = NSMakeSize(kIconSize, kIconSize);
     }
 }
 
@@ -68,7 +71,10 @@ NSImage* kiOSIcon, *kMacOSIcon, *kAppIcon, *kMacAppIcon, *kDbIcon;
                 _appIcon = [self findAppIcon] ?: (_isMacOS ? kMacAppIcon : kAppIcon);
             return _appIcon;
         case kDbNode:
-            return kDbIcon;
+            if ([_path.pathExtension isEqualToString: @"cblite"])
+                return kDbIcon;
+            else
+                return kDb2Icon;
     }
 }
 

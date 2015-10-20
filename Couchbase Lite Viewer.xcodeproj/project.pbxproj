@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2733A75A1BD6DF7B00F0FF07 /* database2.icns in Resources */ = {isa = PBXBuildFile; fileRef = 2733A7591BD6DF7B00F0FF07 /* database2.icns */; };
 		274789FF15F97520006E842D /* URLFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 274789FE15F97520006E842D /* URLFormatter.m */; };
 		27538FA517F28B31004C3BFD /* CouchbaseLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27538FA417F28B31004C3BFD /* CouchbaseLite.framework */; };
 		27538FA617F29303004C3BFD /* CouchbaseLite.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 27538FA417F28B31004C3BFD /* CouchbaseLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -48,6 +49,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2733A7591BD6DF7B00F0FF07 /* database2.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = database2.icns; sourceTree = "<group>"; };
 		274789FD15F97520006E842D /* URLFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLFormatter.h; sourceTree = "<group>"; };
 		274789FE15F97520006E842D /* URLFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLFormatter.m; sourceTree = "<group>"; };
 		27538FA417F28B31004C3BFD /* CouchbaseLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CouchbaseLite.framework; path = Frameworks/CouchbaseLite.framework; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 				27F87AFB1555E7FC00F0A416 /* AppIcon.icns */,
 				278B0C71152A6B7C00577747 /* DBDoc.icns */,
 				27F3A63A15F0095800263663 /* database.icns */,
+				2733A7591BD6DF7B00F0FF07 /* database2.icns */,
 				27557B2217F38DF100F28764 /* ios_app.png */,
 				27A8A77E152A008200363704 /* Couchbase Lite Viewer-Info.plist */,
 				27A8A77F152A008200363704 /* InfoPlist.strings */,
@@ -281,6 +284,7 @@
 				278B0C72152A6B7C00577747 /* DBDoc.icns in Resources */,
 				27F87AFC1555E7FD00F0A416 /* AppIcon.icns in Resources */,
 				27F3A63B15F0095800263663 /* database.icns in Resources */,
+				2733A75A1BD6DF7B00F0FF07 /* database2.icns in Resources */,
 				27538FB017F3607C004C3BFD /* AppListController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
