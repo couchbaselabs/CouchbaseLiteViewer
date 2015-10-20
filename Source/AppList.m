@@ -12,8 +12,6 @@
 #define kSimulatorAppID @"com.apple.iphonesimulator"
 #define kIconSize 22
 
-static NSString* getAppBundleID(NSString* appHomeDir);
-
 
 @implementation AppListNode
 {
@@ -87,7 +85,7 @@ NSImage* kiOSIcon, *kMacOSIcon, *kAppIcon, *kMacAppIcon, *kDbIcon;
             icon = [[NSWorkspace sharedWorkspace] iconForFile: appPath];
     }
 #else
-    NSString* bundlePath = [self.path stringByAppendingPathComponent: getAppBundleID(self.path)];
+    NSString* bundlePath = [self.path stringByAppendingPathComponent: getIOSAppBundleID(self.path)];
     NSString* infoPath = [bundlePath stringByAppendingPathComponent: @"Info.plist"];
     NSDictionary* plist = [NSDictionary dictionaryWithContentsOfFile: infoPath];
     NSString* iconFileName = plist[@"CFBundleIcons"][@"CFBundlePrimaryIcon"][@"CFBundleIconFiles"][0];
@@ -112,6 +110,11 @@ NSImage* kiOSIcon, *kMacOSIcon, *kAppIcon, *kMacAppIcon, *kDbIcon;
 #define kReplicatorDbName @"_replicator"    // old persistent-replications database, pre-1.0
 
 
+static NSArray* sortedKeys(NSDictionary* dict) {
+    return [dict.allKeys sortedArrayUsingSelector: @selector(localizedCaseInsensitiveCompare:)];
+}
+
+
 // Returns a dictionary mapping display-names -> absolute paths.
 // Block is given a filename and returns a display-name or nil.
 static NSMutableDictionary* iterateDir(NSString* dir, NSError** outError,
@@ -129,6 +132,8 @@ static NSMutableDictionary* iterateDir(NSString* dir, NSError** outError,
 
     NSMutableDictionary* result = [NSMutableDictionary dictionary];
     for (NSString* filename in filenames) {
+        if ([filename hasPrefix: @"."])
+            continue;
         NSString* path = [dir stringByAppendingPathComponent: filename];
         NSString* key = block(path, filename);
         if (key)
@@ -138,17 +143,26 @@ static NSMutableDictionary* iterateDir(NSString* dir, NSError** outError,
 }
 
 
+#pragma mark - iOS:
+
+
 static NSDictionary* findIOSSimulatorDirs(NSError** error) {
     NSString* dir = [NSHomeDirectory() stringByAppendingPathComponent: kSimulatorPath];
     return iterateDir(dir, error, ^NSString *(NSString* path, NSString *dirname) {
         NSString* infoPath = [path stringByAppendingPathComponent: @"device.plist"];
         NSDictionary* info = [NSDictionary dictionaryWithContentsOfFile: infoPath];
-        return info[@"name"];
+        NSString* name = info[@"name"];
+        NSString* version = [info[@"runtime"] componentsSeparatedByString: @"."].lastObject;
+        if (version) {
+            NSArray* c = [version componentsSeparatedByString: @"-"];
+            name = [name stringByAppendingFormat: @" (%@ %@.%@)", c[0], c[1], c[2]];
+        }
+        return name;
     });
 }
 
 
-static NSString* getAppBundleID(NSString* appHomeDir) {
+static NSString* getIOSAppBundleID(NSString* appHomeDir) {
     NSString* infoPath = [appHomeDir stringByAppendingPathComponent: @".com.apple.mobile_container_manager.metadata.plist"];
     NSDictionary* info = [NSDictionary dictionaryWithContentsOfFile: infoPath];
     NSString* appBundleID = info[@"MCMMetadataIdentifier"];
@@ -156,8 +170,8 @@ static NSString* getAppBundleID(NSString* appHomeDir) {
 }
 
 
-static NSString* getAppBundleName(NSString* appHomeDir, NSDictionary* deviceInfo) {
-    NSString* bundleID = getAppBundleID(appHomeDir);
+static NSString* getIOSAppBundleName(NSString* appHomeDir, NSDictionary* deviceInfo) {
+    NSString* bundleID = getIOSAppBundleID(appHomeDir);
     NSDictionary* info = deviceInfo[@"User"];
     info = info[bundleID];
     NSString* name = [[info[@"Path"] lastPathComponent] stringByDeletingPathExtension];
@@ -165,7 +179,7 @@ static NSString* getAppBundleName(NSString* appHomeDir, NSDictionary* deviceInfo
 }
 
 
-static NSDictionary* findAppDirs(NSString* osDir, NSError** error) {
+static NSDictionary* findIOSAppDirs(NSString* osDir, NSError** error) {
     NSString* deviceInfoPath = [osDir stringByAppendingPathComponent: @"data/Library/MobileInstallation/LastLaunchServicesMap.plist"];
     NSDictionary* deviceInfo = [NSDictionary dictionaryWithContentsOfFile: deviceInfoPath];
 
@@ -174,12 +188,12 @@ static NSDictionary* findAppDirs(NSString* osDir, NSError** error) {
         NSString* cblPath = [appHomeDir stringByAppendingPathComponent: kIOSDbDirPath];
         if (![[NSFileManager defaultManager] fileExistsAtPath: cblPath])
             return nil;
-        return getAppBundleName(appHomeDir, deviceInfo);
+        return getIOSAppBundleName(appHomeDir, deviceInfo);
     });
 }
 
 
-static NSDictionary* findAppDatabases(NSString* appHomeDir, NSError** error) {
+static NSDictionary* findIOSAppDatabases(NSString* appHomeDir, NSError** error) {
     NSString* cblPath = [appHomeDir stringByAppendingPathComponent: kIOSDbDirPath];
     return iterateDir(cblPath, error, ^NSString *(NSString* path, NSString *filename) {
         if (![kDbPathExtensions containsObject: filename.pathExtension])
@@ -190,6 +204,120 @@ static NSDictionary* findAppDatabases(NSString* appHomeDir, NSError** error) {
         return [dbName stringByReplacingOccurrencesOfString: @":" withString: @"/"];
     });
 }
+
+
+static BOOL buildIOSAppTree(AppListNode *root, NSError** outError) {
+    NSDictionary* versions = findIOSSimulatorDirs(outError);
+    if (!versions)
+        return NO;
+    for (NSString* version in sortedKeys(versions)) {
+        AppListNode* versNode = [[AppListNode alloc] initWithType: kOSNode path: versions[version] displayName: version];
+
+        NSDictionary* apps = findIOSAppDirs(versions[version],  outError);
+        if (!apps)
+            return NO;
+        for (NSString* app in sortedKeys(apps)) {
+            AppListNode* appNode = [[AppListNode alloc] initWithType: kAppNode path: apps[app] displayName: app];
+            appNode.bundleID = app;
+
+            NSDictionary* dbs = findIOSAppDatabases(apps[app],  outError);
+            if (!dbs)
+                return NO;
+            for (NSString* db in sortedKeys(dbs)) {
+                AppListNode* dbNode = [[AppListNode alloc] initWithType: kDbNode path: dbs[db] displayName: db];
+                [appNode.children addObject: dbNode];
+            }
+            if (appNode.children.count > 0)
+                [versNode.children addObject: appNode];
+        }
+        if (versNode.children.count > 0)
+            [root.children insertObject: versNode atIndex: 0];  // reverse order (newest OS first)
+    }
+    return YES;
+}
+
+
+#pragma mark - OLD iOS (pre-Xcode 7)
+
+
+#define kOldSimulatorPath @"Library/Application Support/iPhone Simulator/"
+
+
+static NSDictionary* findOldIOSSimulatorDirs(NSError** error) {
+    NSString* dir = [NSHomeDirectory() stringByAppendingPathComponent: kOldSimulatorPath];
+    return iterateDir(dir, error, ^NSString *(NSString *path, NSString *filename) {
+        if (isdigit([filename characterAtIndex: 0]) && [filename doubleValue] >= 6.0)
+            return [NSString stringWithFormat: @"iOS %@", filename];
+        return nil;
+    });
+}
+
+
+static NSString* getOldIOSAppBundleName(NSString* appHomeDir) {
+    NSArray* appBundles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath: appHomeDir
+                                                                              error: NULL];
+    appBundles = [appBundles pathsMatchingExtensions: @[@"app"]];
+    return appBundles.count > 0 ? appBundles[0] : nil;
+}
+
+
+static NSDictionary* findOldIOSAppDirs(NSString* osDir, NSError** error) {
+    NSString* appsDir = [osDir stringByAppendingPathComponent: @"Applications"];
+    return iterateDir(appsDir, error, ^NSString *(NSString *path, NSString *dirName) {
+        NSString* appHomeDir = [appsDir stringByAppendingPathComponent: dirName];
+        NSString* cblPath = [appHomeDir stringByAppendingPathComponent: kIOSDbDirPath];
+        if (![[NSFileManager defaultManager] fileExistsAtPath: cblPath])
+            return nil;
+        return [getOldIOSAppBundleName(appHomeDir) stringByDeletingPathExtension];
+    });
+}
+
+
+static NSDictionary* findOldIOSAppDatabases(NSString* appHomeDir, NSError** error) {
+    NSString* cblPath = [appHomeDir stringByAppendingPathComponent: kIOSDbDirPath];
+    return iterateDir(cblPath, error, ^NSString *(NSString *path, NSString *filename) {
+        if (![kDbPathExtensions containsObject: filename.pathExtension])
+            return nil;
+        NSString* dbName = filename.stringByDeletingPathExtension;
+        if ([dbName isEqualToString: kReplicatorDbName])
+            return nil;
+        return [dbName stringByReplacingOccurrencesOfString: @":" withString: @"/"];
+    });
+}
+
+
+static BOOL buildOldIOSAppTree(AppListNode* root, NSError **outError) {
+    NSDictionary* versions = findOldIOSSimulatorDirs(outError);
+    if (!versions)
+        return NO;
+    for (NSString* version in sortedKeys(versions)) {
+        AppListNode* versNode = [[AppListNode alloc] initWithType: kOSNode path: versions[version] displayName: version];
+
+        NSDictionary* apps = findOldIOSAppDirs(versions[version],  outError);
+        if (!apps)
+            return NO;
+        for (NSString* app in sortedKeys(apps)) {
+            AppListNode* appNode = [[AppListNode alloc] initWithType: kAppNode path: apps[app] displayName: app];
+            appNode.bundleID = app;
+
+            NSDictionary* dbs = findOldIOSAppDatabases(apps[app],  outError);
+            if (!dbs)
+                return NO;
+            for (NSString* db in sortedKeys(dbs)) {
+                AppListNode* dbNode = [[AppListNode alloc] initWithType: kDbNode path: dbs[db] displayName: db];
+                [appNode.children addObject: dbNode];
+            }
+            if (appNode.children.count > 0)
+                [versNode.children addObject: appNode];
+        }
+        if (versNode.children.count > 0)
+            [root.children insertObject: versNode atIndex: 0];  // reverse order (newest OS first)
+    }
+    return YES;
+}
+
+
+#pragma mark - MAC OS:
 
 
 static NSDictionary* findMacAppDirs(NSError** error) {
@@ -203,7 +331,6 @@ static NSDictionary* findMacAppDirs(NSError** error) {
         return [[appDirName componentsSeparatedByString: @"."] lastObject];
     });
 
-#if 1
     // Now look for sandboxed apps:
     dirName = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)[0];
     dirName = [dirName stringByAppendingPathComponent: @"Containers"];
@@ -222,7 +349,6 @@ static NSDictionary* findMacAppDirs(NSError** error) {
             dirs[displayName] = appDirPath;
         }
     }
-#endif
 
     return dirs;
 }
@@ -241,39 +367,15 @@ static NSDictionary* findMacAppDatabases(NSString* appSupportDir, NSError** erro
 }
 
 
-static NSArray* sortedKeys(NSDictionary* dict) {
-    return [dict.allKeys sortedArrayUsingSelector: @selector(localizedCaseInsensitiveCompare:)];
-}
+#pragma mark - MAIN:
 
 
 AppListNode* BuildAppList(NSError** outError) {
     AppListNode* root = [[AppListNode alloc] initWithType: kOSNode path: nil displayName: nil];
-    NSDictionary* versions = findIOSSimulatorDirs(outError);
-    if (!versions)
+    if (!buildOldIOSAppTree(root, outError))
         return nil;
-    for (NSString* version in sortedKeys(versions)) {
-        AppListNode* versNode = [[AppListNode alloc] initWithType: kOSNode path: versions[version] displayName: version];
-
-        NSDictionary* apps = findAppDirs(versions[version],  outError);
-        if (!apps)
-            return nil;
-        for (NSString* app in sortedKeys(apps)) {
-            AppListNode* appNode = [[AppListNode alloc] initWithType: kAppNode path: apps[app] displayName: app];
-            appNode.bundleID = app;
-
-            NSDictionary* dbs = findAppDatabases(apps[app],  outError);
-            if (!dbs)
-                return nil;
-            for (NSString* db in sortedKeys(dbs)) {
-                AppListNode* dbNode = [[AppListNode alloc] initWithType: kDbNode path: dbs[db] displayName: db];
-                [appNode.children addObject: dbNode];
-            }
-            if (appNode.children.count > 0)
-                [versNode.children addObject: appNode];
-        }
-        if (versNode.children.count > 0)
-            [root.children insertObject: versNode atIndex: 0];  // reverse order (newest OS first)
-    }
+    if (!buildIOSAppTree(root, outError))
+        return nil;
 
     // Now find Mac apps:
     AppListNode* versNode = [[AppListNode alloc] initWithType: kOSNode path: @"" displayName: @"Mac OS"];
@@ -309,11 +411,11 @@ void TestAppList(void) {
     NSCAssert(versions, @"error %@", error);
     for (NSString* version in sortedKeys(versions)) {
         NSLog(@"%@:", version);
-        NSDictionary* apps = findAppDirs(versions[version],  &error);
+        NSDictionary* apps = findIOSAppDirs(versions[version],  &error);
         NSCAssert(apps, @"error %@", error);
         for (NSString* app in sortedKeys(apps)) {
             NSLog(@"\t%@:", app);
-            NSDictionary* dbs = findAppDatabases(apps[app],  &error);
+            NSDictionary* dbs = findIOSAppDatabases(apps[app],  &error);
             NSCAssert(dbs, @"error %@", error);
             for (NSString* db in sortedKeys(dbs)) {
                 NSLog(@"\t\t%@", db);
