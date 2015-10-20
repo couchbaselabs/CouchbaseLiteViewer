@@ -49,7 +49,7 @@
 }
 
 - (void) setRevision: (CBLSavedRevision*)rev {
-    if (rev != _revision || _untitled) {
+    if ((rev != _revision && ![rev isEqual: _revision]) || _untitled) {
         _revision = rev;
         _untitled = NO;
         [self revertDocumentToSaved: self];

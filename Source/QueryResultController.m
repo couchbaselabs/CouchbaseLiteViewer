@@ -10,6 +10,11 @@
 #import "DocEditor.h"
 
 
+@interface CBLDocument (NotExposed)
+- (void) forgetCurrentRevision;
+@end
+
+
 @interface QueryResultController ()
 {
 @private
@@ -99,6 +104,11 @@
             [_docsOutline reloadData];
 
             self.selectedDocuments = selection;
+
+            if (editedDoc) {
+                [editedDoc forgetCurrentRevision]; // workaround for CBL not detecting the change
+                _docEditor.revision = editedDoc.currentRevision;
+            }
         }
     }
 }

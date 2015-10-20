@@ -118,7 +118,6 @@ static AppListController* sInstance;
 
 
 - (IBAction) revealInFinder: (id)sender {
-    NSLog(@"Reveal! %@", sender);
     AppListNode* item = [_browser itemAtRow: _browser.clickedRow inColumn: _browser.clickedColumn];
     NSString* select = item.path;
     NSString* windowPath;
