@@ -38,7 +38,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <outlineView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="reverseSequential" alternatingRowBackgroundColors="YES" autosaveColumns="NO" rowHeight="14" headerView="35" indentationPerLevel="16" autoresizesOutlineColumn="YES" outlineTableColumn="374" id="33">
-                                            <rect key="frame" x="0.0" y="0.0" width="371" height="365"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="370.5" height="365"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <animations/>
                                             <size key="intercellSpacing" width="3" height="2"/>
@@ -59,7 +59,7 @@
                                                     <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="sequenceNumber"/>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                 </tableColumn>
-                                                <tableColumn identifier="id" editable="NO" width="94" minWidth="40" maxWidth="1000" id="37">
+                                                <tableColumn identifier="id" editable="NO" width="93.5" minWidth="40" maxWidth="1000" id="37">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Doc ID">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -111,7 +111,7 @@
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
                                 <animations/>
-                                <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="34">
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="34">
                                     <rect key="frame" x="1" y="372" width="370.5" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <animations/>
@@ -122,7 +122,7 @@
                                     <animations/>
                                 </scroller>
                                 <tableHeaderView key="headerView" id="35">
-                                    <rect key="frame" x="0.0" y="0.0" width="371" height="23"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="370.5" height="23"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <animations/>
                                 </tableHeaderView>
@@ -155,7 +155,7 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                 </tableColumn>
-                                                <tableColumn width="162" minWidth="40" maxWidth="1000" id="147">
+                                                <tableColumn width="162.5" minWidth="40" maxWidth="1000" id="147">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Value">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
