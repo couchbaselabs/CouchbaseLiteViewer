@@ -8,6 +8,7 @@
 
 #import "DBDocument.h"
 #import "DBWindowController.h"
+#import <CouchbaseLite/CouchbaseLite.h>
 
 
 @implementation DBDocument
@@ -48,8 +49,8 @@ static BOOL returnErrorWithMessage(NSString* message, NSError **outError) {
 
     BOOL supportsNewFormat = CBLVersion().doubleValue >= 1.2;
     BOOL isNewFormat = [extension isEqualToString: @"cblite2"];
-    if (isNewFormat != supportsNewFormat) {
-        return returnErrorWithMessage(@"This database is too old or too new to be opened by this app.", outError);
+    if (isNewFormat < supportsNewFormat) {
+        return returnErrorWithMessage(@"This database is too old to be opened by this app.", outError);
     }
 
     NSString* serverPath = _path.stringByDeletingLastPathComponent;
