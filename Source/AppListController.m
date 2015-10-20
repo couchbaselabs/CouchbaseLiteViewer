@@ -117,6 +117,22 @@ static AppListController* sInstance;
 }
 
 
+- (IBAction) revealInFinder: (id)sender {
+    NSLog(@"Reveal! %@", sender);
+    AppListNode* item = [_browser itemAtRow: _browser.clickedRow inColumn: _browser.clickedColumn];
+    NSString* select = item.path;
+    NSString* windowPath;
+    if (item.type == kDbNode) {
+        windowPath = select.stringByDeletingLastPathComponent;
+    } else {
+        windowPath = select;
+        select = nil;
+    }
+    [[NSWorkspace sharedWorkspace] selectFile: select
+                     inFileViewerRootedAtPath: windowPath];
+}
+
+
 - (id)rootItemForBrowser:(NSBrowser *)browser{
     return _root;
 }
