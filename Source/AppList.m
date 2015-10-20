@@ -12,7 +12,7 @@
 #define kSimulatorAppID @"com.apple.iphonesimulator"
 #define kIconSize 22
 
-static NSString* getAppBundleName(NSString* appHomeDir);
+static NSString* getAppBundleID(NSString* appHomeDir);
 
 
 @implementation AppListNode
@@ -87,7 +87,7 @@ NSImage* kiOSIcon, *kMacOSIcon, *kAppIcon, *kMacAppIcon, *kDbIcon;
             icon = [[NSWorkspace sharedWorkspace] iconForFile: appPath];
     }
 #else
-    NSString* bundlePath = [self.path stringByAppendingPathComponent: getAppBundleName(self.path)];
+    NSString* bundlePath = [self.path stringByAppendingPathComponent: getAppBundleID(self.path)];
     NSString* infoPath = [bundlePath stringByAppendingPathComponent: @"Info.plist"];
     NSDictionary* plist = [NSDictionary dictionaryWithContentsOfFile: infoPath];
     NSString* iconFileName = plist[@"CFBundleIcons"][@"CFBundlePrimaryIcon"][@"CFBundleIconFiles"][0];
@@ -148,27 +148,33 @@ static NSDictionary* findIOSSimulatorDirs(NSError** error) {
 }
 
 
-static NSString* getAppBundleName(NSString* appHomeDir) {
+static NSString* getAppBundleID(NSString* appHomeDir) {
     NSString* infoPath = [appHomeDir stringByAppendingPathComponent: @".com.apple.mobile_container_manager.metadata.plist"];
     NSDictionary* info = [NSDictionary dictionaryWithContentsOfFile: infoPath];
     NSString* appBundleID = info[@"MCMMetadataIdentifier"];
     return appBundleID;
-#if 0
-    NSArray* appBundles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath: appHomeDir
-                                                                              error: NULL];
-    appBundles = [appBundles pathsMatchingExtensions: @[@"app"]];
-    return appBundles.count > 0 ? appBundles[0] : nil;
-#endif
+}
+
+
+static NSString* getAppBundleName(NSString* appHomeDir, NSDictionary* deviceInfo) {
+    NSString* bundleID = getAppBundleID(appHomeDir);
+    NSDictionary* info = deviceInfo[@"User"];
+    info = info[bundleID];
+    NSString* name = [[info[@"Path"] lastPathComponent] stringByDeletingPathExtension];
+    return name ?: bundleID;
 }
 
 
 static NSDictionary* findAppDirs(NSString* osDir, NSError** error) {
+    NSString* deviceInfoPath = [osDir stringByAppendingPathComponent: @"data/Library/MobileInstallation/LastLaunchServicesMap.plist"];
+    NSDictionary* deviceInfo = [NSDictionary dictionaryWithContentsOfFile: deviceInfoPath];
+
     NSString* appsDir = [osDir stringByAppendingPathComponent: @"data/Containers/Data/Application"];
     return iterateDir(appsDir, error, ^NSString *(NSString* appHomeDir, NSString *dirName) {
         NSString* cblPath = [appHomeDir stringByAppendingPathComponent: kIOSDbDirPath];
         if (![[NSFileManager defaultManager] fileExistsAtPath: cblPath])
             return nil;
-        return getAppBundleName(appHomeDir);
+        return getAppBundleName(appHomeDir, deviceInfo);
     });
 }
 

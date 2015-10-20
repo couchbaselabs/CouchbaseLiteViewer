@@ -77,7 +77,7 @@ static BOOL isSpecialProperty(NSString* key) {
 
 - (void) sortProperties {
     [_propNames sortUsingComparator: ^NSComparisonResult(NSString* key1, NSString* key2) {
-        int n = (isSpecialProperty(key1) != 0) - (isSpecialProperty(key2) != 0);
+        int n = (isSpecialProperty(key2) != 0) - (isSpecialProperty(key1) != 0);
         if (n)
             return n;
         return [key1 caseInsensitiveCompare: key2];

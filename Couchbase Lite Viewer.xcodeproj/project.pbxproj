@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		274789FF15F97520006E842D /* URLFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 274789FE15F97520006E842D /* URLFormatter.m */; };
 		27538FA517F28B31004C3BFD /* CouchbaseLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27538FA417F28B31004C3BFD /* CouchbaseLite.framework */; };
-		27538FA617F29303004C3BFD /* CouchbaseLite.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 27538FA417F28B31004C3BFD /* CouchbaseLite.framework */; };
+		27538FA617F29303004C3BFD /* CouchbaseLite.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 27538FA417F28B31004C3BFD /* CouchbaseLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		27538FA917F34C09004C3BFD /* AppList.m in Sources */ = {isa = PBXBuildFile; fileRef = 27538FA817F34C09004C3BFD /* AppList.m */; };
 		27538FAF17F3607C004C3BFD /* AppListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27538FAD17F3607C004C3BFD /* AppListController.m */; };
 		27538FB017F3607C004C3BFD /* AppListController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27538FAE17F3607C004C3BFD /* AppListController.xib */; };
@@ -148,29 +148,10 @@
 				27A8A788152A008200363704 /* AppDelegate.h */,
 				27A8A789152A008200363704 /* AppDelegate.m */,
 				27A8A78B152A008200363704 /* MainMenu.xib */,
-				278B0C6C152A64A900577747 /* DBDocument.h */,
-				278B0C6D152A64A900577747 /* DBDocument.m */,
-				27A8A797152A01FF00363704 /* DBWindowController.h */,
-				27A8A798152A01FF00363704 /* DBWindowController.m */,
-				27F3A62E15EE98C000263663 /* QueryResultController.h */,
-				27F3A62F15EE98C100263663 /* QueryResultController.m */,
-				27F3A63115EEA06900263663 /* RevTreeController.h */,
-				27F3A63215EEA06900263663 /* RevTreeController.m */,
-				2765CF7615544FAA0087D810 /* DocEditor.h */,
-				2765CF7715544FAA0087D810 /* DocEditor.m */,
-				27A8A799152A01FF00363704 /* DBWindowController.xib */,
-				27F3A62B15EE70B300263663 /* DocHistory.h */,
-				27F3A62C15EE70B300263663 /* DocHistory.m */,
-				278C85B61554810D0016C7A4 /* JSONFormatter.h */,
-				278C85B71554810D0016C7A4 /* JSONFormatter.m */,
-				274789FD15F97520006E842D /* URLFormatter.h */,
-				274789FE15F97520006E842D /* URLFormatter.m */,
+				27E11A631BD571DC00D8DB7D /* Database Window */,
+				27E11A611BD571B600D8DB7D /* App Browser */,
+				27E11A621BD571CB00D8DB7D /* Utilities */,
 				27A8A77D152A008200363704 /* Supporting Files */,
-				27538FA717F34C09004C3BFD /* AppList.h */,
-				27538FA817F34C09004C3BFD /* AppList.m */,
-				27538FAC17F3607C004C3BFD /* AppListController.h */,
-				27538FAD17F3607C004C3BFD /* AppListController.m */,
-				27538FAE17F3607C004C3BFD /* AppListController.xib */,
 			);
 			name = "Couchbase Lite Viewer";
 			path = Source;
@@ -190,6 +171,49 @@
 				27A8A785152A008200363704 /* Credits.rtf */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		27E11A611BD571B600D8DB7D /* App Browser */ = {
+			isa = PBXGroup;
+			children = (
+				27538FA717F34C09004C3BFD /* AppList.h */,
+				27538FA817F34C09004C3BFD /* AppList.m */,
+				27538FAC17F3607C004C3BFD /* AppListController.h */,
+				27538FAD17F3607C004C3BFD /* AppListController.m */,
+				27538FAE17F3607C004C3BFD /* AppListController.xib */,
+			);
+			name = "App Browser";
+			sourceTree = "<group>";
+		};
+		27E11A621BD571CB00D8DB7D /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				27F3A62B15EE70B300263663 /* DocHistory.h */,
+				27F3A62C15EE70B300263663 /* DocHistory.m */,
+				278C85B61554810D0016C7A4 /* JSONFormatter.h */,
+				278C85B71554810D0016C7A4 /* JSONFormatter.m */,
+				274789FD15F97520006E842D /* URLFormatter.h */,
+				274789FE15F97520006E842D /* URLFormatter.m */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		27E11A631BD571DC00D8DB7D /* Database Window */ = {
+			isa = PBXGroup;
+			children = (
+				278B0C6C152A64A900577747 /* DBDocument.h */,
+				278B0C6D152A64A900577747 /* DBDocument.m */,
+				27A8A797152A01FF00363704 /* DBWindowController.h */,
+				27A8A798152A01FF00363704 /* DBWindowController.m */,
+				27F3A62E15EE98C000263663 /* QueryResultController.h */,
+				27F3A62F15EE98C100263663 /* QueryResultController.m */,
+				27F3A63115EEA06900263663 /* RevTreeController.h */,
+				27F3A63215EEA06900263663 /* RevTreeController.m */,
+				2765CF7615544FAA0087D810 /* DocEditor.h */,
+				2765CF7715544FAA0087D810 /* DocEditor.m */,
+				27A8A799152A01FF00363704 /* DBWindowController.xib */,
+			);
+			name = "Database Window";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -219,7 +243,7 @@
 		27A8A769152A008100363704 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "Couchbase, Inc.";
 				TargetAttributes = {
 					27A8A771152A008200363704 = {
@@ -328,7 +352,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 0.4;
+				CURRENT_PROJECT_VERSION = 0.5;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -372,7 +396,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 0.4;
+				CURRENT_PROJECT_VERSION = 0.5;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -398,6 +422,7 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -407,7 +432,7 @@
 				GCC_PREFIX_HEADER = "Source/Couchbase Lite Viewer-Prefix.pch";
 				INFOPLIST_FILE = "Source/Couchbase Lite Viewer-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks/";
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.couchbase.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "Couchbase Lite Viewer";
@@ -421,6 +446,7 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -430,7 +456,7 @@
 				GCC_PREFIX_HEADER = "Source/Couchbase Lite Viewer-Prefix.pch";
 				INFOPLIST_FILE = "Source/Couchbase Lite Viewer-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks/";
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.couchbase.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "Couchbase Lite Viewer";

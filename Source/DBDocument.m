@@ -25,21 +25,39 @@
     [self addWindowController: controller];
 }
 
-                                      
+
+static BOOL returnErrorWithMessage(NSString* message, NSError **outError) {
+    if (outError) {
+        NSDictionary* userInfo = @{NSLocalizedFailureReasonErrorKey: message};
+        *outError = [NSError errorWithDomain: @"CBLViewer" code: -1 userInfo: userInfo];
+    }
+    return NO;
+}
+
+
 - (BOOL)readFromURL:(NSURL *)absoluteURL
              ofType:(NSString *)typeName
               error:(NSError **)outError
 {
-    NSParameterAssert(absoluteURL.isFileURL);
+    NSLog(@"Opening %@", absoluteURL.path);
     _path = absoluteURL.path;
-    if (![absoluteURL isFileURL] || ![@[@"cblite2"] containsObject: _path.pathExtension]) {
-        if (outError)
-            *outError = [NSError errorWithDomain: NSCocoaErrorDomain code: -1 userInfo: nil]; //TODO: Real error
-        return NO;
+    NSString* extension = _path.pathExtension;
+    if (![absoluteURL isFileURL] || ![@[@"cblite", @"cblite2"] containsObject: extension]) {
+        return returnErrorWithMessage(@"This file format is not supported.", outError);
     }
-    
+
+    BOOL supportsNewFormat = CBLVersion().doubleValue >= 1.2;
+    BOOL isNewFormat = [extension isEqualToString: @"cblite2"];
+    if (isNewFormat != supportsNewFormat) {
+        return returnErrorWithMessage(@"This database is too old or too new to be opened by this app.", outError);
+    }
+
     NSString* serverPath = _path.stringByDeletingLastPathComponent;
     CBLManagerOptions options = {.readOnly = false};
+    if (supportsNewFormat && !isNewFormat) {
+        NSLog(@"NOTE: Opening old-format database as read-only");
+        options.readOnly = YES;
+    }
     NSError* error;
     _manager = [[CBLManager alloc] initWithDirectory: serverPath
                                              options: &options

@@ -1,1 +1,1 @@
-Copy or symlink TouchDB.framework and CouchCocoa.framework (for Mac OS) into this directory.
+Copy or symlink CouchbaseLite.framework (for Mac OS) into this directory.

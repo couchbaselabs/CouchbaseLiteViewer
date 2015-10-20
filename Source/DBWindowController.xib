@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8121.20" systemVersion="14E36b" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9058" systemVersion="15B38b" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8121.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9058"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="DBWindowController">
@@ -27,24 +27,25 @@
                 <rect key="frame" x="0.0" y="0.0" width="624" height="437"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <splitView dividerStyle="paneSplitter" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="165">
+                    <splitView vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="165">
                         <rect key="frame" x="0.0" y="21" width="624" height="389"/>
                         <subviews>
                             <scrollView focusRingType="none" fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="16" horizontalPageScroll="10" verticalLineScroll="16" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="32">
-                                <rect key="frame" x="0.0" y="0.0" width="372" height="389"/>
+                                <rect key="frame" x="0.0" y="0.0" width="372.5" height="389"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <clipView key="contentView" id="hFF-A5-H0f">
-                                    <rect key="frame" x="1" y="17" width="370" height="371"/>
+                                <clipView key="contentView" ambiguous="YES" id="hFF-A5-H0f">
+                                    <rect key="frame" x="1" y="0.0" width="370.5" height="388"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <outlineView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="reverseSequential" alternatingRowBackgroundColors="YES" autosaveColumns="NO" rowHeight="14" headerView="35" indentationPerLevel="16" autoresizesOutlineColumn="YES" outlineTableColumn="374" id="33">
-                                            <rect key="frame" x="0.0" y="0.0" width="370" height="16"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="371" height="365"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <animations/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn identifier="seq" editable="NO" width="60" minWidth="60" maxWidth="60" id="374">
+                                                <tableColumn identifier="seq" editable="NO" width="70" minWidth="70" maxWidth="70" id="374">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="right" title="Seq">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -58,7 +59,7 @@
                                                     <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="sequenceNumber"/>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                 </tableColumn>
-                                                <tableColumn identifier="id" editable="NO" width="93" minWidth="40" maxWidth="1000" id="37">
+                                                <tableColumn identifier="id" editable="NO" width="94" minWidth="40" maxWidth="1000" id="37">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Doc ID">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -86,7 +87,7 @@
                                                     <sortDescriptor key="sortDescriptorPrototype" selector="revID_compare:" sortKey="documentRevisionID"/>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                 </tableColumn>
-                                                <tableColumn identifier="json" editable="NO" width="145.01953125" minWidth="10" maxWidth="3.4028234663852886e+38" id="56">
+                                                <tableColumn identifier="json" editable="NO" width="135" minWidth="10" maxWidth="3.4028234663852886e+38" id="56">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Contents">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -106,31 +107,37 @@
                                             </connections>
                                         </outlineView>
                                     </subviews>
+                                    <animations/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
-                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="34">
-                                    <rect key="frame" x="1" y="347" width="357" height="16"/>
+                                <animations/>
+                                <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="34">
+                                    <rect key="frame" x="1" y="372" width="370.5" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <animations/>
                                 </scroller>
-                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="36">
+                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="36">
                                     <rect key="frame" x="224" y="17" width="15" height="102"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <animations/>
                                 </scroller>
                                 <tableHeaderView key="headerView" id="35">
-                                    <rect key="frame" x="0.0" y="0.0" width="370" height="17"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="371" height="23"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <animations/>
                                 </tableHeaderView>
                             </scrollView>
                             <scrollView focusRingType="none" fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="141">
-                                <rect key="frame" x="382" y="0.0" width="242" height="389"/>
+                                <rect key="frame" x="381.5" y="0.0" width="242.5" height="389"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <clipView key="contentView" id="Mpe-eg-G6C">
-                                    <rect key="frame" x="1" y="17" width="240" height="371"/>
+                                <clipView key="contentView" ambiguous="YES" id="Mpe-eg-G6C">
+                                    <rect key="frame" x="1" y="0.0" width="240.5" height="388"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="144" id="142">
-                                            <rect key="frame" x="0.0" y="0.0" width="240" height="19"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="240.5" height="365"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <animations/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
@@ -172,22 +179,28 @@
                                             </connections>
                                         </tableView>
                                     </subviews>
+                                    <animations/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
+                                <animations/>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="143">
                                     <rect key="frame" x="1" y="119" width="223" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <animations/>
                                 </scroller>
-                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="145">
+                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="145">
                                     <rect key="frame" x="224" y="17" width="15" height="102"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <animations/>
                                 </scroller>
                                 <tableHeaderView key="headerView" id="144">
-                                    <rect key="frame" x="0.0" y="0.0" width="240" height="17"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="240.5" height="23"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <animations/>
                                 </tableHeaderView>
                             </scrollView>
                         </subviews>
+                        <animations/>
                         <holdingPriorities>
                             <real value="250"/>
                             <real value="250"/>
@@ -198,6 +211,7 @@
                         <constraints>
                             <constraint firstAttribute="width" constant="21" id="546"/>
                         </constraints>
+                        <animations/>
                         <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSAddTemplate" imagePosition="overlaps" alignment="center" enabled="NO" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="377">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -211,6 +225,7 @@
                         <constraints>
                             <constraint firstAttribute="width" constant="21" id="565"/>
                         </constraints>
+                        <animations/>
                         <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSRemoveTemplate" imagePosition="overlaps" alignment="center" enabled="NO" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="409">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -224,6 +239,7 @@
                         <constraints>
                             <constraint firstAttribute="width" constant="21" id="564"/>
                         </constraints>
+                        <animations/>
                         <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSAddTemplate" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="480">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -237,6 +253,7 @@
                         <constraints>
                             <constraint firstAttribute="width" constant="21" id="494"/>
                         </constraints>
+                        <animations/>
                         <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSRemoveTemplate" imagePosition="overlaps" alignment="center" enabled="NO" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="478">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -246,7 +263,8 @@
                         </connections>
                     </button>
                     <button hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="440">
-                        <rect key="frame" x="571" y="2" width="38" height="17"/>
+                        <rect key="frame" x="569" y="2" width="40" height="17"/>
+                        <animations/>
                         <buttonCell key="cell" type="roundRect" title="Save" bezelStyle="roundedRect" alignment="center" controlSize="small" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="441">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="smallSystem"/>
@@ -255,8 +273,9 @@
                             <action selector="saveDocument:" target="504" id="530"/>
                         </connections>
                     </button>
-                    <button hidden="YES" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="517">
-                        <rect key="frame" x="515" y="2" width="48" height="17"/>
+                    <button hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="517">
+                        <rect key="frame" x="512" y="2" width="49" height="17"/>
+                        <animations/>
                         <buttonCell key="cell" type="roundRect" title="Revert" bezelStyle="roundedRect" alignment="center" controlSize="small" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="518">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="smallSystem"/>
@@ -266,17 +285,20 @@
                         </connections>
                     </button>
                     <pathControl focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="587">
-                        <rect key="frame" x="9" y="413" width="606" height="20"/>
-                        <pathCell key="cell" controlSize="small" selectable="YES" focusRingType="none" alignment="left" pathStyle="navigationBar" id="588">
+                        <rect key="frame" x="10" y="412" width="604" height="20"/>
+                        <animations/>
+                        <pathCell key="cell" controlSize="small" selectable="YES" focusRingType="none" alignment="left" id="588">
                             <font key="font" metaFont="smallSystem"/>
                             <url key="url" string="file://localhost/"/>
+                            <color key="backgroundColor" red="0.89803921568627454" green="0.92549019607843142" blue="0.97254901960784312" alpha="1" colorSpace="deviceRGB"/>
                         </pathCell>
                         <connections>
                             <action selector="pathClicked:" target="-2" id="619"/>
                         </connections>
                     </pathControl>
-                    <button misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="637">
+                    <button translatesAutoresizingMaskIntoConstraints="NO" id="637">
                         <rect key="frame" x="77" y="1" width="95" height="18"/>
+                        <animations/>
                         <buttonCell key="cell" type="check" title="Show Deleted" bezelStyle="regularSquare" imagePosition="left" controlSize="small" inset="2" id="638">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="smallSystem"/>
@@ -310,11 +332,12 @@
                     <constraint firstItem="637" firstAttribute="baseline" secondItem="376" secondAttribute="baseline" id="641"/>
                     <constraint firstItem="637" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="2" secondAttribute="leading" constant="80" id="643"/>
                 </constraints>
+                <animations/>
             </view>
-            <contentBorderThickness minY="22"/>
             <connections>
                 <outlet property="delegate" destination="-2" id="4"/>
             </connections>
+            <point key="canvasLocation" x="159" y="356.5"/>
         </window>
         <customObject id="504" customClass="DocEditor">
             <connections>

@@ -22,6 +22,22 @@
 			<key>NSDocumentClass</key>
 			<string>DBDocument</string>
 		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>cblite</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>DBDoc</string>
+			<key>CFBundleTypeName</key>
+			<string>Couchbase Lite database</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSTypeIsPackage</key>
+			<integer>0</integer>
+			<key>NSDocumentClass</key>
+			<string>DBDocument</string>
+		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
@@ -46,7 +62,7 @@
 	<key>LSMinimumSystemVersion</key>
 	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2012-2014 Couchbase, Inc. All rights reserved.</string>
+	<string>Copyright © 2012-2015 Couchbase, Inc. All rights reserved.</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
