@@ -22,6 +22,13 @@
 
 
 - (NSString *)stringForObjectValue: (id)obj {
+    // For display purposes, remove the escaping before slashes that NSJSONSerialization puts in.
+    // I'm not 100% sure this is always safe, so I'm not doing it for the string being edited.
+    NSString* json = [[self class] stringForObjectValue: obj];
+    return [json stringByReplacingOccurrencesOfString: @"\\/" withString: @"/"];
+}
+
+- (nullable NSString *)editingStringForObjectValue: (id)obj {
     return [[self class] stringForObjectValue: obj];
 }
 
