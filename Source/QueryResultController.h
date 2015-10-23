@@ -14,6 +14,9 @@
 @property (weak) NSOutlineView* outline;
 @property BOOL showDeleted;
 
+- (void) registerPath: (NSArray*)path forColumn: (NSTableColumn*)column;
+- (void) unregisterColumn: (NSTableColumn*)column;
+
 - (NSArray*) selectedDocuments;
 - (BOOL) selectDocument: (CBLDocument*)doc;
 

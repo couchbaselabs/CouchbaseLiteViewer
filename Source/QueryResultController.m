@@ -8,6 +8,7 @@
 
 #import "QueryResultController.h"
 #import "DocEditor.h"
+#import "JSONItem.h"
 
 
 @interface CBLDocument (NotExposed)
@@ -21,6 +22,7 @@
     CBLLiveQuery* _query;
     NSMutableArray* _rows;
     NSOutlineView* _docsOutline;
+    NSMutableDictionary* _columnPaths;
 
     IBOutlet DocEditor* _docEditor;
     IBOutlet NSButton *_addDocButton, *_removeDocButton;
@@ -127,7 +129,7 @@
     NSUInteger count = selIndexes.count;
     NSMutableArray* sel = [NSMutableArray arrayWithCapacity: count];
     [selIndexes enumerateIndexesUsingBlock: ^(NSUInteger idx, BOOL *stop) {
-        CBLQueryRow* item = [self queryRowForItem: [_docsOutline itemAtRow: idx]];
+        CBLQueryRow* item = [self queryRowForItem: [self->_docsOutline itemAtRow: idx]];
         [sel addObject: item];
     }];
     return sel;
@@ -213,16 +215,28 @@ static NSString* formatProperty( id property ) {
 }
 
 
+- (void) registerPath: (NSArray*)path forColumn: (NSTableColumn*)column {
+    if (!_columnPaths)
+        _columnPaths = [NSMutableDictionary new];
+    _columnPaths[column.identifier] = path;
+}
+
+
+- (void) unregisterColumn: (NSTableColumn*)column {
+    [_columnPaths removeObjectForKey: column.identifier];
+}
+
+
 - (id)outlineView:(NSOutlineView *)outlineView 
       objectValueForTableColumn:(NSTableColumn *)tableColumn
                          byItem:(id)item
 {
     CBLQueryRow* row = [self queryRowForItem: item];
     NSString* identifier = tableColumn.identifier;
-    
-    if ([identifier hasPrefix: @"."]) {
-        NSString* property = [identifier substringFromIndex: 1];
-        id value = (row.documentProperties)[property];
+
+    NSArray* path = _columnPaths[identifier];
+    if (path) {
+        id value = [JSONItem itemAtPath: path inObject: row.documentProperties];
         return formatProperty(value);
     } else {
         static NSArray* kColumnIDs;
@@ -240,9 +254,9 @@ static NSString* formatProperty( id property ) {
 
 
 - (void) outlineView:(NSOutlineView *)outlineView
-     willDisplayCell:(NSTextFieldCell*)cell
+     willDisplayCell:(id)cell
       forTableColumn:(NSTableColumn *)col
-                item:(NSTreeNode*)item
+                item:(id)item
 {
     CBLQueryRow* row = [self queryRowForItem: item];
     BOOL deleted = [row.value[@"deleted"] boolValue];

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-@class DBWindowController;
+@class DBWindowController, JSONItem;
 
 
 @interface DocEditor : NSObject
@@ -25,9 +25,9 @@
 
 - (IBAction) addColumnForSelectedProperty:(id)sender;
 
-@property (weak, readonly) NSTableView* tableView;
+@property (weak, readonly) NSOutlineView* tableView;
 
-@property (copy) NSString* selectedProperty;
+@property (copy) JSONItem* selectedProperty;
 
 - (IBAction) saveDocument: (id)sender;
 - (IBAction) revertDocumentToSaved:(id)sender;
@@ -35,5 +35,6 @@
 - (BOOL) saveDocument;
 - (IBAction) cancelOperation: (id)sender;
 - (IBAction) copy:(id)sender;
+
 
 @end

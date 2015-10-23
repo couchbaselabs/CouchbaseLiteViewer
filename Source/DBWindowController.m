@@ -10,6 +10,7 @@
 #import "DocEditor.h"
 #import "QueryResultController.h"
 #import "RevTreeController.h"
+#import "JSONItem.h"
 
 
 @interface DBWindowController () <NSOutlineViewDataSource>
@@ -110,36 +111,84 @@ static void insertColumn(NSOutlineView* outline, NSTableColumn* col, NSUInteger 
 }
 
 
-- (BOOL) hasColumnForProperty: (NSString*)property {
-    NSString* identifier = [@"." stringByAppendingString: property];
+static NSString* identifierForProperty(NSArray* propertyPath) {
+    return [@"." stringByAppendingString: [propertyPath componentsJoinedByString: @"."]];
+}
+
+static NSString* asKeyPath(NSArray* path) {
+    // We can convert a JSON path to a keypath unless it involves numeric indexes:
+    NSMutableString* keyPath = [NSMutableString string];
+    for (id key in path) {
+        if (![key isKindOfClass: [NSString class]])
+            return nil;
+        if (keyPath.length > 0)
+            [keyPath appendString: @"."];
+        [keyPath appendString: key];
+    }
+    return keyPath;
+}
+
+static NSString* displayPath(NSArray* path) {
+    NSMutableString* display = [NSMutableString string];
+    for (id key in path) {
+        if ([key isKindOfClass: [NSString class]]) {
+            if (display.length > 0)
+                [display appendString: @"."];
+            [display appendString: key];
+        } else {
+            [display appendFormat: @"[%@]", key];
+        }
+    }
+    return display;
+}
+
+
+- (BOOL) hasColumnForProperty: (NSArray*)propertyPath {
+    NSString* identifier = identifierForProperty(propertyPath);
     return [_docsOutline tableColumnWithIdentifier: identifier] != nil;
 }
 
 
-- (void) addColumnForProperty: (NSString*)property {
-    NSString* identifier = [@"." stringByAppendingString: property];
+- (void) addColumnForProperty: (NSArray*)propertyPath {
+    NSString* identifier = identifierForProperty(propertyPath);
     if (![_docsOutline tableColumnWithIdentifier: identifier]) {
         NSTableColumn* col = [[NSTableColumn alloc] initWithIdentifier: identifier];
-        [col.headerCell setStringValue: identifier];
         NSTableColumn* jsonCol = [_docsOutline tableColumnWithIdentifier: @"json"];
         [col.dataCell setFont: [jsonCol.dataCell font]];
-        
-        NSString* sortKey = [@"documentProperties." stringByAppendingString: property];
-        col.sortDescriptorPrototype = [NSSortDescriptor sortDescriptorWithKey: sortKey
-                                       ascending:YES
-                                       comparator:^NSComparisonResult(id obj1, id obj2) {
-                                           return jsonCompare(obj1, obj2);
-                                       }];
+
+        [col.headerCell setStringValue: displayPath(propertyPath)];
+
+        NSSortDescriptor* sort;
+        NSString* keyPath = asKeyPath(propertyPath);
+        if (keyPath) {
+            NSString* sortKey = [@"documentProperties." stringByAppendingString: keyPath];
+            sort = [NSSortDescriptor sortDescriptorWithKey: sortKey
+                                           ascending:YES
+                                           comparator:^NSComparisonResult(id obj1, id obj2) {
+                                               return jsonCompare(obj1, obj2);
+                                           }];
+        } else {
+            sort = [NSSortDescriptor sortDescriptorWithKey: @"documentProperties" ascending: YES
+                    comparator:^NSComparisonResult(NSDictionary* doc1, NSDictionary* doc2) {
+                        id val1 = [JSONItem itemAtPath: propertyPath inObject: doc1];
+                        id val2 = [JSONItem itemAtPath: propertyPath inObject: doc2];
+                        return jsonCompare(val1, val2);
+                    }];
+        }
+        col.sortDescriptorPrototype = sort;
+        [_queryController registerPath: propertyPath forColumn: col];
         insertColumn(_docsOutline, col, _docsOutline.tableColumns.count - 1);
     }
 }
 
 
-- (void) removeColumnForProperty: (NSString*)property {
-    NSString* identifier = [@"." stringByAppendingString: property];
+- (void) removeColumnForProperty: (NSArray*)propertyPath {
+    NSString* identifier = identifierForProperty(propertyPath);
     NSTableColumn* col = [_docsOutline tableColumnWithIdentifier: identifier];
-    if (col)
+    if (col) {
         [_docsOutline removeTableColumn: col];
+        [_queryController unregisterColumn: col];
+    }
 }
 
 

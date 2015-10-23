@@ -136,23 +136,23 @@ static AppListController* sInstance;
     return _root;
 }
 
-- (NSInteger)browser:(NSBrowser *)browser numberOfChildrenOfItem:(AppListNode*)item {
-    return item.children.count;
+- (NSInteger)browser:(NSBrowser *)browser numberOfChildrenOfItem:(id)item {
+    return ((AppListNode*)item).children.count;
 }
 
 
-- (id)browser:(NSBrowser *)browser child:(NSInteger)index ofItem:(AppListNode*)item {
-    return item.children[index];
+- (id)browser:(NSBrowser *)browser child:(NSInteger)index ofItem:(id)item {
+    return ((AppListNode*)item).children[index];
 }
 
 
-- (BOOL)browser:(NSBrowser *)browser isLeafItem:(AppListNode*)item {
-    return item.type == kDbNode;
+- (BOOL)browser:(NSBrowser *)browser isLeafItem:(id)item {
+    return ((AppListNode*)item).type == kDbNode;
 }
 
 
-- (id)browser:(NSBrowser *)browser objectValueForItem:(AppListNode*)item{
-    return item.nameAndIcon;
+- (id)browser:(NSBrowser *)browser objectValueForItem:(id)item{
+    return ((AppListNode*)item).nameAndIcon;
 }
 
 - (NSString*) browser:(NSBrowser *)sender titleOfColumn:(NSInteger)column {

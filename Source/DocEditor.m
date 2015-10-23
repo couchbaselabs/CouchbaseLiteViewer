@@ -9,6 +9,8 @@
 #import "DocEditor.h"
 #import "DBWindowController.h"
 #import "JSONFormatter.h"
+#import "JSONItem.h"
+#import "JSONKeyFormatter.h"
 #import <CouchbaseLite/CouchbaseLite.h>
 
 
@@ -18,29 +20,28 @@
     CBLSavedRevision* _revision;
     BOOL _readOnly;
     BOOL _untitled;
-    NSDictionary* _originalProperties;
-    NSMutableDictionary* _properties;
-    NSMutableArray* _propNames;
+    JSONItem* _root;
     BOOL _cancelingEdit;
     
     IBOutlet DBWindowController* _dbWindowController;
-    IBOutlet NSTableView* __weak _table;
+    IBOutlet NSOutlineView* __weak _outline;
     IBOutlet NSButton *_addPropertyButton, *_removePropertyButton, *_addColumnButton;
     IBOutlet NSButton *_saveButton, *_revertButton;
+    IBOutlet JSONKeyFormatter *_keyFormatter;
 }
 
 
-@synthesize database=_db, tableView=_table, readOnly=_readOnly;
+@synthesize database=_db, tableView=_outline, readOnly=_readOnly;
 
 
 - (void) awakeFromNib {
     NSLayoutConstraint* c = [NSLayoutConstraint constraintWithItem: _addPropertyButton
                                                          attribute: NSLayoutAttributeLeft
                                                          relatedBy: NSLayoutRelationEqual
-                                                            toItem: _table
+                                                            toItem: _outline
                                                          attribute: NSLayoutAttributeLeft
                                                         multiplier: 1.0 constant: 0];
-    [_table.window.contentView addConstraint: c];
+    [_outline.window.contentView addConstraint: c];
 }
 
 
@@ -66,67 +67,71 @@
 }
 
 
-static BOOL isSpecialProperty(NSString* key) {
-    return [key hasPrefix: @"_"];
-}
-
 - (void) rebuildTable {
-    _propNames = _properties.allKeys.mutableCopy;
-    [self sortProperties];
+    if (_revision) {
+        _root = [[JSONItem alloc] initWithValue: _revision.properties];
+    } else if (_untitled) {
+        NSString* docID = [NSUUID UUID].UUIDString;
+        _root = [[JSONItem alloc] initWithValue: @{@"_id": docID}];
+    } else {
+        _root = nil;
+    }
+    [_outline reloadData];
 }
 
-- (void) sortProperties {
-    [_propNames sortUsingComparator: ^NSComparisonResult(NSString* key1, NSString* key2) {
-        int n = (isSpecialProperty(key2) != 0) - (isSpecialProperty(key1) != 0);
-        if (n)
-            return n;
-        return [key1 caseInsensitiveCompare: key2];
-    }];
-    [_table reloadData];
+- (void) reloadItem: (JSONItem*)item {
+    if (item == _root)
+        item = nil;
+    [_outline reloadItem: item reloadChildren: YES];
+}
+
+- (void) redrawItem: (JSONItem*)item {
+    NSInteger row = [_outline rowForItem: item];
+    if (row >= 0)
+        [_outline setNeedsDisplayInRect: [_outline rectOfRow: row]];
 }
 
 
-- (NSString*) selectedProperty {
-    NSInteger row = _table.selectedRow;
-    return row >= 0 ? _propNames[row] : nil;
+- (JSONItem*) selectedProperty {
+    NSInteger row = _outline.selectedRow;
+    return row >= 0 ? [_outline itemAtRow: row] : nil;
 }
 
 
-- (void) setSelectedProperty: (NSString*)property {
-    NSUInteger row = [_propNames indexOfObject: property];
+- (void) setSelectedProperty: (JSONItem*)property {
+    NSUInteger row = [_outline rowForItem: property];
     NSIndexSet* indexes = nil;
     if (row != NSNotFound)
         indexes = [NSIndexSet indexSetWithIndex: row];
     else
         indexes = [NSIndexSet indexSet];
-    [_table selectRowIndexes: indexes byExtendingSelection: NO];
+    [_outline selectRowIndexes: indexes byExtendingSelection: NO];
     [self enablePropertyButtons];
 }
 
 
-- (NSString*) selectedOrClickedProperty {
-    NSInteger row = _table.clickedRow;
+- (JSONItem*) selectedOrClickedProperty {
+    NSInteger row = _outline.clickedRow;
     if (row < 0)
-        row = _table.selectedRow;
-    return row >= 0 ? _propNames[row] : nil;
+        row = _outline.selectedRow;
+    return row >= 0 ? [_outline itemAtRow: row] : nil;
 }
 
 
 - (BOOL) saveDocument {
-    if (!_readOnly && _properties && ![_properties isEqual: _originalProperties]) {
+    NSDictionary* properties = _root.value;
+    if (!_readOnly && _root && ![properties isEqual: _revision.properties]) {
         CBLDocument* doc;
         NSError* error;
         if (_revision)
             doc = _revision.document;
         else
-            doc = _db[_properties[@"_id"]];
-        if (![doc putProperties: _properties error: &error]) {
-            [_table presentError: error];
+            doc = _db[properties[@"_id"]];
+        if (![doc putProperties: _root.value error: &error]) {
+            [_outline presentError: error];
             return NO;
         }
         self.revision = doc.currentRevision;
-        _properties = _revision.properties.mutableCopy;
-        _originalProperties = _properties.copy;
     }
     _saveButton.hidden = _revertButton.hidden = YES;
     return YES;
@@ -139,15 +144,9 @@ static BOOL isSpecialProperty(NSString* key) {
 
 
 - (IBAction) revertDocumentToSaved:(id)sender {
-    NSString* selectedProperty = self.selectedProperty;
-    if (_untitled) {
-        _properties = [NSMutableDictionary dictionary];
-    } else {
-        _properties = _revision.properties.mutableCopy;
-    }
-    _originalProperties = _properties.copy;
+    NSArray* selectedPath = self.selectedProperty.path;
     [self rebuildTable];
-    self.selectedProperty = selectedProperty;
+    self.selectedProperty = [_root itemAtPath: selectedPath];
     _saveButton.hidden = _revertButton.hidden = !_untitled;
 }
 
@@ -156,31 +155,47 @@ static BOOL isSpecialProperty(NSString* key) {
 
 
 - (IBAction) addProperty: (id)sender {
-    // Insert a placeholder empty-string property for the user to fill in:
-    if (_readOnly || [_propNames containsObject: @""] || _properties[@""]) {
+    JSONItem* sibling = self.selectedProperty;
+    JSONItem* parent;
+    if (sibling == nil) {
+        parent = _root;
+    } else if ([_outline isItemExpanded: sibling]) {
+        parent = sibling;
+        sibling = parent.children.firstObject;
+    } else {
+        parent = sibling.parent;
+    }
+
+    JSONItem *newItem = [parent createChildBefore: sibling];
+    if (!newItem) {
         NSBeep();
         return;
     }
-    [_propNames insertObject: @"" atIndex: 0];
-    [_table reloadData];
-    self.selectedProperty = @"";
-    [_table editColumn: 0 row: 0 withEvent: nil select: YES];
+    self.selectedProperty = newItem;
+    [self reloadItem: parent];
+    [_outline editColumn: (parent.isArray ? 1 : 0)
+                     row: [_outline rowForItem: newItem]
+               withEvent: nil
+                  select: YES];
+    _saveButton.hidden = _revertButton.hidden = NO;
 }
 
 
 - (IBAction) removeProperty: (id)sender {
-    NSString* prop = self.selectedOrClickedProperty;
-    if (_readOnly || !prop || isSpecialProperty(prop)) {
+    JSONItem* prop = self.selectedOrClickedProperty;
+    if (_readOnly || !prop || prop.isSpecial) {
         NSBeep();
         return;
     }
-    [_properties removeObjectForKey: prop];
-    [self rebuildTable];
+    JSONItem* parent = prop.parent;
+    [parent removeChild: prop];
+    [self reloadItem: parent];
+    _saveButton.hidden = _revertButton.hidden = NO;
 }
 
 
 - (IBAction) addColumnForSelectedProperty:(id)sender {
-    NSString* property = self.selectedOrClickedProperty;
+    NSArray* property = self.selectedOrClickedProperty.path;
     if (!property)
         return;
     if ([_dbWindowController hasColumnForProperty: property])
@@ -192,25 +207,25 @@ static BOOL isSpecialProperty(NSString* key) {
 
 
 - (IBAction) cancelOperation: (id)sender {
-    if ([_table editedRow] >= 0) {
+    if (_outline.editedRow >= 0) {
         _cancelingEdit = YES;
         @try {
-            [_table editColumn: -1 row: -1 withEvent: nil select: NO];
+            [_outline editColumn: -1 row: -1 withEvent: nil select: NO];
         } @finally {
             _cancelingEdit = NO;
         }
-        [self rebuildTable];
+        [_outline reloadData];
     }
 }
 
 
-- (IBAction) copy:(id)sender {
-    NSString* prop = self.selectedProperty;
+- (IBAction) copy: (id)sender {
+    JSONItem* prop = self.selectedProperty;
     if (!prop) {
         NSBeep();
         return;
     }
-    id value = _properties[prop];
+    id value = prop.value;
     NSString* json = [JSONFormatter stringForObjectValue: value];
     
     NSPasteboard* pb = [NSPasteboard generalPasteboard];
@@ -220,10 +235,10 @@ static BOOL isSpecialProperty(NSString* key) {
 
 
 - (BOOL) validateUserInterfaceItem: (id <NSValidatedUserInterfaceItem>)item {
-    NSLog(@"validate %@", item);//TEMP
-    NSString* property = self.selectedOrClickedProperty;
+    JSONItem* jsonItem = self.selectedOrClickedProperty;
     SEL action = [item action];
     if (action == @selector(addColumnForSelectedProperty:)) {
+        NSArray* property = jsonItem.path;
         NSString* title;
         if (property && [_dbWindowController hasColumnForProperty: property])
             title = @"Remove Column";
@@ -232,149 +247,127 @@ static BOOL isSpecialProperty(NSString* key) {
         [(id)item setTitle: title];
         return (property != nil);
     } else if (action == @selector(removeProperty:)) {
-        return (!_readOnly && property != nil && !isSpecialProperty(property));
+        return (!_readOnly && jsonItem != nil && !jsonItem.isSpecial);
     }
     return YES;
 }
 
-
 - (void) enablePropertyButtons {
-    NSString* selectedProperty = self.selectedProperty;
+    JSONItem* selectedProperty = self.selectedProperty;
     BOOL canInsert = !_readOnly && (_revision != nil || _untitled);
-    BOOL canRemove = !_readOnly && selectedProperty && !isSpecialProperty(selectedProperty);
+    BOOL canRemove = !_readOnly && selectedProperty && !selectedProperty.isSpecial;
     _addPropertyButton.enabled = canInsert;
     _removePropertyButton.enabled = canRemove;
-    _addColumnButton.enabled = selectedProperty && !isSpecialProperty(selectedProperty);
-    _addColumnButton.title = (selectedProperty && [_dbWindowController hasColumnForProperty: selectedProperty]) ? @"Remove Column" : @"Add Column";
+    _addColumnButton.enabled = selectedProperty && selectedProperty.isSpecial;
+    _addColumnButton.title = (selectedProperty && [_dbWindowController hasColumnForProperty: selectedProperty.path]) ? @"Remove Column" : @"Add Column";
 }
 
 
-#pragma mark - TABLE VIEW DATA SOURCE / DELEGATE:
+#pragma mark - OUTLINE VIEW DATA SOURCE / DELEGATE:
 
 
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
-    return _propNames.count;
-}
-
-
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn
-            row:(NSInteger)row
+- (id) outlineView: (NSOutlineView *)outlineView
+       objectValueForTableColumn: (NSTableColumn *)tableColumn
+                          byItem: (JSONItem*)item
 {
-    id result = _propNames[row];
-    if (![tableColumn.identifier isEqualToString: @"key"])
-        result = _properties[result];
-    return result;
+    if ([tableColumn.identifier isEqualToString: @"key"]) {
+        return item.key;
+    } else {
+        if ([outlineView isItemExpanded: item])
+            return nil;
+        else
+            return item.value;
+    }
+}
+
+- (BOOL) outlineView: (NSOutlineView *)outlineView isItemExpandable: (JSONItem*)item {
+    return item == nil || item.children != nil;
+}
+
+- (NSInteger) outlineView: (NSOutlineView *)outlineView numberOfChildrenOfItem: (JSONItem*)item {
+    item = item ?: _root;
+    return item.children.count;
+}
+
+- (id) outlineView: (NSOutlineView *)outlineView child: (NSInteger)index ofItem: (JSONItem*)item {
+    item = item ?: _root;
+    return item.children[index];
 }
 
 
-- (void)tableView:(NSTableView *)tableView
-  willDisplayCell:(NSTextFieldCell*)cell
-   forTableColumn:(NSTableColumn *)tableColumn
-              row:(NSInteger)row
+- (void)outlineView: (NSOutlineView *)outlineView
+    willDisplayCell: (NSTextFieldCell*)cell
+     forTableColumn: (NSTableColumn *)tableColumn
+               item: (JSONItem*)item
 {
-    NSString* key = _propNames[row];
+    BOOL isKeyColumn = [tableColumn.identifier isEqualToString: @"key"];
     NSColor* color;
-    if (isSpecialProperty(key))
-        color = [NSColor disabledControlTextColor];
-    else
+    if (!item.isSpecial || (_untitled && !isKeyColumn && [item.key isEqual: @"_id"]))
         color = [NSColor controlTextColor];
+    else
+        color = [NSColor disabledControlTextColor];
     [cell setTextColor: color];
 }
 
 
-- (BOOL)tableView:(NSTableView *)tableView 
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView
         shouldEditTableColumn:(NSTableColumn *)tableColumn
-        row:(NSInteger)row
+        item: (JSONItem*)item
 {
+    BOOL isKeyColumn = [tableColumn.identifier isEqualToString: @"key"];
     if (_readOnly)
         return NO;
-    NSString* key = _propNames[row];
-    if (!isSpecialProperty(key))
-        return YES;
-    if (_untitled && [key isEqualToString: @"_id"] &&
-            ![[tableColumn identifier] isEqualToString: @"key"])
-        return YES;
-    else
+    if (isKeyColumn && item.parent.isArray)
         return NO;
+    if (!isKeyColumn && [outlineView isItemExpanded: item])
+        return NO;
+    if (item.isSpecial) {
+        if (isKeyColumn)
+            return NO;
+        // You can edit the value of the _id property, in an untitled document:
+        if (!(_untitled && [item.key isEqualToString: @"_id"]))
+            return NO;
+    }
+    if (isKeyColumn)
+        _keyFormatter.item = item;
+    return YES;
 }
 
 
-- (void)tableView:(NSTableView *)tableView
-   setObjectValue:(NSString*)newCellValue
-   forTableColumn:(NSTableColumn *)tableColumn
-              row:(NSInteger)row
+- (BOOL)outlineView:(NSOutlineView *)outlineView shouldExpandItem:(id)item {
+    // Don't expand a (dict/array) item whose JSON is being edited inline:
+    return [outlineView rowForItem: item] != [outlineView editedRow];
+}
+
+
+- (void) outlineView: (NSOutlineView*)outlineView
+      setObjectValue: (id)newCellValue
+      forTableColumn: (NSTableColumn *)tableColumn
+              byItem: (JSONItem*)item
 {
     if (_cancelingEdit)
         return;
-    BOOL editingKey = [tableColumn.identifier isEqualToString: @"key"];
-    NSString* key = _propNames[row];
-    if (isSpecialProperty(key) && !_untitled)
+    if (item.isSpecial && !_untitled)
         return;
-    
-    if (_properties[key]) {
-        // Yes, this is a real document property:
-        if (newCellValue == nil || [newCellValue isEqual: @""]) {
-            // User entered empty key or value: delete property
-            [_properties removeObjectForKey: key];
-            [self rebuildTable];
-            
-        } else if (editingKey) {
-            // Change the key:
-            if ([newCellValue isEqualToString: key])
-                return; // no-op
-            if (isSpecialProperty(newCellValue)) {
-                NSBeep();
-                return;
-            }
-            if (_properties[newCellValue]) {
-                NSBeep();  // duplicate key!
-                return;
-            }
-            id value = _properties[key];
-            _properties[newCellValue] = value;
-            [_properties removeObjectForKey: key];
-            [self rebuildTable];
-            self.selectedProperty = newCellValue;
-            
-        } else {
-            // Change the value:
-            if ([newCellValue isEqual: _properties[key]])
-                return; // no-op
-            _properties[key] = newCellValue;
-        }
-        
+
+    if (newCellValue == nil || [newCellValue isEqual: @""]) {
+        // User entered empty key or value: delete property
+        JSONItem* parent = item.parent;
+        [parent removeChild: item];
+        [self reloadItem: parent];
+    } else if ([tableColumn.identifier isEqualToString: @"key"]) {
+        item.key = newCellValue;
+        //TODO: Re-sort item
     } else {
-        // Editing the fake row inserted by addProperty:
-        if (newCellValue == nil || [newCellValue isEqual: @""]) {
-            // User entered empty key or value; delete property
-            [_propNames removeObjectAtIndex: row];
-            [self rebuildTable];
-            self.selectedProperty = nil;
-            
-        } else if (editingKey) {
-            // Changing the key, so re-sort:
-            if (isSpecialProperty(newCellValue)) {
-                NSBeep();
-                return;
-            }
-            if (_properties[newCellValue]) {
-                NSBeep();  // duplicate key!
-                return;
-            }
-            _propNames[row] = newCellValue;
-            [self sortProperties];
-            self.selectedProperty = newCellValue;
-        } else {
-            // Changing the value:
-            _properties[key] = newCellValue;
-        }
+        item.value = newCellValue;
+        [self reloadItem: item]; // expandability may have changed
     }
-    
     _saveButton.hidden = _revertButton.hidden = NO;
 }
 
 
-- (void)tableViewSelectionDidChange:(NSNotification *)notification {
+- (void)outlineViewSelectionDidChange:(NSNotification *)notification {
     [self enablePropertyButtons];
 }
 

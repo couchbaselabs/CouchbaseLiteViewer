@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2733A75A1BD6DF7B00F0FF07 /* database2.icns in Resources */ = {isa = PBXBuildFile; fileRef = 2733A7591BD6DF7B00F0FF07 /* database2.icns */; };
+		2733A75D1BD70E5600F0FF07 /* JSONItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2733A75C1BD70E5600F0FF07 /* JSONItem.m */; };
 		274789FF15F97520006E842D /* URLFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 274789FE15F97520006E842D /* URLFormatter.m */; };
 		27538FA517F28B31004C3BFD /* CouchbaseLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27538FA417F28B31004C3BFD /* CouchbaseLite.framework */; };
 		27538FA617F29303004C3BFD /* CouchbaseLite.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 27538FA417F28B31004C3BFD /* CouchbaseLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -16,6 +17,7 @@
 		27538FB017F3607C004C3BFD /* AppListController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27538FAE17F3607C004C3BFD /* AppListController.xib */; };
 		27557B2317F38DF100F28764 /* ios_app.png in Resources */ = {isa = PBXBuildFile; fileRef = 27557B2217F38DF100F28764 /* ios_app.png */; };
 		2765CF7815544FAA0087D810 /* DocEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 2765CF7715544FAA0087D810 /* DocEditor.m */; };
+		276AA6C21BD846CD00973893 /* JSONKeyFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 276AA6C11BD846CD00973893 /* JSONKeyFormatter.m */; };
 		278B0C6F152A64A900577747 /* DBDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 278B0C6D152A64A900577747 /* DBDocument.m */; };
 		278B0C72152A6B7C00577747 /* DBDoc.icns in Resources */ = {isa = PBXBuildFile; fileRef = 278B0C71152A6B7C00577747 /* DBDoc.icns */; };
 		278C85B81554810D0016C7A4 /* JSONFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 278C85B71554810D0016C7A4 /* JSONFormatter.m */; };
@@ -50,6 +52,8 @@
 
 /* Begin PBXFileReference section */
 		2733A7591BD6DF7B00F0FF07 /* database2.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = database2.icns; sourceTree = "<group>"; };
+		2733A75B1BD70E5600F0FF07 /* JSONItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONItem.h; sourceTree = "<group>"; };
+		2733A75C1BD70E5600F0FF07 /* JSONItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONItem.m; sourceTree = "<group>"; };
 		274789FD15F97520006E842D /* URLFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLFormatter.h; sourceTree = "<group>"; };
 		274789FE15F97520006E842D /* URLFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLFormatter.m; sourceTree = "<group>"; };
 		27538FA417F28B31004C3BFD /* CouchbaseLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CouchbaseLite.framework; path = Frameworks/CouchbaseLite.framework; sourceTree = "<group>"; };
@@ -61,6 +65,8 @@
 		27557B2217F38DF100F28764 /* ios_app.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ios_app.png; sourceTree = "<group>"; };
 		2765CF7615544FAA0087D810 /* DocEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocEditor.h; sourceTree = "<group>"; };
 		2765CF7715544FAA0087D810 /* DocEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocEditor.m; sourceTree = "<group>"; };
+		276AA6C01BD846CD00973893 /* JSONKeyFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKeyFormatter.h; sourceTree = "<group>"; };
+		276AA6C11BD846CD00973893 /* JSONKeyFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKeyFormatter.m; sourceTree = "<group>"; };
 		278B0C6C152A64A900577747 /* DBDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBDocument.h; sourceTree = "<group>"; };
 		278B0C6D152A64A900577747 /* DBDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBDocument.m; sourceTree = "<group>"; };
 		278B0C71152A6B7C00577747 /* DBDoc.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = DBDoc.icns; sourceTree = "<group>"; };
@@ -195,6 +201,10 @@
 				27F3A62C15EE70B300263663 /* DocHistory.m */,
 				278C85B61554810D0016C7A4 /* JSONFormatter.h */,
 				278C85B71554810D0016C7A4 /* JSONFormatter.m */,
+				276AA6C01BD846CD00973893 /* JSONKeyFormatter.h */,
+				276AA6C11BD846CD00973893 /* JSONKeyFormatter.m */,
+				2733A75B1BD70E5600F0FF07 /* JSONItem.h */,
+				2733A75C1BD70E5600F0FF07 /* JSONItem.m */,
 				274789FD15F97520006E842D /* URLFormatter.h */,
 				274789FE15F97520006E842D /* URLFormatter.m */,
 			);
@@ -304,10 +314,12 @@
 				278C85B81554810D0016C7A4 /* JSONFormatter.m in Sources */,
 				27F3A62D15EE70B300263663 /* DocHistory.m in Sources */,
 				27F3A63015EE98C100263663 /* QueryResultController.m in Sources */,
+				276AA6C21BD846CD00973893 /* JSONKeyFormatter.m in Sources */,
 				27F3A63315EEA06900263663 /* RevTreeController.m in Sources */,
 				27538FA917F34C09004C3BFD /* AppList.m in Sources */,
 				274789FF15F97520006E842D /* URLFormatter.m in Sources */,
 				27538FAF17F3607C004C3BFD /* AppListController.m in Sources */,
+				2733A75D1BD70E5600F0FF07 /* JSONItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -352,7 +364,10 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = YES;
+				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = NO;
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
@@ -372,6 +387,7 @@
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
@@ -381,7 +397,14 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				VERSIONING_SYSTEM = "apple-generic";
-				WARNING_CFLAGS = "-Wall";
+				WARNING_CFLAGS = (
+					"-Wall",
+					"-Wformat-security",
+					"-Wshorten-64-to-32",
+					"-Wmissing-declarations",
+					"-Woverriding-method-mismatch",
+					"-Wbool-conversion",
+				);
 			};
 			name = Debug;
 		};
@@ -396,7 +419,10 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = YES;
+				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = NO;
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
@@ -409,6 +435,7 @@
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
@@ -417,7 +444,14 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx;
 				VERSIONING_SYSTEM = "apple-generic";
-				WARNING_CFLAGS = "-Wall";
+				WARNING_CFLAGS = (
+					"-Wall",
+					"-Wformat-security",
+					"-Wshorten-64-to-32",
+					"-Wmissing-declarations",
+					"-Woverriding-method-mismatch",
+					"-Wbool-conversion",
+				);
 			};
 			name = Release;
 		};

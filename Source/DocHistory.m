@@ -10,7 +10,7 @@
 #import <CouchbaseLite/CouchbaseLite.h>
 
 
-NSTreeNode* SortRevisionTree(NSTreeNode* tree) {
+static NSTreeNode* SortRevisionTree(NSTreeNode* tree) {
     [tree.mutableChildNodes sortUsingComparator: ^NSComparisonResult(id obj1, id obj2) {
         CBLSavedRevision* rev1 = [obj1 representedObject];
         CBLSavedRevision* rev2 = [obj2 representedObject];

@@ -21,8 +21,8 @@
 /** Either the QueryResultController or the RevTreeController */
 @property (unsafe_unretained, readonly) id outlineController;
 
-- (BOOL) hasColumnForProperty: (NSString*)property;
-- (void) addColumnForProperty: (NSString*)property;
-- (void) removeColumnForProperty: (NSString*)property;
+- (BOOL) hasColumnForProperty: (NSArray*)propertyPath;
+- (void) addColumnForProperty: (NSArray*)propertyPath;
+- (void) removeColumnForProperty: (NSArray*)propertyPath;
 
 @end

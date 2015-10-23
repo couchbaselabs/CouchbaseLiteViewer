@@ -98,7 +98,7 @@ static void emboldenCell(NSTextFieldCell *cell, BOOL embolden);
     NSUInteger count = selIndexes.count;
     NSMutableArray* sel = [NSMutableArray arrayWithCapacity: count];
     [selIndexes enumerateIndexesUsingBlock: ^(NSUInteger idx, BOOL *stop) {
-        CBLSavedRevision* item = [self revisionForItem: [_docsOutline itemAtRow: idx]];
+        CBLSavedRevision* item = [self revisionForItem: [self->_docsOutline itemAtRow: idx]];
         [sel addObject: item];
     }];
     return sel;
@@ -155,9 +155,9 @@ static NSString* formatProperty( id property ) {
 
 
 - (void) outlineView:(NSOutlineView *)outlineView
-        willDisplayCell:(NSTextFieldCell*)cell
+        willDisplayCell:(id)cell
          forTableColumn:(NSTableColumn *)col
-                   item:(NSTreeNode*)item
+                   item:(id)item
 {
     NSString* identifier = col.identifier;
     CBLSavedRevision* rev = [self revisionForItem: item];
