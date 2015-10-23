@@ -21,11 +21,12 @@
     BOOL _readOnly;
     BOOL _untitled;
     JSONItem* _root;
+    int _editErrorCount;
     BOOL _cancelingEdit;
     
     IBOutlet DBWindowController* _dbWindowController;
     IBOutlet NSOutlineView* __weak _outline;
-    IBOutlet NSButton *_addPropertyButton, *_removePropertyButton, *_addColumnButton;
+    IBOutlet NSButton *_addPropertyButton, *_removePropertyButton;
     IBOutlet NSButton *_saveButton, *_revertButton;
     IBOutlet JSONKeyFormatter *_keyFormatter;
 }
@@ -119,6 +120,7 @@
 
 
 - (BOOL) saveDocument {
+    NSAssert(!_readOnly, @"Shouldn't save changes in read-only mode!");
     NSDictionary* properties = _root.value;
     if (!_readOnly && _root && ![properties isEqual: _revision.properties]) {
         CBLDocument* doc;
@@ -258,8 +260,6 @@
     BOOL canRemove = !_readOnly && selectedProperty && !selectedProperty.isSpecial;
     _addPropertyButton.enabled = canInsert;
     _removePropertyButton.enabled = canRemove;
-    _addColumnButton.enabled = selectedProperty && selectedProperty.isSpecial;
-    _addColumnButton.title = (selectedProperty && [_dbWindowController hasColumnForProperty: selectedProperty.path]) ? @"Remove Column" : @"Add Column";
 }
 
 
@@ -331,6 +331,7 @@
     }
     if (isKeyColumn)
         _keyFormatter.item = item;
+    _editErrorCount = 0;
     return YES;
 }
 
@@ -364,6 +365,29 @@
         [self reloadItem: item]; // expandability may have changed
     }
     _saveButton.hidden = _revertButton.hidden = NO;
+}
+
+
+- (BOOL) control: (NSControl*)control
+         didFailToFormatString: (NSString*)string
+         errorDescription: (NSString*)errorMessage
+{
+    if (_cancelingEdit)
+        return YES;
+    NSBeep();
+    if (++_editErrorCount >= 2) {
+        NSAlert* alert = [NSAlert new];
+        alert.messageText = @"Invalid JSON in property value";
+        alert.informativeText = errorMessage;
+        [alert addButtonWithTitle: @"Continue"];
+        [alert addButtonWithTitle: @"Cancel"];
+        [alert beginSheetModalForWindow: control.window
+                      completionHandler:^(NSModalResponse returnCode) {
+            if (returnCode == NSAlertSecondButtonReturn)
+                [self cancelOperation: self];
+        }];
+    }
+    return NO;
 }
 
 

@@ -44,7 +44,7 @@
         return YES;
     } else {
         if (errorMessage)
-            *errorMessage = error.localizedDescription;
+            *errorMessage = error.userInfo[@"NSDebugDescription"];
         return NO;
     }
 }
