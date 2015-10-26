@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2733A75A1BD6DF7B00F0FF07 /* database2.icns in Resources */ = {isa = PBXBuildFile; fileRef = 2733A7591BD6DF7B00F0FF07 /* database2.icns */; };
 		2733A75D1BD70E5600F0FF07 /* JSONItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2733A75C1BD70E5600F0FF07 /* JSONItem.m */; };
 		274789FF15F97520006E842D /* URLFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 274789FE15F97520006E842D /* URLFormatter.m */; };
 		27538FA517F28B31004C3BFD /* CouchbaseLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27538FA417F28B31004C3BFD /* CouchbaseLite.framework */; };
@@ -15,11 +14,9 @@
 		27538FA917F34C09004C3BFD /* AppList.m in Sources */ = {isa = PBXBuildFile; fileRef = 27538FA817F34C09004C3BFD /* AppList.m */; };
 		27538FAF17F3607C004C3BFD /* AppListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27538FAD17F3607C004C3BFD /* AppListController.m */; };
 		27538FB017F3607C004C3BFD /* AppListController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27538FAE17F3607C004C3BFD /* AppListController.xib */; };
-		27557B2317F38DF100F28764 /* ios_app.png in Resources */ = {isa = PBXBuildFile; fileRef = 27557B2217F38DF100F28764 /* ios_app.png */; };
 		2765CF7815544FAA0087D810 /* DocEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 2765CF7715544FAA0087D810 /* DocEditor.m */; };
 		276AA6C21BD846CD00973893 /* JSONKeyFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 276AA6C11BD846CD00973893 /* JSONKeyFormatter.m */; };
 		278B0C6F152A64A900577747 /* DBDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 278B0C6D152A64A900577747 /* DBDocument.m */; };
-		278B0C72152A6B7C00577747 /* DBDoc.icns in Resources */ = {isa = PBXBuildFile; fileRef = 278B0C71152A6B7C00577747 /* DBDoc.icns */; };
 		278C85B81554810D0016C7A4 /* JSONFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 278C85B71554810D0016C7A4 /* JSONFormatter.m */; };
 		27A8A777152A008200363704 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27A8A776152A008200363704 /* Cocoa.framework */; };
 		27A8A781152A008200363704 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 27A8A77F152A008200363704 /* InfoPlist.strings */; };
@@ -29,11 +26,11 @@
 		27A8A78D152A008200363704 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27A8A78B152A008200363704 /* MainMenu.xib */; };
 		27A8A79A152A01FF00363704 /* DBWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A8A798152A01FF00363704 /* DBWindowController.m */; };
 		27A8A79B152A01FF00363704 /* DBWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27A8A799152A01FF00363704 /* DBWindowController.xib */; };
+		27DC377C1BDE8BAB00734E82 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27DC377B1BDE8BAB00734E82 /* Images.xcassets */; };
+		27DC377E1BDE8EC100734E82 /* DBDoc.icns in Resources */ = {isa = PBXBuildFile; fileRef = 27DC377D1BDE8EC100734E82 /* DBDoc.icns */; };
 		27F3A62D15EE70B300263663 /* DocHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F3A62C15EE70B300263663 /* DocHistory.m */; };
 		27F3A63015EE98C100263663 /* QueryResultController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F3A62F15EE98C100263663 /* QueryResultController.m */; };
 		27F3A63315EEA06900263663 /* RevTreeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F3A63215EEA06900263663 /* RevTreeController.m */; };
-		27F3A63B15F0095800263663 /* database.icns in Resources */ = {isa = PBXBuildFile; fileRef = 27F3A63A15F0095800263663 /* database.icns */; };
-		27F87AFC1555E7FD00F0A416 /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 27F87AFB1555E7FC00F0A416 /* AppIcon.icns */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -51,7 +48,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		2733A7591BD6DF7B00F0FF07 /* database2.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = database2.icns; sourceTree = "<group>"; };
 		2733A75B1BD70E5600F0FF07 /* JSONItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONItem.h; sourceTree = "<group>"; };
 		2733A75C1BD70E5600F0FF07 /* JSONItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONItem.m; sourceTree = "<group>"; };
 		274789FD15F97520006E842D /* URLFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLFormatter.h; sourceTree = "<group>"; };
@@ -62,14 +58,12 @@
 		27538FAC17F3607C004C3BFD /* AppListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppListController.h; sourceTree = "<group>"; };
 		27538FAD17F3607C004C3BFD /* AppListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppListController.m; sourceTree = "<group>"; };
 		27538FAE17F3607C004C3BFD /* AppListController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppListController.xib; sourceTree = "<group>"; };
-		27557B2217F38DF100F28764 /* ios_app.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ios_app.png; sourceTree = "<group>"; };
 		2765CF7615544FAA0087D810 /* DocEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocEditor.h; sourceTree = "<group>"; };
 		2765CF7715544FAA0087D810 /* DocEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocEditor.m; sourceTree = "<group>"; };
 		276AA6C01BD846CD00973893 /* JSONKeyFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKeyFormatter.h; sourceTree = "<group>"; };
 		276AA6C11BD846CD00973893 /* JSONKeyFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKeyFormatter.m; sourceTree = "<group>"; };
 		278B0C6C152A64A900577747 /* DBDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBDocument.h; sourceTree = "<group>"; };
 		278B0C6D152A64A900577747 /* DBDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBDocument.m; sourceTree = "<group>"; };
-		278B0C71152A6B7C00577747 /* DBDoc.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = DBDoc.icns; sourceTree = "<group>"; };
 		278C85B61554810D0016C7A4 /* JSONFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONFormatter.h; sourceTree = "<group>"; };
 		278C85B71554810D0016C7A4 /* JSONFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONFormatter.m; sourceTree = "<group>"; };
 		27A8A772152A008200363704 /* Couchbase Lite Viewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Couchbase Lite Viewer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,14 +82,14 @@
 		27A8A797152A01FF00363704 /* DBWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBWindowController.h; sourceTree = "<group>"; };
 		27A8A798152A01FF00363704 /* DBWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBWindowController.m; sourceTree = "<group>"; };
 		27A8A799152A01FF00363704 /* DBWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DBWindowController.xib; sourceTree = "<group>"; };
+		27DC377B1BDE8BAB00734E82 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "Couchbase Lite Viewer/Images.xcassets"; sourceTree = SOURCE_ROOT; };
+		27DC377D1BDE8EC100734E82 /* DBDoc.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = DBDoc.icns; path = "Couchbase Lite Viewer/DBDoc.icns"; sourceTree = SOURCE_ROOT; };
 		27F3A62B15EE70B300263663 /* DocHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocHistory.h; sourceTree = "<group>"; };
 		27F3A62C15EE70B300263663 /* DocHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocHistory.m; sourceTree = "<group>"; };
 		27F3A62E15EE98C000263663 /* QueryResultController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QueryResultController.h; sourceTree = "<group>"; };
 		27F3A62F15EE98C100263663 /* QueryResultController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QueryResultController.m; sourceTree = "<group>"; };
 		27F3A63115EEA06900263663 /* RevTreeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RevTreeController.h; sourceTree = "<group>"; };
 		27F3A63215EEA06900263663 /* RevTreeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RevTreeController.m; sourceTree = "<group>"; };
-		27F3A63A15F0095800263663 /* database.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = database.icns; sourceTree = "<group>"; };
-		27F87AFB1555E7FC00F0A416 /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = AppIcon.icns; path = ../AppIcon.icns; sourceTree = "<group>"; };
 		27F87AFD1555EC5000F0A416 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -168,11 +162,8 @@
 		27A8A77D152A008200363704 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				27F87AFB1555E7FC00F0A416 /* AppIcon.icns */,
-				278B0C71152A6B7C00577747 /* DBDoc.icns */,
-				27F3A63A15F0095800263663 /* database.icns */,
-				2733A7591BD6DF7B00F0FF07 /* database2.icns */,
-				27557B2217F38DF100F28764 /* ios_app.png */,
+				27DC377B1BDE8BAB00734E82 /* Images.xcassets */,
+				27DC377D1BDE8EC100734E82 /* DBDoc.icns */,
 				27A8A77E152A008200363704 /* Couchbase Lite Viewer-Info.plist */,
 				27A8A77F152A008200363704 /* InfoPlist.strings */,
 				27A8A782152A008200363704 /* main.m */,
@@ -289,12 +280,9 @@
 				27A8A781152A008200363704 /* InfoPlist.strings in Resources */,
 				27A8A787152A008200363704 /* Credits.rtf in Resources */,
 				27A8A78D152A008200363704 /* MainMenu.xib in Resources */,
+				27DC377E1BDE8EC100734E82 /* DBDoc.icns in Resources */,
 				27A8A79B152A01FF00363704 /* DBWindowController.xib in Resources */,
-				27557B2317F38DF100F28764 /* ios_app.png in Resources */,
-				278B0C72152A6B7C00577747 /* DBDoc.icns in Resources */,
-				27F87AFC1555E7FD00F0A416 /* AppIcon.icns in Resources */,
-				27F3A63B15F0095800263663 /* database.icns in Resources */,
-				2733A75A1BD6DF7B00F0FF07 /* database2.icns in Resources */,
+				27DC377C1BDE8BAB00734E82 /* Images.xcassets in Resources */,
 				27538FB017F3607C004C3BFD /* AppListController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -371,7 +359,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 0.6;
+				CURRENT_PROJECT_VERSION = 0.61;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -426,7 +414,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 0.6;
+				CURRENT_PROJECT_VERSION = 0.61;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -458,9 +446,10 @@
 		27A8A791152A008200363704 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -472,7 +461,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks/";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.couchbase.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.couchbase.cblite-viewer";
 				PRODUCT_NAME = "Couchbase Lite Viewer";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -482,9 +471,10 @@
 		27A8A792152A008200363704 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -496,7 +486,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks/";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.couchbase.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.couchbase.cblite-viewer";
 				PRODUCT_NAME = "Couchbase Lite Viewer";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;

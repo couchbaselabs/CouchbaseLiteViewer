@@ -35,15 +35,15 @@ NSImage* kiOSIcon, *kMacOSIcon, *kAppIcon, *kMacAppIcon, *kDbIcon, *kDb2Icon;
         kMacOSIcon = [[[NSWorkspace sharedWorkspace] iconForFile: @"/System/Library/CoreServices/Finder.app"] copy];
         kMacOSIcon.size = NSMakeSize(kIconSize, kIconSize);
 
-        kAppIcon = [[NSImage imageNamed: @"ios_app.png"] copy];
+        kAppIcon = [[NSImage imageNamed: @"ios_app"] copy];
         kAppIcon.size = NSMakeSize(kIconSize, kIconSize);
 
         kMacAppIcon = [[NSWorkspace sharedWorkspace] iconForFileType: NSFileTypeForHFSTypeCode('APPL')];
 
-        kDbIcon = [[NSImage imageNamed: @"database.icns"] copy];
+        kDbIcon = [[NSImage imageNamed: @"database"] copy];
         kDbIcon.size = NSMakeSize(kIconSize, kIconSize);
 
-        kDb2Icon = [[NSImage imageNamed: @"database2.icns"] copy];
+        kDb2Icon = [[NSImage imageNamed: @"database2"] copy];
         kDb2Icon.size = NSMakeSize(kIconSize, kIconSize);
     }
 }
