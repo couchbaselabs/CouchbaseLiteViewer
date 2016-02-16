@@ -48,6 +48,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1E1B56D41C7396690096DF2B /* CBLRegisterJSViewCompiler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBLRegisterJSViewCompiler.h; sourceTree = "<group>"; };
 		2733A75B1BD70E5600F0FF07 /* JSONItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONItem.h; sourceTree = "<group>"; };
 		2733A75C1BD70E5600F0FF07 /* JSONItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONItem.m; sourceTree = "<group>"; };
 		274789FD15F97520006E842D /* URLFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLFormatter.h; sourceTree = "<group>"; };
@@ -163,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				27DC377B1BDE8BAB00734E82 /* Images.xcassets */,
+				1E1B56D41C7396690096DF2B /* CBLRegisterJSViewCompiler.h */,
 				27DC377D1BDE8EC100734E82 /* DBDoc.icns */,
 				27A8A77E152A008200363704 /* Couchbase Lite Viewer-Info.plist */,
 				27A8A77F152A008200363704 /* InfoPlist.strings */,
@@ -359,7 +361,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 0.61;
+				CURRENT_PROJECT_VERSION = 0.62;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -414,7 +416,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 0.61;
+				CURRENT_PROJECT_VERSION = 0.62;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -459,6 +461,10 @@
 				GCC_PREFIX_HEADER = "Source/Couchbase Lite Viewer-Prefix.pch";
 				INFOPLIST_FILE = "Source/Couchbase Lite Viewer-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks/";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.couchbase.cblite-viewer";
@@ -484,6 +490,10 @@
 				GCC_PREFIX_HEADER = "Source/Couchbase Lite Viewer-Prefix.pch";
 				INFOPLIST_FILE = "Source/Couchbase Lite Viewer-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks/";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.couchbase.cblite-viewer";
