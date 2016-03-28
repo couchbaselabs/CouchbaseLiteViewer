@@ -120,7 +120,6 @@
 
 
 - (BOOL) saveDocument {
-    NSAssert(!_readOnly, @"Shouldn't save changes in read-only mode!");
     NSDictionary* properties = _root.value;
     if (!_readOnly && _root && ![properties isEqual: _revision.properties]) {
         CBLDocument* doc;
