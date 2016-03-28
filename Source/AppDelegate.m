@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "DBWindowController.h"
 #import "AppListController.h"
+#import <CouchbaseLite/CouchbaseLite.h>
 
 
 @implementation AppDelegate
@@ -27,5 +28,11 @@
 - (IBAction) showAppBrowser: (id)sender {
     [AppListController show];
 }
+
+- (IBAction) orderFrontStandardAboutPanel:(id)sender {
+    NSString* cblVers = [NSString stringWithFormat: @"Couchbase Lite %@", CBLVersion()];
+    [NSApp orderFrontStandardAboutPanelWithOptions: @{@"Version": cblVers}];
+}
+
 
 @end
