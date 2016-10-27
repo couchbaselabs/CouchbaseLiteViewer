@@ -124,7 +124,7 @@
     if (!_readOnly && _root && ![properties isEqual: _revision.properties]) {
         CBLDocument* doc;
         NSError* error;
-        if (_revision.document)
+        if (_revision && _revision.document)
             doc = _revision.document;
         else
             doc = _db[properties[@"_id"]];
