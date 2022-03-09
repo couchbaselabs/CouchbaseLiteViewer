@@ -1,3 +1,5 @@
+⚠️ This repo is obsolete and the new preferred method for viewing databases is the [Visual Studio Code Plugin](https://github.com/couchbaselabs/vscode-cblite).
+
 This is a fairly simple Mac editor for [Couchbase Lite](https://github.com/couchbase/CouchbaseLite-iOS) databases.
 
 ## Features
