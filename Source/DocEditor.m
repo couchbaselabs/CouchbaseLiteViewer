@@ -124,7 +124,7 @@
     if (!_readOnly && _root && ![properties isEqual: _revision.properties]) {
         CBLDocument* doc;
         NSError* error;
-        if (_revision)
+        if (_revision && _revision.document)
             doc = _revision.document;
         else
             doc = _db[properties[@"_id"]];
@@ -166,7 +166,7 @@
     } else {
         parent = sibling.parent;
     }
-
+    
     JSONItem *newItem = [parent createChildBefore: sibling];
     if (!newItem) {
         NSBeep();
@@ -266,8 +266,8 @@
 
 
 - (id) outlineView: (NSOutlineView *)outlineView
-       objectValueForTableColumn: (NSTableColumn *)tableColumn
-                          byItem: (JSONItem*)item
+objectValueForTableColumn: (NSTableColumn *)tableColumn
+            byItem: (JSONItem*)item
 {
     if ([tableColumn.identifier isEqualToString: @"key"]) {
         return item.key;
@@ -311,8 +311,8 @@
 
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView
-        shouldEditTableColumn:(NSTableColumn *)tableColumn
-        item: (JSONItem*)item
+shouldEditTableColumn:(NSTableColumn *)tableColumn
+               item: (JSONItem*)item
 {
     BOOL isKeyColumn = [tableColumn.identifier isEqualToString: @"key"];
     if (_readOnly)
@@ -350,7 +350,7 @@
         return;
     if (item.isSpecial && !_untitled)
         return;
-
+    
     if (newCellValue == nil || [newCellValue isEqual: @""]) {
         // User entered empty key or value: delete property
         JSONItem* parent = item.parent;
@@ -368,8 +368,8 @@
 
 
 - (BOOL) control: (NSControl*)control
-         didFailToFormatString: (NSString*)string
-         errorDescription: (NSString*)errorMessage
+didFailToFormatString: (NSString*)string
+errorDescription: (NSString*)errorMessage
 {
     if (_cancelingEdit)
         return YES;
@@ -382,9 +382,9 @@
         [alert addButtonWithTitle: @"Cancel"];
         [alert beginSheetModalForWindow: control.window
                       completionHandler:^(NSModalResponse returnCode) {
-            if (returnCode == NSAlertSecondButtonReturn)
-                [self cancelOperation: self];
-        }];
+                          if (returnCode == NSAlertSecondButtonReturn)
+                              [self cancelOperation: self];
+                      }];
     }
     return NO;
 }
@@ -397,7 +397,7 @@
 
 - (BOOL)control:(NSControl *)control
        textView:(NSTextView *)textView
-       doCommandBySelector:(SEL)command
+doCommandBySelector:(SEL)command
 {
     //NSLog(@"command: %@", NSStringFromSelector(command));
     if (command == @selector(cancelOperation:)) {       // Esc key
